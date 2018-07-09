@@ -1,6 +1,11 @@
 package com.kcsl.dynadoc.data;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+
+import com.ensoftcorp.atlas.core.db.graph.Graph;
 
 public class JavaClassData {
 	
@@ -18,6 +23,61 @@ public class JavaClassData {
 	public String getUserComments() {
 		// TODO: retrieve the user comments on this elements (if any), otherwise return an empty string.
 		return StringUtils.EMPTY;
+	}
+	
+	public boolean isPublic() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isAbstract() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isInterface() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isEnum() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isPrivate() {
+		// TODO
+		return false;
+	}
+	
+	public Graph getClassHierarchyGraph() {
+		// TODO: return the type hierarchy for this graph
+		return null;
+	}
+	
+	public Graph getClassUsageGraph() {
+		// TODO: return a graph of classes that uses this class
+		return null;
+	}
+	
+	public List<JavaMethodData> getConstructors() {
+		// TODO
+		return Collections.emptyList();
+	}
+	
+	public List<JavaFieldData> getClassFields() {
+		// TODO
+		return Collections.emptyList();
+	}
+	
+	public List<JavaMethodData> getClassMethods() {
+		// TODO
+		return Collections.emptyList();
+	}
+	
+	public List<Graph> getUsageExamples() {
+		// TODO: return a list of graph where each shows a simple usage for this class. A usage can show how the class is constructed (for example).
+		return Collections.emptyList();
 	}
 	
 	public String getContainingPackageFullyQualifiedName() {
