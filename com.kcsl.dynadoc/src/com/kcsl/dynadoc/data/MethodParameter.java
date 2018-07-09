@@ -4,11 +4,11 @@ public class MethodParameter {
 	
 	int index;
 	private String name;
-	private JavaClassData type;
+	private String fullyQualifiedClassName;
 	
-	public MethodParameter(String name, JavaClassData type, int index) {
+	public MethodParameter(String name, String fullyQualifiedClassName, int index) {
 		this.name = name;
-		this.type = type;
+		this.fullyQualifiedClassName = fullyQualifiedClassName;
 		this.index = index;
 	}
 	
@@ -20,8 +20,8 @@ public class MethodParameter {
 		return this.name;
 	}
 	
-	public JavaClassData getType() {
-		return this.type;
+	public String getFullyQualifiedClassName() {
+		return this.fullyQualifiedClassName;
 	}
 
 }

@@ -1,5 +1,10 @@
 package com.kcsl.dynadoc.data;
 
+import java.util.Collections;
+import java.util.List;
+
+import com.ensoftcorp.atlas.core.db.graph.Graph;
+
 public class JavaPackageData {
 	
 	private String fullyQualifiedName;
@@ -10,6 +15,16 @@ public class JavaPackageData {
 	
 	public String getName() {
 		return this.fullyQualifiedName;
+	}
+	
+	public List<JavaClassData> getContainedJavaClasses() {
+		// TODO
+		return Collections.emptyList();
+	}
+	
+	public Graph getUsageExample() {
+		// TODO: returns a graph displaying how this package interacts with other.
+		return null;
 	}
 	
 	public String getFullyQualifiedName() {
