@@ -8,6 +8,10 @@ public class JavaPackageData {
 		this.fullyQualifiedName = fullyQualifiedPackageName;
 	}
 	
+	public String getName() {
+		return this.fullyQualifiedName;
+	}
+	
 	public String getFullyQualifiedName() {
 		return this.fullyQualifiedName;
 	}

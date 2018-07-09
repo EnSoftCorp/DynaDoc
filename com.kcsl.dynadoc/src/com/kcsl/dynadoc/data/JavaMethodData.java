@@ -8,6 +8,11 @@ public class JavaMethodData {
 		this.fullyQualifiedName = fullyQualifiedMethodName;
 	}
 	
+	public String getName() {
+		int lastDotIndex = this.getFullyQualifiedName().lastIndexOf(".");
+		return this.getFullyQualifiedName().substring(lastDotIndex + 1);
+	}
+	
 	public String getContainingClassFullyQualifiedName() {
 		String classfullyQualifiedName = this.getFullyQualifiedName();
 		int lastDotIndex = classfullyQualifiedName.lastIndexOf(".");

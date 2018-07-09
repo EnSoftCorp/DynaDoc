@@ -6,7 +6,11 @@ public class JavaClassData {
 
 	public JavaClassData(String fullyQualifiedClassName) {
 		this.fullyQualifiedName = fullyQualifiedClassName;
-		
+	}
+	
+	public String getName() {
+		int lastDotIndex = this.getFullyQualifiedName().lastIndexOf(".");
+		return this.getFullyQualifiedName().substring(lastDotIndex + 1);
 	}
 	
 	public String getContainingPackageFullyQualifiedName() {
