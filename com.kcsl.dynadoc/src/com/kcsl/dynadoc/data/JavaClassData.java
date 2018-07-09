@@ -30,6 +30,16 @@ public class JavaClassData {
 		return false;
 	}
 	
+	public boolean isPrivate() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isProtected() {
+		// TODO
+		return false;
+	}
+	
 	public boolean isAbstract() {
 		// TODO
 		return false;
@@ -45,10 +55,6 @@ public class JavaClassData {
 		return false;
 	}
 	
-	public boolean isPrivate() {
-		// TODO
-		return false;
-	}
 	
 	public Graph getClassHierarchyGraph() {
 		// TODO: return the type hierarchy for this graph
