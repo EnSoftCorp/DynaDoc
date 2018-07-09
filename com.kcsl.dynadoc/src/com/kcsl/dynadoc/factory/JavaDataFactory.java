@@ -51,4 +51,19 @@ public class JavaDataFactory {
 		fullyQualifiedFieldNameToJavaFieldDataMap.put(fullyQualifiedFieldName, javaFieldDataInstance);
 		return javaFieldDataInstance;
 	}
+	
+	public static JavaPackageData getContainingPackage(JavaClassData javaClassData) {
+		String fullyQualifiedPackageName = javaClassData.getContainingPackageFullyQualifiedName();
+		return createJavaPackageData(fullyQualifiedPackageName);
+	}
+	
+	public static JavaClassData getContainingClass(JavaMethodData javaMethodData) {
+		String fullyQualifiedClassName = javaMethodData.getContainingClassFullyQualifiedName();
+		return createJavaClassData(fullyQualifiedClassName);
+	}
+	
+	public static JavaClassData getContiningClass(JavaFieldData javaFieldData) {
+		String fullyQualifiedClassName = javaFieldData.getContainingClassFullyQualifiedName();
+		return createJavaClassData(fullyQualifiedClassName);
+	}
 }

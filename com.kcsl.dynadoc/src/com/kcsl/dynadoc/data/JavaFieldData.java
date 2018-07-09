@@ -2,17 +2,30 @@ package com.kcsl.dynadoc.data;
 
 public class JavaFieldData {
 	
-	private String fullyQualifiedFieldName;
+	private String fullyQualifiedName;
 	
 	public JavaFieldData(String fullyQualifiedFieldName) {
-		this.fullyQualifiedFieldName = fullyQualifiedFieldName;
+		this.fullyQualifiedName = fullyQualifiedFieldName;
+	}
+	
+	public String getContainingClassFullyQualifiedName() {
+		String classfullyQualifiedName = this.getFullyQualifiedName();
+		int lastDotIndex = classfullyQualifiedName.lastIndexOf(".");
+		if(lastDotIndex < 0) {
+			throw new AssertionError("Improper fully qualified field name: " + this.getFullyQualifiedName());
+		}
+		return classfullyQualifiedName.substring(0, lastDotIndex);
+	}
+	
+	public String getFullyQualifiedName() {
+		return this.fullyQualifiedName;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((fullyQualifiedFieldName == null) ? 0 : fullyQualifiedFieldName.hashCode());
+		result = prime * result + ((fullyQualifiedName == null) ? 0 : fullyQualifiedName.hashCode());
 		return result;
 	}
 
@@ -25,10 +38,10 @@ public class JavaFieldData {
 		if (getClass() != obj.getClass())
 			return false;
 		JavaFieldData other = (JavaFieldData) obj;
-		if (fullyQualifiedFieldName == null) {
-			if (other.fullyQualifiedFieldName != null)
+		if (fullyQualifiedName == null) {
+			if (other.fullyQualifiedName != null)
 				return false;
-		} else if (!fullyQualifiedFieldName.equals(other.fullyQualifiedFieldName))
+		} else if (!fullyQualifiedName.equals(other.fullyQualifiedName))
 			return false;
 		return true;
 	}

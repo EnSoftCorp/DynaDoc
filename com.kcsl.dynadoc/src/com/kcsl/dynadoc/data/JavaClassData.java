@@ -2,18 +2,31 @@ package com.kcsl.dynadoc.data;
 
 public class JavaClassData {
 	
-	private String fullyQualifiedClassName;
+	private String fullyQualifiedName;
 
 	public JavaClassData(String fullyQualifiedClassName) {
-		this.fullyQualifiedClassName = fullyQualifiedClassName;
+		this.fullyQualifiedName = fullyQualifiedClassName;
 		
+	}
+	
+	public String getContainingPackageFullyQualifiedName() {
+		String packagefullyQualifiedName = this.getFullyQualifiedName();
+		int lastDotIndex = packagefullyQualifiedName.lastIndexOf(".");
+		if(lastDotIndex < 0) {
+			throw new AssertionError("Improper fully qualified class name: " + this.getFullyQualifiedName());
+		}
+		return packagefullyQualifiedName.substring(0, lastDotIndex);
+	}
+	
+	public String getFullyQualifiedName() {
+		return this.fullyQualifiedName;
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((fullyQualifiedClassName == null) ? 0 : fullyQualifiedClassName.hashCode());
+		result = prime * result + ((fullyQualifiedName == null) ? 0 : fullyQualifiedName.hashCode());
 		return result;
 	}
 
@@ -26,10 +39,10 @@ public class JavaClassData {
 		if (getClass() != obj.getClass())
 			return false;
 		JavaClassData other = (JavaClassData) obj;
-		if (fullyQualifiedClassName == null) {
-			if (other.fullyQualifiedClassName != null)
+		if (fullyQualifiedName == null) {
+			if (other.fullyQualifiedName != null)
 				return false;
-		} else if (!fullyQualifiedClassName.equals(other.fullyQualifiedClassName))
+		} else if (!fullyQualifiedName.equals(other.fullyQualifiedName))
 			return false;
 		return true;
 	}

@@ -2,17 +2,21 @@ package com.kcsl.dynadoc.data;
 
 public class JavaPackageData {
 	
-	private String fullyQualifiedPackageName;
+	private String fullyQualifiedName;
 	
 	public JavaPackageData(String fullyQualifiedPackageName) {
-		this.fullyQualifiedPackageName = fullyQualifiedPackageName;
+		this.fullyQualifiedName = fullyQualifiedPackageName;
+	}
+	
+	public String getFullyQualifiedName() {
+		return this.fullyQualifiedName;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((fullyQualifiedPackageName == null) ? 0 : fullyQualifiedPackageName.hashCode());
+		result = prime * result + ((fullyQualifiedName == null) ? 0 : fullyQualifiedName.hashCode());
 		return result;
 	}
 
@@ -25,10 +29,10 @@ public class JavaPackageData {
 		if (getClass() != obj.getClass())
 			return false;
 		JavaPackageData other = (JavaPackageData) obj;
-		if (fullyQualifiedPackageName == null) {
-			if (other.fullyQualifiedPackageName != null)
+		if (fullyQualifiedName == null) {
+			if (other.fullyQualifiedName != null)
 				return false;
-		} else if (!fullyQualifiedPackageName.equals(other.fullyQualifiedPackageName))
+		} else if (!fullyQualifiedName.equals(other.fullyQualifiedName))
 			return false;
 		return true;
 	}
