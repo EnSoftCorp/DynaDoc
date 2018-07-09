@@ -4,12 +4,8 @@ public class JavaClassData {
 	
 	private String fullyQualifiedClassName;
 
-	/**
-	 * Constructs a new instance of {@link JavaClassData) for the given <code>fullyQualifiedClassName</code>.
-	 * 
-	 * @param fullyQualifiedClassName
-	 */
 	public JavaClassData(String fullyQualifiedClassName) {
+		this.fullyQualifiedClassName = fullyQualifiedClassName;
 		
 	}
 	
