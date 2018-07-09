@@ -55,6 +55,15 @@ public class JavaClassData {
 		return false;
 	}
 	
+	public boolean isStatic() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isDeprecated() {
+		// TODO
+		return false;
+	}
 	
 	public Graph getClassHierarchyGraph() {
 		// TODO: return the type hierarchy for this graph

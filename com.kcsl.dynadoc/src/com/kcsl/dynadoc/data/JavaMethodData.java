@@ -1,6 +1,11 @@
 package com.kcsl.dynadoc.data;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+
+import com.ensoftcorp.atlas.core.db.graph.Graph;
 
 public class JavaMethodData {
 	
@@ -19,6 +24,68 @@ public class JavaMethodData {
 		// TODO: retrieve the user comments on this elements (if any), otherwise return an empty string.
 		return StringUtils.EMPTY;
 	}
+	
+	public boolean isPublic() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isPrivate() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isProtected() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isStatic() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isDeprecated() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isInherited() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isAbstract() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isUsedOutsideContainingClass() {
+		// TODO
+		return false;
+	}
+	
+	public boolean isOverriding() {
+		// TODO
+		return false;
+	}
+	
+	public Graph getClallHierarchy() {
+		// TODO
+		return null;
+	}
+	
+	public List<MethodParameter> getParameters() {
+		// TODO
+		return Collections.emptyList();
+	}
+	
+	public List<Graph> getUsageExamples() {
+		// TODO: return a list of graph, each graph corresponds to a usage of function
+		// A usage can be simply a data flow from the variables in the function calling this function.
+		return Collections.emptyList();
+	}
+	
 	
 	public String getContainingClassFullyQualifiedName() {
 		String classfullyQualifiedName = this.getFullyQualifiedName();
