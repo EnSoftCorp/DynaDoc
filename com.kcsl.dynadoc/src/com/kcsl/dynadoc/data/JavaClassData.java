@@ -1,5 +1,7 @@
 package com.kcsl.dynadoc.data;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class JavaClassData {
 	
 	private String fullyQualifiedName;
@@ -11,6 +13,11 @@ public class JavaClassData {
 	public String getName() {
 		int lastDotIndex = this.getFullyQualifiedName().lastIndexOf(".");
 		return this.getFullyQualifiedName().substring(lastDotIndex + 1);
+	}
+	
+	public String getUserComments() {
+		// TODO: retrieve the user comments on this elements (if any), otherwise return an empty string.
+		return StringUtils.EMPTY;
 	}
 	
 	public String getContainingPackageFullyQualifiedName() {
