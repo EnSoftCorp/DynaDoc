@@ -6,4 +6,4 @@ Make sure to copy the contents of the jar files into the bin directory so that t
 
 Use the following command line in the directory containing the project to run the documentation generation:
 
-find . -type f -name "*.java" | xargs javadoc -private -doclet com.kcsl.doclet.JSONDoclet -docletpath "absolute path to doclet project bin folder"
+`find . -type f -name "*.java" | xargs javadoc -private -doclet com.kcsl.doclet.JSONDoclet -docletpath "absolute path to doclet project bin folder"`
