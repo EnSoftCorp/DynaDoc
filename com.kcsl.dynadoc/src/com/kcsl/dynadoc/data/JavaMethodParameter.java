@@ -1,12 +1,12 @@
 package com.kcsl.dynadoc.data;
 
-public class MethodParameter {
+public class JavaMethodParameter {
 	
 	int index;
 	private String name;
 	private String fullyQualifiedClassName;
 	
-	public MethodParameter(String name, String fullyQualifiedClassName, int index) {
+	public JavaMethodParameter(String name, String fullyQualifiedClassName, int index) {
 		this.name = name;
 		this.fullyQualifiedClassName = fullyQualifiedClassName;
 		this.index = index;

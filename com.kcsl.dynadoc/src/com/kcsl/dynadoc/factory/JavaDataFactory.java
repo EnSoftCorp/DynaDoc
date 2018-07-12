@@ -7,6 +7,7 @@ import com.kcsl.dynadoc.data.JavaClassData;
 import com.kcsl.dynadoc.data.JavaFieldData;
 import com.kcsl.dynadoc.data.JavaMethodData;
 import com.kcsl.dynadoc.data.JavaPackageData;
+import com.kcsl.dynadoc.data.JavaMethodParameter;
 
 public class JavaDataFactory {
 	
@@ -34,7 +35,7 @@ public class JavaDataFactory {
 		return javaClassDataInstance;
 	}
 	
-	public static JavaMethodData createJavaMethodData(String fullyQualifiedMethodName) {
+	public static JavaMethodData createJavaMethodData(String fullyQualifiedMethodName, JavaMethodParameter...javaMethodParameters) {
 		if(fullyQualifiedMethodNameToJavaMethodDataMap.containsKey(fullyQualifiedMethodName)) {
 			return fullyQualifiedMethodNameToJavaMethodDataMap.get(fullyQualifiedMethodName);
 		}
@@ -50,6 +51,10 @@ public class JavaDataFactory {
 		JavaFieldData javaFieldDataInstance = new JavaFieldData(fullyQualifiedFieldName);
 		fullyQualifiedFieldNameToJavaFieldDataMap.put(fullyQualifiedFieldName, javaFieldDataInstance);
 		return javaFieldDataInstance;
+	}
+	
+	public static JavaMethodParameter createJavaMethodParameter(String parameterName, String fullyQualifiedClassName, int index) {
+		return new JavaMethodParameter(parameterName, fullyQualifiedClassName, index);
 	}
 	
 	public static JavaPackageData getContainingPackage(JavaClassData javaClassData) {

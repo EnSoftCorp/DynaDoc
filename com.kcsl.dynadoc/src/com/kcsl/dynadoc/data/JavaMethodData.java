@@ -75,7 +75,7 @@ public class JavaMethodData {
 		return null;
 	}
 	
-	public List<MethodParameter> getParameters() {
+	public List<JavaMethodParameter> getParameters() {
 		// TODO
 		return Collections.emptyList();
 	}
