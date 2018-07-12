@@ -483,7 +483,7 @@ public class ClassDocumentationGenerator {
 	private void generateTypeHierarchyImage(String filePath) {
 		Node containingProjectNode = CommonQueries.getContainingNode(this.getClassNode(), XCSG.Project);
 		Q containingProjectQ = Common.toQ(containingProjectNode);
-		Q containedTypes = containingProjectQ.forwardOn(Common.universe().edges(XCSG.Contains).nodes(XCSG.Type));
+		Q containedTypes = containingProjectQ.forwardOn(Common.universe().edges(XCSG.Contains)).nodes(XCSG.Type);
 		Q superTypeEdges = Common.universe().edges(XCSG.Supertype);
 		Q typeHierarchyQ = superTypeEdges.forward(this.getClassQ()).intersection(containedTypes).induce(superTypeEdges);
 		typeHierarchyQ = Common.extend(typeHierarchyQ, XCSG.Contains);
