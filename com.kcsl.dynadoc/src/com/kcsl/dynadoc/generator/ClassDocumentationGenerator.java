@@ -9,8 +9,10 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.framework.Bundle;
@@ -19,9 +21,11 @@ import com.ensoftcorp.atlas.core.db.graph.Edge;
 import com.ensoftcorp.atlas.core.db.graph.GraphElement;
 import com.ensoftcorp.atlas.core.db.graph.Node;
 import com.ensoftcorp.atlas.core.db.set.AtlasSet;
+import com.ensoftcorp.atlas.core.markup.IMarkup;
 import com.ensoftcorp.atlas.core.markup.Markup;
 import com.ensoftcorp.atlas.core.markup.MarkupProperty;
 import com.ensoftcorp.atlas.core.markup.PropertySet;
+import com.ensoftcorp.atlas.core.markup.UnionMarkup;
 import com.ensoftcorp.atlas.core.query.Q;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
@@ -62,6 +66,8 @@ public class ClassDocumentationGenerator {
 
 	private static final String [] FIELDS_TABLE_HEADERS = { "Visibility", "Static", "Final", "Type", "Name", "External Use", "Usage"};
 
+	private static final String [] RESOURCES_DIRECTORY_CONTENTS_TO_BE_COPIED = { "check.svg", "details_close.png", "details_open.png", "styles.css"};
+
 	private static final String GRAPHS_DIRECTORY_NAME = "graphs";
 	
 	private static final String RESOURCES_DIRECTORY_NAME = "resources";
@@ -85,6 +91,8 @@ public class ClassDocumentationGenerator {
 	}
 	
 	public void generate() {
+		this.createProperOutputDirectoriesStructure();
+		
 		Html htmlDocument = new Html();
 		htmlDocument.setLang("en");
 		
@@ -95,13 +103,46 @@ public class ClassDocumentationGenerator {
 		htmlDocument.appendChild(body);
 		
 		try {
-			File storeDirectoryFile = this.getStoreDirectoryPath().toFile();
-			PrintWriter out = new PrintWriter(new FileOutputStream(storeDirectoryFile));
+			Path classDocHTMLFilePath = this.getStoreDirectoryPath().resolve(this.getQualifiedName() + ".html");
+			PrintWriter out = new PrintWriter(new FileOutputStream(classDocHTMLFilePath.toFile()));
 			out.println(htmlDocument.write());
 			out.close();
 		} catch (FileNotFoundException e) {
 			System.err.println("Error while writing the HTML document for class [" + this.getQualifiedName() +"]");
 		}	
+	}
+	
+	private void createProperOutputDirectoriesStructure() {
+		// Main Output Directory/
+		// ... graphs/
+		// ... resources/
+		File mainOutputDirectory = this.getStoreDirectoryPath().toFile();
+		if(mainOutputDirectory.exists()) {
+			try {
+				FileUtils.cleanDirectory(mainOutputDirectory);
+			} catch (IOException e) {
+				System.err.println("Error while cleaning the main output directory: " + mainOutputDirectory.getAbsolutePath());
+			}
+		}else {
+			mainOutputDirectory.mkdirs();
+		}
+		File graphsDirectoryFile = this.getGraphsDirectoryPath().toFile();
+		graphsDirectoryFile.mkdirs();
+		
+		File resourcesDirectoryFile = this.getResourcesDirectoryPath().toFile();
+		resourcesDirectoryFile.mkdirs();
+		
+		// Copy stuff into resources directory
+		Bundle pluginBundle = Activator.getDefault().getBundle();
+		for(String pluginResourceFileName: RESOURCES_DIRECTORY_CONTENTS_TO_BE_COPIED) {
+			try {
+				InputStream pluginResourceInputStream = pluginBundle.getEntry("./templates/resources/" + pluginResourceFileName).openStream();
+				File destinationFile = new File(resourcesDirectoryFile, pluginResourceFileName);
+				FileUtils.copyInputStreamToFile(pluginResourceInputStream, destinationFile);
+			} catch (IOException e) {
+				System.err.println("Error while copying contents of plugin resources file");
+			}
+		}		
 	}
 	
 	private Head generateHead() {
@@ -160,7 +201,8 @@ public class ClassDocumentationGenerator {
 		Link ourOwnCSS = new Link();
 		ourOwnCSS.setRel("stylesheet");
 		ourOwnCSS.setType("text/css");
-		ourOwnCSS.setHref("./styles.css");
+		String ourStyleCSSRelativeFilePathString = this.getRelativeFilePathString(this.getResourcesDirectoryPath(), "styles.css");
+		ourOwnCSS.setHref(ourStyleCSSRelativeFilePathString);
 		styleSheets.add(ourOwnCSS);
 		
 		return styleSheets;
@@ -396,8 +438,8 @@ public class ClassDocumentationGenerator {
 				cardContent.setCSSClass("card-body bg-white text-dark");
 					A imageLink = new A();
 					String classHierarchyImageFileName = this.getQualifiedName() + "-hierarchy.svg";
-					String classHierarchyImageAbsolutePath = this.getAbsoluteFilePathString(this.getImagesDirectoryPath(), classHierarchyImageFileName);
-					String classHierarchyImageRelativePath = this.getRelativeFilePathString(this.getImagesDirectoryPath(), classHierarchyImageFileName);
+					String classHierarchyImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), classHierarchyImageFileName);
+					String classHierarchyImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), classHierarchyImageFileName);
 					this.generateTypeHierarchyImage(classHierarchyImageAbsolutePath);
 					imageLink.setHref(classHierarchyImageRelativePath);
 					imageLink.setTarget("_blank");
@@ -422,8 +464,8 @@ public class ClassDocumentationGenerator {
 					imageLink = new A();
 
 					String classInteractionImageFileName = this.getQualifiedName() + "-interaction.svg";
-					String classInteractionImageAbsolutePath = this.getAbsoluteFilePathString(this.getImagesDirectoryPath(), classInteractionImageFileName);
-					String classInteractionImageRelativePath = this.getRelativeFilePathString(this.getImagesDirectoryPath(), classInteractionImageFileName);
+					String classInteractionImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), classInteractionImageFileName);
+					String classInteractionImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), classInteractionImageFileName);
 					
 					this.generateInteractionImage(classInteractionImageAbsolutePath);
 					imageLink.setHref(classInteractionImageRelativePath);
@@ -455,12 +497,21 @@ public class ClassDocumentationGenerator {
 						return new PropertySet().set(MarkupProperty.LABEL_TEXT, "implements");
 					}
 				}
-				return null;
+				return new PropertySet();
 			}
 		};
-		Markup markup = new Markup(labelEdgesMarkup);
-		markup.set(this.getClassNode(), MarkupProperty.NODE_BACKGROUND_COLOR, Color.YELLOW);
-		SaveUtil.saveGraph(new File(filePath), typeHierarchyQ.eval(), markup);
+		Markup nodeMarkup = new Markup();
+		nodeMarkup.set(this.getClassNode(), MarkupProperty.NODE_BACKGROUND_COLOR, Color.YELLOW);
+		UnionMarkup markup = new UnionMarkup(Arrays.asList(nodeMarkup, labelEdgesMarkup));
+		this.saveGraph(filePath, typeHierarchyQ, markup);
+	}
+	
+	private void saveGraph(String filePath, Q graphQ, IMarkup markup) {
+		try {
+			SaveUtil.saveGraph(new File(filePath), graphQ.eval(), markup);
+		} catch(Exception e) {
+			System.err.println("Cannot save graph due to: " + e.getMessage());
+		}
 	}
 	
 	private void generateInteractionImage(String filePath) {
@@ -734,19 +785,21 @@ public class ClassDocumentationGenerator {
 						return new PropertySet().set(MarkupProperty.LABEL_TEXT, element.getAttr(XCSG.conditionValue).toString());
 					}
 				}
-				return null;
+				return new PropertySet();
 			}
 		};
-		SaveUtil.saveGraph(new File(filePath), cfgQ.eval(), labelEdgesMarkup);
+		UnionMarkup markup = new UnionMarkup(Arrays.asList(labelEdgesMarkup));
+		this.saveGraph(filePath, cfgQ, markup);
 	}
 	
 	private void generateCallHierarchyImageForMethod(String filePath, Node methodNode) {
 		Q callEdges = Common.universe().edges(XCSG.Call);
 		Q callGraphQ = callEdges.forwardStep(Common.toQ(methodNode)).union(callEdges.reverseStep(Common.toQ(methodNode)));
 		callGraphQ = Common.extend(callGraphQ, XCSG.Contains);
-		Markup markup = new Markup();
-		markup.set(methodNode, MarkupProperty.NODE_BACKGROUND_COLOR, Color.YELLOW);
-		SaveUtil.saveGraph(new File(filePath), callGraphQ.eval(), markup);
+		Markup nodeMarkup = new Markup();
+		nodeMarkup.set(methodNode, MarkupProperty.NODE_BACKGROUND_COLOR, Color.YELLOW);
+		UnionMarkup markup = new UnionMarkup(Arrays.asList(nodeMarkup));
+		this.saveGraph(filePath, callGraphQ, markup);
 	}
 	
 	private void generateUsageImageForMethod(String filePath, Node methodNode) {
@@ -868,8 +921,8 @@ public class ClassDocumentationGenerator {
 		A CFGlink = new A();
 		
 		String cfgImageFileName = this.getUniqueMethodName(methodNode) + "-cfg.svg";
-		String cfgImageAbsolutePath = this.getAbsoluteFilePathString(this.getImagesDirectoryPath(), cfgImageFileName);
-		String cfgImageRelativePath = this.getRelativeFilePathString(this.getImagesDirectoryPath(), cfgImageFileName);
+		String cfgImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), cfgImageFileName);
+		String cfgImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), cfgImageFileName);
 		
 		
 		this.generateCFGImageForMethod(cfgImageAbsolutePath, methodNode);
@@ -887,8 +940,8 @@ public class ClassDocumentationGenerator {
 		A link = new A();
 		
 		String callImageFileName = this.getUniqueMethodName(methodNode) + "-call.svg";
-		String callImageAbsolutePath = this.getAbsoluteFilePathString(this.getImagesDirectoryPath(), callImageFileName);
-		String callImageRelativePath = this.getRelativeFilePathString(this.getImagesDirectoryPath(), callImageFileName);
+		String callImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), callImageFileName);
+		String callImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), callImageFileName);
 		
 		this.generateCallHierarchyImageForMethod(callImageAbsolutePath, methodNode);
 		link.setHref(callImageRelativePath);
@@ -904,8 +957,8 @@ public class ClassDocumentationGenerator {
 		link = new A();
 		
 		String usageImageFileName = this.getUniqueMethodName(methodNode) + "-usage.svg";
-		String usageImageAbsolutePath = this.getAbsoluteFilePathString(this.getImagesDirectoryPath(), usageImageFileName);
-		String usageImageRelativePath = this.getRelativeFilePathString(this.getImagesDirectoryPath(), usageImageFileName);
+		String usageImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), usageImageFileName);
+		String usageImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), usageImageFileName);
 		
 		this.generateUsageImageForMethod(usageImageAbsolutePath, methodNode);
 		link.setHref(usageImageRelativePath);
@@ -1093,8 +1146,8 @@ public class ClassDocumentationGenerator {
 		A link = new A();
 		
 		String usageImageFileName = this.getUniqueFiledName(fieldNode) + "-usage.svg";
-		String usageImageAbsolutePath = this.getAbsoluteFilePathString(this.getImagesDirectoryPath(), usageImageFileName);
-		String usageImageRelativePath = this.getRelativeFilePathString(this.getImagesDirectoryPath(), usageImageFileName);
+		String usageImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), usageImageFileName);
+		String usageImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), usageImageFileName);
 		
 		this.generateUsageImageForField(usageImageAbsolutePath, fieldNode);
 		link.setHref(usageImageRelativePath);
@@ -1245,7 +1298,7 @@ public class ClassDocumentationGenerator {
 		return this.storeDirectoryPath;
 	}
 	
-	private Path getImagesDirectoryPath() {
+	private Path getGraphsDirectoryPath() {
 		return this.getStoreDirectoryPath().resolve(GRAPHS_DIRECTORY_NAME);
 	}
 	

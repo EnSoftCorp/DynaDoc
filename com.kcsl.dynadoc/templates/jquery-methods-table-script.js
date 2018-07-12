@@ -21,9 +21,6 @@
             "order": [[1, 'asc']]
         } );
 
-
-     
-        // Array to track the ids of the details displayed rows
         var detailRows = [];
      
         $('#methods-table tbody').on( 'click', 'tr td.details-control', function () {
@@ -35,21 +32,18 @@
                 tr.removeClass( 'details' );
                 row.child.hide();
      
-                // Remove from the 'open' array
                 detailRows.splice( idx, 1 );
             }
             else {
                 tr.addClass( 'details' );
                 row.child( row.data().comments ).show();
      
-                // Add to the 'open' array
                 if ( idx === -1 ) {
                     detailRows.push( tr.attr('id') );
                 }
             }
         } );
      
-        // On each draw, loop over the `detailRows` array and show any child rows
         dt.on( 'draw', function () {
             $.each( detailRows, function ( i, id ) {
                 $('#'+id+' td.details-control').trigger( 'click' );
