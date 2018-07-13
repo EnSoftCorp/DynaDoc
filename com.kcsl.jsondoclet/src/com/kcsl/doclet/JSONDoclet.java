@@ -1,11 +1,9 @@
 package com.kcsl.doclet;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
 import com.sun.javadoc.*;
@@ -23,6 +21,15 @@ public final class JSONDoclet {
     }
 
     public static boolean start(RootDoc rootDoc) {
+    	String[][] options = rootDoc.options();
+    	for(String[] row: options) {
+    		System.out.println("########################");
+    		for(String column: row) {
+    			System.out.print(column + "\t");
+    		}
+    		System.out.println();
+    		System.out.println("########################");
+    	}
     	try {
 			writer = new FileWriter("/Users/ahmedtamrawi/Desktop/test/log.txt");
 		} catch (IOException e) {

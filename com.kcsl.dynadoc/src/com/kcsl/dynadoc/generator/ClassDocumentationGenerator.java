@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.osgi.framework.Bundle;
@@ -58,6 +57,10 @@ import com.hp.gagawa.java.elements.Ul;
 import com.kcsl.dynadoc.Activator;
 import com.kcsl.dynadoc.html.Nav;
 
+import static com.kcsl.dynadoc.Configurations.OUTPUT_GRAPHS_DIRECTORY_NAME;
+import static com.kcsl.dynadoc.Configurations.OUTPUT_RESOURCES_DIRECTORY_NAME;
+import static com.kcsl.dynadoc.Configurations.PLUGIN_SCRIPTS_DIRECTORY_PATH;
+
 public class ClassDocumentationGenerator {
 
 	private static final String [] CONSTRUCTORS_TABLE_HEADERS = { "Visibility", "Static", "Return", "Name", "Parameters", "Abstract", "Override", "External Use", "CFG", "Call", "Usage"};
@@ -65,34 +68,28 @@ public class ClassDocumentationGenerator {
 	private static final String [] METHODS_TABLE_HEADERS = { "Visibility", "Static", "Return", "Name", "Parameters", "Abstract", "Override", "External Use", "CFG", "Call", "Usage"};
 
 	private static final String [] FIELDS_TABLE_HEADERS = { "Visibility", "Static", "Final", "Type", "Name", "External Use", "Usage"};
-
-	private static final String [] RESOURCES_DIRECTORY_CONTENTS_TO_BE_COPIED = { "check.svg", "details_close.png", "details_open.png", "styles.css"};
-
-	private static final String GRAPHS_DIRECTORY_NAME = "graphs";
 	
-	private static final String RESOURCES_DIRECTORY_NAME = "resources";
+	private static final String [] JQUERY_DATATABLES_SCRIPT_FILENAMES = { "jquery-constructors-table-script.js", "jquery-methods-table-script.js", "jquery-fields-table-script.js" };
 	
 	private Q classQ;
 	
 	private Node classNode;
 	
-	private Path storeDirectoryPath; 
+	private Path outputDirectoryPath; 
 	
-	public ClassDocumentationGenerator(Q classQ, Path storeDirectoryPath) {
+	public ClassDocumentationGenerator(Q classQ, Path outputDirectoryPath) {
 		this.classQ = classQ;
-		this.storeDirectoryPath = storeDirectoryPath;
+		this.outputDirectoryPath = outputDirectoryPath;
 		this.classNode = classQ.eval().nodes().one();
 	}
 	
 	public ClassDocumentationGenerator(Node classNode, Path storeDirectoryPath) {
 		this.classNode = classNode;
-		this.storeDirectoryPath = storeDirectoryPath;
+		this.outputDirectoryPath = storeDirectoryPath;
 		this.classQ = Common.toQ(classNode);
 	}
 	
 	public void generate() {
-		this.createProperOutputDirectoriesStructure();
-		
 		Html htmlDocument = new Html();
 		htmlDocument.setLang("en");
 		
@@ -110,39 +107,6 @@ public class ClassDocumentationGenerator {
 		} catch (FileNotFoundException e) {
 			System.err.println("Error while writing the HTML document for class [" + this.getQualifiedName() +"]");
 		}	
-	}
-	
-	private void createProperOutputDirectoriesStructure() {
-		// Main Output Directory/
-		// ... graphs/
-		// ... resources/
-		File mainOutputDirectory = this.getStoreDirectoryPath().toFile();
-		if(mainOutputDirectory.exists()) {
-			try {
-				FileUtils.cleanDirectory(mainOutputDirectory);
-			} catch (IOException e) {
-				System.err.println("Error while cleaning the main output directory: " + mainOutputDirectory.getAbsolutePath());
-			}
-		}else {
-			mainOutputDirectory.mkdirs();
-		}
-		File graphsDirectoryFile = this.getGraphsDirectoryPath().toFile();
-		graphsDirectoryFile.mkdirs();
-		
-		File resourcesDirectoryFile = this.getResourcesDirectoryPath().toFile();
-		resourcesDirectoryFile.mkdirs();
-		
-		// Copy stuff into resources directory
-		Bundle pluginBundle = Activator.getDefault().getBundle();
-		for(String pluginResourceFileName: RESOURCES_DIRECTORY_CONTENTS_TO_BE_COPIED) {
-			try {
-				InputStream pluginResourceInputStream = pluginBundle.getEntry("./templates/resources/" + pluginResourceFileName).openStream();
-				File destinationFile = new File(resourcesDirectoryFile, pluginResourceFileName);
-				FileUtils.copyInputStreamToFile(pluginResourceInputStream, destinationFile);
-			} catch (IOException e) {
-				System.err.println("Error while copying contents of plugin resources file");
-			}
-		}		
 	}
 	
 	private Head generateHead() {
@@ -236,38 +200,16 @@ public class ClassDocumentationGenerator {
 		
 		Bundle pluginBundle = Activator.getDefault().getBundle();
 		
-		// Constructors Table
-		try {
-			InputStream constructorsTableScriptIS = pluginBundle.getEntry("./templates/jquery-constructors-table-script.js").openStream();
-			List<String> constructorsTableScriptLines = IOUtils.readLines(constructorsTableScriptIS);
-			Script constructorsTableScript = new Script("text/javascript");
-			constructorsTableScript.appendText(collapseListOfStrings(constructorsTableScriptLines));
-			scripts.add(constructorsTableScript);
-		} catch (IOException e) {
-			System.err.println("Error reading [./templates/jquery-constructors-table-script.js] File.");
-		}
-		
-		// Methods Table
-		try {
-			InputStream methodsTableScriptIS = pluginBundle.getEntry("./templates/jquery-methods-table-script.js").openStream();
-			List<String> methodsTableScriptLines = IOUtils.readLines(methodsTableScriptIS);
-			Script methodsTableScript = new Script("text/javascript");
-			methodsTableScript.appendText(collapseListOfStrings(methodsTableScriptLines));
-			scripts.add(methodsTableScript);
-		} catch (IOException e) {
-			System.err.println("Error reading [./templates/jquery-methods-table-script.js] File.");
-		}
-		
-		
-		// Fields Table
-		try {
-			InputStream fieldsTableScriptIS = pluginBundle.getEntry("./templates/jquery-fields-table-script.js").openStream();
-			List<String> fieldsTableScriptLines = IOUtils.readLines(fieldsTableScriptIS);
-			Script fieldsTableScript = new Script("text/javascript");
-			fieldsTableScript.appendText(collapseListOfStrings(fieldsTableScriptLines));
-			scripts.add(fieldsTableScript);
-		} catch (IOException e) {
-			System.err.println("Error reading [./templates/jquery-fields-table-script.js] File.");
+		for(String scriptFileName: JQUERY_DATATABLES_SCRIPT_FILENAMES) {
+			try {
+				InputStream dataTableScriptInputStream = pluginBundle.getEntry(PLUGIN_SCRIPTS_DIRECTORY_PATH + scriptFileName).openStream();
+				List<String> dataTableScriptLines = IOUtils.readLines(dataTableScriptInputStream);
+				Script dataTableScript = new Script("text/javascript");
+				dataTableScript.appendText(collapseListOfStrings(dataTableScriptLines));
+				scripts.add(dataTableScript);
+			} catch (IOException e) {
+				System.err.println("Error reading [" + PLUGIN_SCRIPTS_DIRECTORY_PATH + scriptFileName + "] File.");
+			}
 		}
 		
 		return scripts;
@@ -1295,15 +1237,15 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private Path getStoreDirectoryPath() {
-		return this.storeDirectoryPath;
+		return this.outputDirectoryPath;
 	}
 	
 	private Path getGraphsDirectoryPath() {
-		return this.getStoreDirectoryPath().resolve(GRAPHS_DIRECTORY_NAME);
+		return this.getStoreDirectoryPath().resolve(OUTPUT_GRAPHS_DIRECTORY_NAME);
 	}
 	
 	private Path getResourcesDirectoryPath() {
-		return this.getStoreDirectoryPath().resolve(RESOURCES_DIRECTORY_NAME);
+		return this.getStoreDirectoryPath().resolve(OUTPUT_RESOURCES_DIRECTORY_NAME);
 	}
 	
 	private String getAbsoluteFilePathString(Path containingDirectory, String fileName) {
