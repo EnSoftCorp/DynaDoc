@@ -2,77 +2,63 @@ package com.kcsl.doclet;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 
 import com.sun.javadoc.*;
 
 public final class JSONDoclet {
 	
-	private static final String OUTPUT_DIRECTORY_LOCATION = "/Users/ahmedtamrawi/Desktop/test/java-docs/";
+	private static final String OUTPUT_DIRECTORY_COMMAND_LINE_OPTION_NAME = "-output";
 	
 	private static Path OUTPUT_DIRECTORY_PATH;
-	
-	private static FileWriter writer;
 	
     public static LanguageVersion languageVersion() {
         return LanguageVersion.JAVA_1_5;
     }
+    
+	/**
+	 * Check for doclet-added options. Returns the number of arguments you must
+	 * specify on the command line for the given option. For example, "-d docs"
+	 * would return 2.
+	 * <P>
+	 * This method is required if the doclet contains any options. If this
+	 * method is missing, Javadoc will print an invalid flag error for every
+	 * option.
+	 * 
+	 * @see com.sun.javadoc.Doclet#optionLength(String)
+	 * 
+	 * @param optionName
+	 *            The name of the option.
+	 * @return number of arguments on the command line for an option including
+	 *         the option name itself. Zero return means option not known.
+	 *         Negative value means error occurred.
+	 */
+	public static int optionLength(String optionName) {
+		if(OUTPUT_DIRECTORY_COMMAND_LINE_OPTION_NAME.equals(optionName)) {
+			return 2;
+		}
+		return 0;
+	}
 
     public static boolean start(RootDoc rootDoc) {
-    	String[][] options = rootDoc.options();
-    	for(String[] row: options) {
-    		System.out.println("########################");
-    		for(String column: row) {
-    			System.out.print(column + "\t");
+    	if(setOutputDirectory(rootDoc.options())) {
+    		generateDocumentationForJavaClasses(rootDoc);
+    		return true;
+    	}
+    	System.err.println("Please provide an output directory in options '-output'");
+        return false;
+    }
+    
+    private static boolean setOutputDirectory(String[][] options) {
+    	for(String[] option: options) {
+    		if(option.length == 2 && OUTPUT_DIRECTORY_COMMAND_LINE_OPTION_NAME.equals(option[0])) {
+    			OUTPUT_DIRECTORY_PATH = Paths.get(option[1].trim());
+    			return true;
     		}
-    		System.out.println();
-    		System.out.println("########################");
     	}
-    	try {
-			writer = new FileWriter("/Users/ahmedtamrawi/Desktop/test/log.txt");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	write("1");
-    	prepareOutputDirectoryStructure();
-    	write("2");
-    	generateDocumentationForJavaClasses(rootDoc);
-    	write("3");
-    	try {
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        return true;
-    }
-    
-    private static void write(String message) {
-    	try {
-			writer.write(message + "\n");
-			writer.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    }
-    
-    private static void prepareOutputDirectoryStructure() {
-    	File outputDirectoryFile = new File(OUTPUT_DIRECTORY_LOCATION);
-    	if(outputDirectoryFile.exists()) {
-    		try {
-				FileUtils.cleanDirectory(outputDirectoryFile);
-			} catch (IOException e) {
-				write("error3");
-				System.err.println("Error cleaning the output directory: " + OUTPUT_DIRECTORY_LOCATION);
-			}
-    	}else {
-    		outputDirectoryFile.mkdirs();
-    	}
-    	OUTPUT_DIRECTORY_PATH = outputDirectoryFile.toPath();
+    	return false;
     }
     
     private static void generateDocumentationForJavaClasses(RootDoc rootDoc) {
@@ -86,20 +72,19 @@ public final class JSONDoclet {
     	String qualifiedClassName = classDoc.qualifiedName();
     	JSONObject classJSONObject = new JSONObject();
     		JSONObject classProperties = new JSONObject();
-    		classProperties.put("comment1", classDoc.commentText());
-    		classProperties.put("comment2", classDoc.getRawCommentText());
+    		classProperties.put("comment", classDoc.commentText());
     	
     			JSONObject fieldsJSONObject = new JSONObject();
 	    		FieldDoc[] fieldDocs = classDoc.fields();
 	    		for(FieldDoc fieldDoc: fieldDocs) {
-	    			fieldsJSONObject.put(fieldDoc.name(), fieldDoc.getRawCommentText());
+	    			fieldsJSONObject.put(fieldDoc.name(), fieldDoc.commentText());
 	    		}
 	    		classProperties.put("fields", fieldsJSONObject);
     		
 	    		JSONObject methodsJSONObject = new JSONObject();
 	    		MethodDoc[] methodDocs = classDoc.methods();
 	    		for(MethodDoc methodDoc: methodDocs) {
-	    			methodsJSONObject.put(methodDoc.signature(), methodDoc.getRawCommentText());
+	    			methodsJSONObject.put(methodDoc.signature(), methodDoc.commentText());
 	    		}
 	    		classProperties.put("methods", methodsJSONObject);
     	

@@ -12,6 +12,8 @@ public class Configurations {
 
 	public static final String OUTPUT_GRAPHS_DIRECTORY_NAME = "graphs";
 	
+	public static final String OUTPUT_JAVADOC_DIRECTORY_NAME = "javadoc";
+	
 	public static final String OUTPUT_RESOURCES_DIRECTORY_NAME = "resources";
 	
 	public static final String PLUGIN_SCRIPTS_DIRECTORY_PATH = "./templates/scripts/";
@@ -39,6 +41,9 @@ public class Configurations {
 		
 		File resourcesDirectoryFile = outputDirectoryPath.resolve(OUTPUT_RESOURCES_DIRECTORY_NAME).toFile();
 		resourcesDirectoryFile.mkdirs();
+		
+		File javadocDirectoryFile = outputDirectoryPath.resolve(OUTPUT_JAVADOC_DIRECTORY_NAME).toFile();
+		javadocDirectoryFile.mkdirs();
 		
 		// Copy stuff into resources directory
 		Bundle pluginBundle = Activator.getDefault().getBundle();
