@@ -427,7 +427,9 @@ public class ClassDocumentationGenerator {
 		Q containingProjectQ = Common.toQ(containingProjectNode);
 		Q containedTypes = containingProjectQ.forwardOn(Common.universe().edges(XCSG.Contains)).nodes(XCSG.Type);
 		Q superTypeEdges = Common.universe().edges(XCSG.Supertype);
-		Q typeHierarchyQ = superTypeEdges.forward(this.getClassQ()).intersection(containedTypes).induce(superTypeEdges);
+		Q forwardTypeHierarchyQ = superTypeEdges.forward(this.getClassQ()).intersection(containedTypes).induce(superTypeEdges);
+		Q reverseTypeHierarchyQ = superTypeEdges.reverse(this.getClassQ()).intersection(containedTypes).induce(superTypeEdges);
+		Q typeHierarchyQ = forwardTypeHierarchyQ.union(reverseTypeHierarchyQ);
 		typeHierarchyQ = Common.extend(typeHierarchyQ, XCSG.Contains);
 		Markup labelEdgesMarkup = new Markup() {
 			@Override
