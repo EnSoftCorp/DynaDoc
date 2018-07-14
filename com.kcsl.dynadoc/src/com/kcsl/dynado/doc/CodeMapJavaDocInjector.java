@@ -35,6 +35,8 @@ import static com.kcsl.dynado.doc.JavaDocAttributes.JSONData;
 
 public class CodeMapJavaDocInjector {
 	
+	private static final String JAVA_DOC_METHOD_SIGNATURE_SEPARATOR = "###";
+	
 	private Path javaDocDirectoryPath;
 	
 	private Q projectQ;
@@ -113,14 +115,13 @@ public class CodeMapJavaDocInjector {
 	}
 	
 	private String formJavaDocMethodSignatureFromMethodNode(Node methodNode) {
-		String methodSignatureSeparator = "###";
 		StringBuilder methodSignature = new StringBuilder();
 		String methodName = methodNode.getAttr(XCSG.name).toString();
 		methodSignature.append(methodName);
 		
 		List<Node> parameters = this.getSortedParameterListForMethodNode(methodNode);
 		for(Node parameter: parameters) {
-			methodSignature.append(methodSignatureSeparator);
+			methodSignature.append(JAVA_DOC_METHOD_SIGNATURE_SEPARATOR);
 			methodSignature.append(parameter.getAttr(XCSG.name));
 		}
 		
