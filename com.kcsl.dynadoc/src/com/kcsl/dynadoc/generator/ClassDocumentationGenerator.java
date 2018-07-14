@@ -590,6 +590,7 @@ public class ClassDocumentationGenerator {
 		return this.getClassNode().taggedWith(XCSG.Java.Enum);
 	}
 	
+	 @SuppressWarnings(value = { "unused" })
 	private boolean isInnerClass() {
 		return this.getClassNode().taggedWith(XCSG.Java.InnerClass);
 	}

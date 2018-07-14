@@ -112,6 +112,7 @@ public final class JSONDoclet {
 		return methodSignature.toString();
     }
     
+    @SuppressWarnings(value = { "unused" })
     private static String formMethodSignatureWithParameterTypes(ExecutableMemberDoc methodDoc) {
 		StringBuilder methodSignature = new StringBuilder();
 		String methodName = methodDoc.name();
@@ -125,6 +126,7 @@ public final class JSONDoclet {
 		return methodSignature.toString();
     }
     
+    @SuppressWarnings(value = { "unused" })
     private static String formMethodSignatureWithLineNumbers(ExecutableMemberDoc methodDoc) {
 		return methodDoc.name() + "###" + methodDoc.position().line();
     }
