@@ -12,6 +12,8 @@ public final class JSONDoclet {
 	
 	private static final String OUTPUT_DIRECTORY_COMMAND_LINE_OPTION_NAME = "-output";
 	
+	private static final String JAVA_DOC_METHOD_SIGNATURE_SEPARATOR = "###";
+	
 	private static Path OUTPUT_DIRECTORY_PATH;
 	
     public static LanguageVersion languageVersion() {
@@ -105,7 +107,7 @@ public final class JSONDoclet {
 		methodSignature.append(methodName);
 		Parameter[] parameters = methodDoc.parameters();
 		for(int index = 0; index < parameters.length; index++) {
-			methodSignature.append("###");
+			methodSignature.append(JAVA_DOC_METHOD_SIGNATURE_SEPARATOR);
 			String parameterName = parameters[index].name();
 			methodSignature.append(parameterName);
 		}
@@ -119,7 +121,7 @@ public final class JSONDoclet {
 		methodSignature.append(methodName);
 		Parameter[] parameters = methodDoc.parameters();
 		for(int index = 0; index < parameters.length; index++) {
-			methodSignature.append("###");
+			methodSignature.append(JAVA_DOC_METHOD_SIGNATURE_SEPARATOR);
 			String parameterTypeName = parameters[index].type().simpleTypeName();
 			methodSignature.append(parameterTypeName);
 		}
@@ -128,7 +130,7 @@ public final class JSONDoclet {
     
     @SuppressWarnings(value = { "unused" })
     private static String formMethodSignatureWithLineNumbers(ExecutableMemberDoc methodDoc) {
-		return methodDoc.name() + "###" + methodDoc.position().line();
+		return methodDoc.name() + JAVA_DOC_METHOD_SIGNATURE_SEPARATOR + methodDoc.position().line();
     }
     
     private static void saveJSONClassDocumentation(String qualifiedClassName, JSONObject jsonObject) {
