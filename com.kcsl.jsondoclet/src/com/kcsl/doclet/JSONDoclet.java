@@ -69,27 +69,64 @@ public final class JSONDoclet {
     }
     
     private static void generateDocumentationForJavaClass(ClassDoc classDoc) {
-    	String qualifiedClassName = classDoc.qualifiedName();
     	JSONObject classJSONObject = new JSONObject();
-    		JSONObject classProperties = new JSONObject();
-    		classProperties.put("comment", classDoc.commentText());
+    	classJSONObject.put("class_package", classDoc.containingPackage().name());
+    	classJSONObject.put("class_name", classDoc.name());
+    	classJSONObject.put("class_qualified_name", classDoc.qualifiedName());
+    	classJSONObject.put("class_comments", classDoc.commentText());
     	
-    			JSONObject fieldsJSONObject = new JSONObject();
-	    		FieldDoc[] fieldDocs = classDoc.fields();
-	    		for(FieldDoc fieldDoc: fieldDocs) {
-	    			fieldsJSONObject.put(fieldDoc.name(), fieldDoc.commentText());
-	    		}
-	    		classProperties.put("fields", fieldsJSONObject);
+		JSONObject fieldsJSONObject = new JSONObject();
+		FieldDoc[] fieldDocs = classDoc.fields();
+		for(FieldDoc fieldDoc: fieldDocs) {
+			fieldsJSONObject.put(fieldDoc.name(), fieldDoc.commentText());
+		}
+    	classJSONObject.put("class_fields", fieldsJSONObject);
     		
-	    		JSONObject methodsJSONObject = new JSONObject();
-	    		MethodDoc[] methodDocs = classDoc.methods();
-	    		for(MethodDoc methodDoc: methodDocs) {
-	    			methodsJSONObject.put(methodDoc.signature(), methodDoc.commentText());
-	    		}
-	    		classProperties.put("methods", methodsJSONObject);
+		JSONObject methodsJSONObject = new JSONObject();
+		ConstructorDoc[] constructorDocs = classDoc.constructors();
+		for(ConstructorDoc constructorDoc: constructorDocs) {
+			String methodSignature = formMethodSignatureWithParameterNames(constructorDoc);
+			methodsJSONObject.put(methodSignature.toString(), constructorDoc.commentText());
+		}
+		
+		MethodDoc[] methodDocs = classDoc.methods();
+		for(MethodDoc methodDoc: methodDocs) {
+			String methodSignature = formMethodSignatureWithParameterNames(methodDoc);
+			methodsJSONObject.put(methodSignature.toString(), methodDoc.commentText());
+		}
+    	classJSONObject.put("class_methods", methodsJSONObject);
     	
-    		classJSONObject.put(qualifiedClassName, classProperties);
-    	saveJSONClassDocumentation(qualifiedClassName, classJSONObject);
+    	saveJSONClassDocumentation(classDoc.qualifiedName(), classJSONObject);
+    }
+    
+    private static String formMethodSignatureWithParameterNames(ExecutableMemberDoc methodDoc) {
+		StringBuilder methodSignature = new StringBuilder();
+		String methodName = methodDoc.name();
+		methodSignature.append(methodName);
+		Parameter[] parameters = methodDoc.parameters();
+		for(int index = 0; index < parameters.length; index++) {
+			methodSignature.append("###");
+			String parameterName = parameters[index].name();
+			methodSignature.append(parameterName);
+		}
+		return methodSignature.toString();
+    }
+    
+    private static String formMethodSignatureWithParameterTypes(ExecutableMemberDoc methodDoc) {
+		StringBuilder methodSignature = new StringBuilder();
+		String methodName = methodDoc.name();
+		methodSignature.append(methodName);
+		Parameter[] parameters = methodDoc.parameters();
+		for(int index = 0; index < parameters.length; index++) {
+			methodSignature.append("###");
+			String parameterTypeName = parameters[index].type().simpleTypeName();
+			methodSignature.append(parameterTypeName);
+		}
+		return methodSignature.toString();
+    }
+    
+    private static String formMethodSignatureWithLineNumbers(ExecutableMemberDoc methodDoc) {
+		return methodDoc.name() + "###" + methodDoc.position().line();
     }
     
     private static void saveJSONClassDocumentation(String qualifiedClassName, JSONObject jsonObject) {

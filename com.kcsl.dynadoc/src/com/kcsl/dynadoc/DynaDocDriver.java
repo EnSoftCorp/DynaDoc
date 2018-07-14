@@ -7,8 +7,10 @@ import org.eclipse.core.resources.IFile;
 
 import com.ensoftcorp.atlas.core.db.graph.Node;
 import com.ensoftcorp.atlas.core.index.common.SourceCorrespondence;
+import com.ensoftcorp.atlas.core.query.Q;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
+import com.kcsl.dynado.doc.CodeMapJavaDocInjector;
 import com.kcsl.dynado.doc.JavaDocGeneratorTask;
 import com.kcsl.dynadoc.generator.ClassDocumentationGenerator;
 
@@ -28,8 +30,9 @@ public class DynaDocDriver {
 		Configurations.createProperOutputDirectoriesStructure(outputDirectoryPath);
 		
 		Node classNode = Common.typeSelect(packageName, className).eval().nodes().one();
-		generateClassDocumentation(classNode, outputDirectoryPath);
 		generateClassJavaDoc(classNode, docletProjectAbsolutePathToOutputDirectory, outputDirectoryPath);
+		populateProjectCodeMapWithJavaDocs(projectName, outputDirectoryPath);
+		generateClassDocumentation(classNode, outputDirectoryPath);
 	}
 	
 	private static void generateClassDocumentation(Node classNode, Path outputDirectoryPath) {
@@ -43,6 +46,13 @@ public class DynaDocDriver {
 		String classSourceFileAbsolutePath = classSourceFile.getLocation().toString();
 		String outputJavadocDirectoryAbsolutePath = outputDirectoryPath.resolve(OUTPUT_JAVADOC_DIRECTORY_NAME).toFile().getAbsolutePath();
 		JavaDocGeneratorTask.runOnClass(classSourceFileAbsolutePath, docletProjectAbsolutePathToOutputDirectory, outputJavadocDirectoryAbsolutePath);
+	}
+	
+	private static void populateProjectCodeMapWithJavaDocs(String projectName, Path outputDirectoryPath) {
+		Q projectQ = Common.universe().nodes(XCSG.Project).selectNode(XCSG.name, projectName);
+		Path javaDocDirectoryPath = outputDirectoryPath.resolve(OUTPUT_JAVADOC_DIRECTORY_NAME);
+		CodeMapJavaDocInjector codeMapJavaDocInjector = new CodeMapJavaDocInjector(projectQ, javaDocDirectoryPath);
+		codeMapJavaDocInjector.populate();
 	}
 		
 }

@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.osgi.framework.Bundle;
 
 import com.ensoftcorp.atlas.core.db.graph.Edge;
@@ -26,6 +25,7 @@ import com.ensoftcorp.atlas.core.markup.MarkupProperty;
 import com.ensoftcorp.atlas.core.markup.PropertySet;
 import com.ensoftcorp.atlas.core.markup.UnionMarkup;
 import com.ensoftcorp.atlas.core.query.Q;
+import com.ensoftcorp.atlas.core.query.Query;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.atlas.ui.viewer.graph.SaveUtil;
@@ -60,6 +60,8 @@ import com.kcsl.dynadoc.html.Nav;
 import static com.kcsl.dynadoc.Configurations.OUTPUT_GRAPHS_DIRECTORY_NAME;
 import static com.kcsl.dynadoc.Configurations.OUTPUT_RESOURCES_DIRECTORY_NAME;
 import static com.kcsl.dynadoc.Configurations.PLUGIN_SCRIPTS_DIRECTORY_PATH;
+
+import static com.kcsl.dynado.doc.JavaDocAttributes.CodeMap;
 
 public class ClassDocumentationGenerator {
 
@@ -288,7 +290,7 @@ public class ClassDocumentationGenerator {
 			contentDiv.setCSSClass("card-body text-dark");
 				P comments = new P();
 				comments.setCSSClass("card-text");
-				comments.appendText(this.getClassUserAnnotations());
+				comments.appendChild(this.getClassUserAnnotations());
 				contentDiv.appendChild(comments);
 			section.appendChild(contentDiv);
 		
@@ -425,8 +427,8 @@ public class ClassDocumentationGenerator {
 	private void generateTypeHierarchyImage(String filePath) {
 		Node containingProjectNode = CommonQueries.getContainingNode(this.getClassNode(), XCSG.Project);
 		Q containingProjectQ = Common.toQ(containingProjectNode);
-		Q containedTypes = containingProjectQ.forwardOn(Common.universe().edges(XCSG.Contains)).nodes(XCSG.Type);
-		Q superTypeEdges = Common.universe().edges(XCSG.Supertype);
+		Q containedTypes = containingProjectQ.forwardOn(Query.universe().edges(XCSG.Contains)).nodes(XCSG.Type);
+		Q superTypeEdges = Query.universe().edges(XCSG.Supertype);
 		Q forwardTypeHierarchyQ = superTypeEdges.forward(this.getClassQ()).intersection(containedTypes).induce(superTypeEdges);
 		Q reverseTypeHierarchyQ = superTypeEdges.reverse(this.getClassQ()).intersection(containedTypes).induce(superTypeEdges);
 		Q typeHierarchyQ = forwardTypeHierarchyQ.union(reverseTypeHierarchyQ);
@@ -463,19 +465,19 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private AtlasSet<Node> getInnerClasses() {
-		return this.getClassQ().successorsOn(Common.universe().edges(XCSG.Contains)).nodes(XCSG.Java.InnerClass).eval().nodes();
+		return this.getClassQ().successorsOn(Query.universe().edges(XCSG.Contains)).nodes(XCSG.Java.InnerClass).eval().nodes();
 	}
 	
 	private AtlasSet<Node> getConstructors() {
-		return this.getClassQ().successorsOn(Common.universe().edges(XCSG.Contains)).nodes(XCSG.Constructor).eval().nodes();
+		return this.getClassQ().successorsOn(Query.universe().edges(XCSG.Contains)).nodes(XCSG.Constructor).eval().nodes();
 	}
 	
 	private AtlasSet<Node> getMethods() {
-		return this.getClassQ().successorsOn(Common.universe().edges(XCSG.Contains)).nodes(XCSG.Method).eval().nodes();
+		return this.getClassQ().successorsOn(Query.universe().edges(XCSG.Contains)).nodes(XCSG.Method).eval().nodes();
 	}
 	
 	private AtlasSet<Node> getFields() {
-		return this.getClassQ().successorsOn(Common.universe().edges(XCSG.Contains)).nodes(XCSG.Field).eval().nodes();
+		return this.getClassQ().successorsOn(Query.universe().edges(XCSG.Contains)).nodes(XCSG.Field).eval().nodes();
 	}   
 	
 	private Code getClassPropertiesElement() {
@@ -548,11 +550,11 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private Node getExtendedClassNode() {
-		return this.getClassQ().successorsOn(Common.universe().edges(XCSG.Java.Extends)).nodes(XCSG.Type).eval().nodes().one();
+		return this.getClassQ().successorsOn(Query.universe().edges(XCSG.Java.Extends)).nodes(XCSG.Type).eval().nodes().one();
 	}
 	
 	private AtlasSet<Node> getImplementedClassNodes() {
-		return this.getClassQ().successorsOn(Common.universe().edges(XCSG.Java.Implements)).nodes(XCSG.Type).eval().nodes();
+		return this.getClassQ().successorsOn(Query.universe().edges(XCSG.Java.Implements)).nodes(XCSG.Type).eval().nodes();
 	}
 	
 	private String getVisibility() {
@@ -692,7 +694,7 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private Node getReturnTypeForMethod(Node methodNode) {
-		return Common.universe().edges(XCSG.Returns).successors(Common.toQ(methodNode)).nodes(XCSG.Type).eval().nodes().one();
+		return Query.universe().edges(XCSG.Returns).successors(Common.toQ(methodNode)).nodes(XCSG.Type).eval().nodes().one();
 	}
 	
 	private AtlasSet<Node> getParametersForMethod(Node methodNode) {
@@ -709,8 +711,8 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private boolean isExternallyUsedMethod(Node methodNode) {
-		Q containsEdges = Common.universe().edges(XCSG.Contains);
-		Q callEdges = Common.universe().edges(XCSG.Call);
+		Q containsEdges = Query.universe().edges(XCSG.Contains);
+		Q callEdges = Query.universe().edges(XCSG.Call);
 		Q currentContainingClass = containsEdges.predecessors(Common.toQ(methodNode)).nodes(XCSG.Java.Class);
 		Q callers = callEdges.predecessors(Common.toQ(methodNode));
 		Q callerClasses = containsEdges.reverse(callers).nodes(XCSG.Java.Class);
@@ -737,7 +739,7 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private void generateCallHierarchyImageForMethod(String filePath, Node methodNode) {
-		Q callEdges = Common.universe().edges(XCSG.Call);
+		Q callEdges = Query.universe().edges(XCSG.Call);
 		Q callGraphQ = callEdges.forwardStep(Common.toQ(methodNode)).union(callEdges.reverseStep(Common.toQ(methodNode)));
 		callGraphQ = Common.extend(callGraphQ, XCSG.Contains);
 		Markup nodeMarkup = new Markup();
@@ -816,7 +818,7 @@ public class ClassDocumentationGenerator {
 		AtlasSet<Node> parameterNodes = this.getParametersForMethod(methodNode);
 		for(int parameterIndex = 0; parameterIndex < parameterNodes.size(); parameterIndex++) {
 			Node parameterNode = parameterNodes.filter(XCSG.parameterIndex, parameterIndex).one();
-			Node typeNode = Common.universe().edges(XCSG.TypeOf).successors(Common.toQ(parameterNode)).nodes(XCSG.Type).eval().nodes().one();
+			Node typeNode = Query.universe().edges(XCSG.TypeOf).successors(Common.toQ(parameterNode)).nodes(XCSG.Type).eval().nodes().one();
 			String fullyQualifiedClassName = typeNode.getAttr(XCSG.name).toString();
 			
 			// Parameter (parameterIndex)
@@ -927,13 +929,21 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private Div generateMethodAnnotations(Node methodNode) {
-		// TODO
-		return new Div();
+		Div commentDiv = new Div();
+		if(methodNode.hasAttr(CodeMap.Commnets)) {
+			String comment = methodNode.getAttr(CodeMap.Commnets).toString();
+			commentDiv.appendText(comment);
+		}
+		return commentDiv;
 	}
 	
 	private Div generateFieldAnnotations(Node fieldNode) {
-		// TODO
-		return new Div();
+		Div commentDiv = new Div();
+		if(fieldNode.hasAttr(CodeMap.Commnets)) {
+			String comment = fieldNode.getAttr(CodeMap.Commnets).toString();
+			commentDiv.appendText(comment);
+		}
+		return commentDiv;
 	}
 	
 	private Div generateFieldsTableSection() {
@@ -1011,11 +1021,11 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private Node getTypeForField(Node fieldNode) {
-		return Common.universe().edges(XCSG.TypeOf).successors(Common.toQ(fieldNode)).nodes(XCSG.Type).eval().nodes().one();
+		return Query.universe().edges(XCSG.TypeOf).successors(Common.toQ(fieldNode)).nodes(XCSG.Type).eval().nodes().one();
 	}
 	
 	private boolean isExternallyUsedField(Node fieldNode) {
-		Q dataFlowEdges = Common.universe().edges(XCSG.DataFlow_Edge);
+		Q dataFlowEdges = Query.universe().edges(XCSG.DataFlow_Edge);
 		Q currentContainingClass = Common.edges(XCSG.Contains).predecessors(Common.toQ(fieldNode)).nodes(XCSG.Java.Class);
 		Q forwardStepDataFlow = dataFlowEdges.forwardStep(Common.toQ(fieldNode));
 		Q reverseStepDataFlow = dataFlowEdges.reverseStep(Common.toQ(fieldNode));
@@ -1201,9 +1211,13 @@ public class ClassDocumentationGenerator {
 		return new Div();
 	}
 	
-	private String getClassUserAnnotations() {
-		// TODO
-		return StringUtils.EMPTY;
+	private Div getClassUserAnnotations() {
+		Div commentDiv = new Div();
+		if(this.getClassNode().hasAttr(CodeMap.Commnets)) {
+			String comment = this.getClassNode().getAttr(CodeMap.Commnets).toString();
+			commentDiv.appendText(comment);
+		}
+		return commentDiv;
 	}
 	
 	private String getQualifiedName() {
