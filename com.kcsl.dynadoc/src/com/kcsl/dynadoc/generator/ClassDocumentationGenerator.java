@@ -55,6 +55,7 @@ import com.hp.gagawa.java.elements.Title;
 import com.hp.gagawa.java.elements.Tr;
 import com.hp.gagawa.java.elements.Ul;
 import com.kcsl.dynadoc.Activator;
+import com.kcsl.dynadoc.Configurations;
 import com.kcsl.dynadoc.html.Nav;
 
 import static com.kcsl.dynadoc.Configurations.OUTPUT_GRAPHS_DIRECTORY_NAME;
@@ -73,22 +74,10 @@ public class ClassDocumentationGenerator {
 	
 	private static final String [] JQUERY_DATATABLES_SCRIPT_FILENAMES = { "jquery-constructors-table-script.js", "jquery-methods-table-script.js", "jquery-fields-table-script.js" };
 	
-	private Q classQ;
-	
 	private Node classNode;
 	
-	private Path outputDirectoryPath; 
-	
-	public ClassDocumentationGenerator(Q classQ, Path outputDirectoryPath) {
-		this.classQ = classQ;
-		this.outputDirectoryPath = outputDirectoryPath;
-		this.classNode = classQ.eval().nodes().one();
-	}
-	
-	public ClassDocumentationGenerator(Node classNode, Path storeDirectoryPath) {
+	public ClassDocumentationGenerator(Node classNode) {
 		this.classNode = classNode;
-		this.outputDirectoryPath = storeDirectoryPath;
-		this.classQ = Common.toQ(classNode);
 	}
 	
 	public void generate() {
@@ -102,7 +91,7 @@ public class ClassDocumentationGenerator {
 		htmlDocument.appendChild(body);
 		
 		try {
-			Path classDocHTMLFilePath = this.getStoreDirectoryPath().resolve(this.getQualifiedName() + ".html");
+			Path classDocHTMLFilePath =  Configurations.getOutputDirectoryPath().resolve(this.getQualifiedName() + ".html");
 			PrintWriter out = new PrintWriter(new FileOutputStream(classDocHTMLFilePath.toFile()));
 			out.println(htmlDocument.write());
 			out.close();
@@ -1246,23 +1235,19 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private Q getClassQ() {
-		return this.classQ;
+		return Common.toQ(this.getClassNode());
 	}
 	
 	private Node getClassNode() {
 		return this.classNode;
 	}
 	
-	private Path getStoreDirectoryPath() {
-		return this.outputDirectoryPath;
-	}
-	
 	private Path getGraphsDirectoryPath() {
-		return this.getStoreDirectoryPath().resolve(OUTPUT_GRAPHS_DIRECTORY_NAME);
+		return Configurations.getOutputDirectoryPath().resolve(OUTPUT_GRAPHS_DIRECTORY_NAME);
 	}
 	
 	private Path getResourcesDirectoryPath() {
-		return this.getStoreDirectoryPath().resolve(OUTPUT_RESOURCES_DIRECTORY_NAME);
+		return  Configurations.getOutputDirectoryPath().resolve(OUTPUT_RESOURCES_DIRECTORY_NAME);
 	}
 	
 	private String getAbsoluteFilePathString(Path containingDirectory, String fileName) {

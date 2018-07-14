@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.commons.io.FileUtils;
 import org.osgi.framework.Bundle;
 
 public class Configurations {
-
+	
+	public static final String DOCLET_QULALIFIED_NAME = "com.kcsl.doclet.JSONDoclet";
+	
 	public static final String OUTPUT_GRAPHS_DIRECTORY_NAME = "graphs";
 	
 	public static final String OUTPUT_JAVADOC_DIRECTORY_NAME = "javadoc";
@@ -22,11 +25,20 @@ public class Configurations {
 	
 	private static final String [] RESOURCES_DIRECTORY_CONTENTS_TO_BE_COPIED = { "check.svg", "details_close.png", "details_open.png", "styles.css"};
 	
-	public static void createProperOutputDirectoriesStructure(Path outputDirectoryPath) {
+	private static Path DOCLET_PROJECT_OUTPUT_DIRECTORY_PATH;
+	
+	private static Path OUTPUT_DIRECTORY_PATH;
+	
+	private static Path OUTPUT_JAVADOC_DIRECTORY_PATH;
+	
+	public static void createProperOutputDirectoriesStructure(String outputDirectory, String docletProjectOutputDirectory) {
 		// Main Output Directory/
 		// ... graphs/
 		// ... resources/
-		File mainOutputDirectory = outputDirectoryPath.toFile();
+		OUTPUT_DIRECTORY_PATH = Paths.get(outputDirectory);
+		DOCLET_PROJECT_OUTPUT_DIRECTORY_PATH = Paths.get(docletProjectOutputDirectory);
+		
+		File mainOutputDirectory = OUTPUT_DIRECTORY_PATH.toFile();
 		if(mainOutputDirectory.exists()) {
 			try {
 				FileUtils.cleanDirectory(mainOutputDirectory);
@@ -36,13 +48,14 @@ public class Configurations {
 		}else {
 			mainOutputDirectory.mkdirs();
 		}
-		File graphsDirectoryFile = outputDirectoryPath.resolve(OUTPUT_GRAPHS_DIRECTORY_NAME).toFile();
+		File graphsDirectoryFile = OUTPUT_DIRECTORY_PATH.resolve(OUTPUT_GRAPHS_DIRECTORY_NAME).toFile();
 		graphsDirectoryFile.mkdirs();
 		
-		File resourcesDirectoryFile = outputDirectoryPath.resolve(OUTPUT_RESOURCES_DIRECTORY_NAME).toFile();
+		File resourcesDirectoryFile = OUTPUT_DIRECTORY_PATH.resolve(OUTPUT_RESOURCES_DIRECTORY_NAME).toFile();
 		resourcesDirectoryFile.mkdirs();
 		
-		File javadocDirectoryFile = outputDirectoryPath.resolve(OUTPUT_JAVADOC_DIRECTORY_NAME).toFile();
+		OUTPUT_JAVADOC_DIRECTORY_PATH = OUTPUT_DIRECTORY_PATH.resolve(OUTPUT_JAVADOC_DIRECTORY_NAME);
+		File javadocDirectoryFile = OUTPUT_JAVADOC_DIRECTORY_PATH.toFile();
 		javadocDirectoryFile.mkdirs();
 		
 		// Copy stuff into resources directory
@@ -56,5 +69,17 @@ public class Configurations {
 				System.err.println("Error while copying contents of plugin resources file");
 			}
 		}		
+	}
+	
+	public static Path getDocletProjectOutputDirectoryPath() {
+		return DOCLET_PROJECT_OUTPUT_DIRECTORY_PATH;
+	}
+	
+	public static Path getOutputDirectoryPath() {
+		return OUTPUT_DIRECTORY_PATH;
+	}
+	
+	public static Path getOutputJavaDocDirectoryPath() {
+		return OUTPUT_JAVADOC_DIRECTORY_PATH;
 	}
 }

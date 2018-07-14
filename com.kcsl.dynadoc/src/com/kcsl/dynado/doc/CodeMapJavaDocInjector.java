@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,6 +25,7 @@ import com.ensoftcorp.atlas.core.query.Query;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.open.commons.analysis.CommonQueries;
+import com.kcsl.dynadoc.Configurations;
 
 import static com.kcsl.dynado.doc.JavaDocAttributes.CodeMap;
 import static com.kcsl.dynado.doc.JavaDocAttributes.JSONData;
@@ -34,13 +34,10 @@ public class CodeMapJavaDocInjector {
 	
 	private static final String JAVA_DOC_METHOD_SIGNATURE_SEPARATOR = "###";
 	
-	private Path javaDocDirectoryPath;
+	private Node projectNode;
 	
-	private Q projectQ;
-	
-	public CodeMapJavaDocInjector(Q projectQ, Path javaDocDirectoryPath) {
-		this.projectQ = projectQ;
-		this.javaDocDirectoryPath = javaDocDirectoryPath;
+	public CodeMapJavaDocInjector(Node projectNode) {
+		this.projectNode = projectNode;
 	}
 	
 	public void populate() {
@@ -51,7 +48,7 @@ public class CodeMapJavaDocInjector {
 	}
 	
 	private Collection<File> fetchJavaDocFiles() {
-		File javaDocDirectoryPathFile = this.getJavaDocDirectoryPath().toFile();
+		File javaDocDirectoryPathFile = Configurations.getOutputJavaDocDirectoryPath().toFile();
 		return FileUtils.listFiles(javaDocDirectoryPathFile, TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE);
 	}
 	
@@ -154,15 +151,11 @@ public class CodeMapJavaDocInjector {
 	}
 	
 	public Q getProjectQ() {
-		return this.projectQ;
+		return Common.toQ(this.getProjectNode());
 	}
 	
 	public Node getProjectNode() {
-		return this.projectQ.eval().nodes().one();
-	}
-	
-	public Path getJavaDocDirectoryPath() {
-		return this.javaDocDirectoryPath;
+		return this.projectNode;
 	}
 	
 }

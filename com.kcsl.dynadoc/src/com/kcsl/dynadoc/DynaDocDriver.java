@@ -1,58 +1,46 @@
 package com.kcsl.dynadoc;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-import org.eclipse.core.resources.IFile;
-
 import com.ensoftcorp.atlas.core.db.graph.Node;
-import com.ensoftcorp.atlas.core.index.common.SourceCorrespondence;
-import com.ensoftcorp.atlas.core.query.Q;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.kcsl.dynado.doc.CodeMapJavaDocInjector;
 import com.kcsl.dynado.doc.JavaDocGeneratorTask;
 import com.kcsl.dynadoc.generator.ClassDocumentationGenerator;
 
-import static com.kcsl.dynadoc.Configurations.OUTPUT_JAVADOC_DIRECTORY_NAME;
-
 public class DynaDocDriver { 
-	
-
 	
 	public static void testClass() {
 		String projectName = "ApachePOI";
 		String packageName = "org.apache.poi.xssf.usermodel";
 		String className = "XSSFWorkbook";
-		String docletProjectAbsolutePathToOutputDirectory = "/Users/ahmedtamrawi/git/dyna-doc/com.kcsl.jsondoclet/bin/";
-		
-		Path outputDirectoryPath = Paths.get("/Users/ahmedtamrawi/Desktop", "test"); 
-		Configurations.createProperOutputDirectoriesStructure(outputDirectoryPath);
-		
-		Node classNode = Common.typeSelect(packageName, className).eval().nodes().one();
-		generateClassJavaDoc(classNode, docletProjectAbsolutePathToOutputDirectory, outputDirectoryPath);
-		populateProjectCodeMapWithJavaDocs(projectName, outputDirectoryPath);
-		generateClassDocumentation(classNode, outputDirectoryPath);
+		String docletProjectOutputDirectoryAbsolutePath = "/Users/ahmedtamrawi/git/dyna-doc/com.kcsl.jsondoclet/bin/";
+		String outputDirectory = "/Users/ahmedtamrawi/Desktop/test"; 
+		generateClassDocumentation(projectName, packageName, className, docletProjectOutputDirectoryAbsolutePath, outputDirectory);
 	}
 	
-	private static void generateClassDocumentation(Node classNode, Path outputDirectoryPath) {
-		ClassDocumentationGenerator classDocumentationGenerator = new ClassDocumentationGenerator(classNode, outputDirectoryPath);
+	public static void generateClassDocumentation(String projectName, String packageName, String className, String docletProjectOutputDirectory, String outputDirectory) {
+		Node projectNode = Common.universe().nodes(XCSG.Project).selectNode(XCSG.name, projectName).eval().nodes().one();
+		Node classNode = Common.typeSelect(packageName, className).eval().nodes().one();
+		
+		Configurations.createProperOutputDirectoriesStructure(outputDirectory, docletProjectOutputDirectory);
+		
+		generateClassJavaDoc(projectNode, classNode);
+		populateProjectCodeMapWithJavaDocs(projectNode);
+		generateClassDocumentation(classNode);
+	}
+	
+	private static void generateClassJavaDoc(Node projectNode, Node classNode) {
+		JavaDocGeneratorTask.runOnClass(projectNode, classNode);
+	}
+	
+	private static void populateProjectCodeMapWithJavaDocs(Node projectNode) {
+		CodeMapJavaDocInjector codeMapJavaDocInjector = new CodeMapJavaDocInjector(projectNode);
+		codeMapJavaDocInjector.populate();
+	}
+	
+	private static void generateClassDocumentation(Node classNode) {
+		ClassDocumentationGenerator classDocumentationGenerator = new ClassDocumentationGenerator(classNode);
 		classDocumentationGenerator.generate();
 	}
 	
-	private static void generateClassJavaDoc(Node classNode, String docletProjectAbsolutePathToOutputDirectory, Path outputDirectoryPath) {
-		SourceCorrespondence classSourceCorrespondence = (SourceCorrespondence) classNode.getAttr(XCSG.sourceCorrespondence);
-		IFile classSourceFile = classSourceCorrespondence.sourceFile;
-		String classSourceFileAbsolutePath = classSourceFile.getLocation().toString();
-		String outputJavadocDirectoryAbsolutePath = outputDirectoryPath.resolve(OUTPUT_JAVADOC_DIRECTORY_NAME).toFile().getAbsolutePath();
-		JavaDocGeneratorTask.runOnClass(classSourceFileAbsolutePath, docletProjectAbsolutePathToOutputDirectory, outputJavadocDirectoryAbsolutePath);
-	}
-	
-	private static void populateProjectCodeMapWithJavaDocs(String projectName, Path outputDirectoryPath) {
-		Q projectQ = Common.universe().nodes(XCSG.Project).selectNode(XCSG.name, projectName);
-		Path javaDocDirectoryPath = outputDirectoryPath.resolve(OUTPUT_JAVADOC_DIRECTORY_NAME);
-		CodeMapJavaDocInjector codeMapJavaDocInjector = new CodeMapJavaDocInjector(projectQ, javaDocDirectoryPath);
-		codeMapJavaDocInjector.populate();
-	}
-		
 }

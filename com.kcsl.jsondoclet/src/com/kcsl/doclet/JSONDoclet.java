@@ -64,7 +64,7 @@ public final class JSONDoclet {
     }
     
     private static void generateDocumentationForJavaClasses(RootDoc rootDoc) {
-    	ClassDoc[] classDocs = rootDoc.classes();
+    	ClassDoc[] classDocs = rootDoc.specifiedClasses();
     	for(ClassDoc classDoc: classDocs) {
     		generateDocumentationForJavaClass(classDoc);
     	}
@@ -85,6 +85,7 @@ public final class JSONDoclet {
     	classJSONObject.put("class_fields", fieldsJSONObject);
     		
 		JSONObject methodsJSONObject = new JSONObject();
+		
 		ConstructorDoc[] constructorDocs = classDoc.constructors();
 		for(ConstructorDoc constructorDoc: constructorDocs) {
 			String methodSignature = formMethodSignatureWithParameterNames(constructorDoc);
@@ -102,6 +103,7 @@ public final class JSONDoclet {
     }
     
     private static String formMethodSignatureWithParameterNames(ExecutableMemberDoc methodDoc) {
+    	//TODO: probably we can plan to use {@link methodDoc#flatSignature}.
 		StringBuilder methodSignature = new StringBuilder();
 		String methodName = methodDoc.name();
 		methodSignature.append(methodName);
