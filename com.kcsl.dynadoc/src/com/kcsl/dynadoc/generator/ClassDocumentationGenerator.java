@@ -16,6 +16,7 @@ import org.apache.commons.io.IOUtils;
 import org.osgi.framework.Bundle;
 
 import com.ensoftcorp.atlas.core.db.graph.Edge;
+import com.ensoftcorp.atlas.core.db.graph.Graph;
 import com.ensoftcorp.atlas.core.db.graph.GraphElement;
 import com.ensoftcorp.atlas.core.db.graph.Node;
 import com.ensoftcorp.atlas.core.db.set.AtlasSet;
@@ -30,6 +31,9 @@ import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.atlas.ui.viewer.graph.SaveUtil;
 import com.ensoftcorp.open.commons.analysis.CommonQueries;
+import com.ensoftcorp.open.commons.highlighter.CFGHighlighter;
+import com.ensoftcorp.open.slice.analysis.DataDependenceGraph;
+import com.ensoftcorp.open.slice.analysis.DependenceGraph;
 import com.hp.gagawa.java.elements.A;
 import com.hp.gagawa.java.elements.Body;
 import com.hp.gagawa.java.elements.Br;
@@ -276,11 +280,8 @@ public class ClassDocumentationGenerator {
 			section.appendChild(classNameDiv);
 			
 			Div contentDiv = new Div();
-			contentDiv.setCSSClass("card-body text-dark");
-				P comments = new P();
-				comments.setCSSClass("card-text");
-				comments.appendChild(this.getClassUserAnnotations());
-				contentDiv.appendChild(comments);
+			contentDiv.setCSSClass("card-body text-dark small");
+			contentDiv.appendChild(this.getClassUserAnnotations());
 			section.appendChild(contentDiv);
 		
 		return section;
@@ -301,13 +302,62 @@ public class ClassDocumentationGenerator {
 				classPropertiesCard.appendChild(cardHeader);
 				
 				Div cardContent = new Div();
-				cardContent.setCSSClass("card-body bg-white text-dark");
-					P content = new P();
-					content.setCSSClass("card-text");
-					content.appendChild(this.getClassPropertiesElement());
-					cardContent.appendChild(content);
+				cardContent.setCSSClass("card-body bg-white text-dark scrollClass");
+				cardContent.appendChild(this.getClassPropertiesElement());
 				classPropertiesCard.appendChild(cardContent);
 			cardGroupDiv.appendChild(classPropertiesCard);
+			
+			// Class Hierarchy Card
+			Div classHierarchyCard = new Div();
+			classHierarchyCard.setCSSClass("card text-white bg-dark mb-3");
+			classHierarchyCard.setStyle("max-width: 27rem; margin: 10pt");
+				cardHeader = new Div();
+				cardHeader.setCSSClass("card-header");
+				cardHeader.appendText("Class Hierarchy");
+				classHierarchyCard.appendChild(cardHeader);
+				
+				cardContent = new Div();
+				cardContent.setCSSClass("card-body bg-white text-dark");
+					A imageLink = new A();
+					String classHierarchyImageFileName = this.getQualifiedName() + "-hierarchy.svg";
+					String classHierarchyImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), classHierarchyImageFileName);
+					String classHierarchyImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), classHierarchyImageFileName);
+					this.generateTypeHierarchyImage(classHierarchyImageAbsolutePath);
+					imageLink.setHref(classHierarchyImageRelativePath);
+					imageLink.setTarget("_blank");
+						Img image = new Img("Click to view full-sized image", classHierarchyImageRelativePath);
+						image.setCSSClass("img-thumbnail");
+						imageLink.appendChild(image);
+						cardContent.appendChild(imageLink);
+				classHierarchyCard.appendChild(cardContent);
+			cardGroupDiv.appendChild(classHierarchyCard);
+			
+			// Inner Classes Overview Card
+			Div classUsageCard = new Div();
+			classUsageCard.setCSSClass("card bg-warning mb-3");
+			classUsageCard.setStyle("max-width: 27rem; margin: 10pt");
+				cardHeader = new Div();
+				cardHeader.setCSSClass("card-header");
+				cardHeader.appendText("Nested Classes");
+				classUsageCard.appendChild(cardHeader);
+				
+				cardContent = new Div();
+				cardContent.setCSSClass("card-body bg-white text-dark");
+					imageLink = new A();
+
+					String classInteractionImageFileName = this.getQualifiedName() + "-interaction.svg";
+					String classInteractionImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), classInteractionImageFileName);
+					String classInteractionImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), classInteractionImageFileName);
+					
+					this.generateInteractionImage(classInteractionImageAbsolutePath);
+					imageLink.setHref(classInteractionImageRelativePath);
+					imageLink.setTarget("_blank");
+						image = new Img("Click to view full-sized image", classInteractionImageRelativePath);
+						image.setCSSClass("img-thumbnail");
+						imageLink.appendChild(image);
+						cardContent.appendChild(imageLink);
+						classUsageCard.appendChild(cardContent);			
+			cardGroupDiv.appendChild(classUsageCard);
 			
 			// Class Statistics Card
 			Div classStatisticsCard = new Div();
@@ -324,7 +374,7 @@ public class ClassDocumentationGenerator {
 						// Inner Classes Count
 						Li innerClassesLi = new Li();
 							Strong label = new Strong();
-							label.appendText("Inner Classes: ");
+							label.appendText("Nested Classes: ");
 							innerClassesLi.appendChild(label);
 							innerClassesLi.appendText(this.getInnerClasses().size() + "");
 						statsList.appendChild(innerClassesLi);
@@ -357,58 +407,6 @@ public class ClassDocumentationGenerator {
 					cardContent.appendChild(statsList);
 				classStatisticsCard.appendChild(cardContent);
 			cardGroupDiv.appendChild(classStatisticsCard);
-			
-			// Class Hierarchy Card
-			Div classHierarchyCard = new Div();
-			classHierarchyCard.setCSSClass("card text-white bg-dark mb-3");
-			classHierarchyCard.setStyle("max-width: 27rem; margin: 10pt");
-				cardHeader = new Div();
-				cardHeader.setCSSClass("card-header");
-				cardHeader.appendText("Class Hierarchy");
-				classHierarchyCard.appendChild(cardHeader);
-				
-				cardContent = new Div();
-				cardContent.setCSSClass("card-body bg-white text-dark");
-					A imageLink = new A();
-					String classHierarchyImageFileName = this.getQualifiedName() + "-hierarchy.svg";
-					String classHierarchyImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), classHierarchyImageFileName);
-					String classHierarchyImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), classHierarchyImageFileName);
-					this.generateTypeHierarchyImage(classHierarchyImageAbsolutePath);
-					imageLink.setHref(classHierarchyImageRelativePath);
-					imageLink.setTarget("_blank");
-						Img image = new Img("Click to view full-sized image", classHierarchyImageRelativePath);
-						image.setCSSClass("img-thumbnail");
-						imageLink.appendChild(image);
-						cardContent.appendChild(imageLink);
-				classHierarchyCard.appendChild(cardContent);
-			cardGroupDiv.appendChild(classHierarchyCard);
-			
-			// Class Interaction Card
-			Div classUsageCard = new Div();
-			classUsageCard.setCSSClass("card bg-warning mb-3");
-			classUsageCard.setStyle("max-width: 27rem; margin: 10pt");
-				cardHeader = new Div();
-				cardHeader.setCSSClass("card-header");
-				cardHeader.appendText("Class Interaction");
-				classUsageCard.appendChild(cardHeader);
-				
-				cardContent = new Div();
-				cardContent.setCSSClass("card-body bg-white text-dark");
-					imageLink = new A();
-
-					String classInteractionImageFileName = this.getQualifiedName() + "-interaction.svg";
-					String classInteractionImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), classInteractionImageFileName);
-					String classInteractionImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), classInteractionImageFileName);
-					
-					this.generateInteractionImage(classInteractionImageAbsolutePath);
-					imageLink.setHref(classInteractionImageRelativePath);
-					imageLink.setTarget("_blank");
-						image = new Img("Click to view full-sized image", classInteractionImageRelativePath);
-						image.setCSSClass("img-thumbnail");
-						imageLink.appendChild(image);
-						cardContent.appendChild(imageLink);
-						classUsageCard.appendChild(cardContent);			
-			cardGroupDiv.appendChild(classUsageCard);
 		
 		return cardGroupDiv;
 	}
@@ -449,8 +447,79 @@ public class ClassDocumentationGenerator {
 		}
 	}
 	
+	private Q classInteraction() {
+		Q containEdges = Query.universe().edges(XCSG.Contains);
+		Q projectQ = Common.toQ(CommonQueries.getContainingNode(this.getClassNode(), XCSG.Project));
+		Q projectClasses = containEdges.forward(projectQ).nodes(XCSG.Type);
+		
+		
+		Q testClasses = CommonQueries.nodesAttributeValuesStartingWith(XCSG.name, "Test").nodes(XCSG.Type);
+		
+		Q interactsEdges = Query.universe().edges("interacts");
+		AtlasSet<Edge> interactionEdges = interactsEdges.eval().edges();
+		List<Edge> edges = new ArrayList<Edge>();
+		for(Edge edge: interactionEdges) {
+			edges.add(edge);	
+		}
+		
+		for(Edge edge: edges) {
+			Graph.U.delete(edge);
+		}
+		
+		Q classQ = this.getClassQ();
+		Q callEdges = Query.universe().edges(XCSG.Call);
+		
+		
+		Q classMethods = Common.toQ(this.getMethods());
+		
+		Q calledMethodsByOurClassMethods = callEdges.successors(classMethods);
+		Q containingClassesForCalledMethods = containEdges.predecessors(calledMethodsByOurClassMethods).nodes(XCSG.Type);
+		containingClassesForCalledMethods = containingClassesForCalledMethods.difference(testClasses.union(classQ));
+		containingClassesForCalledMethods = containingClassesForCalledMethods.intersection(projectClasses);
+		containingClassesForCalledMethods = Common.empty();
+		AtlasSet<Node> classNodes = containingClassesForCalledMethods.eval().nodes();
+		for(Node classNode: classNodes) {
+			Edge newEdge = Graph.U.createEdge(this.getClassNode(), classNode);
+			newEdge.tag("interacts");
+			newEdge.tag(XCSG.Edge);
+		}
+		
+		Q methodsCallingOutClassMethods = callEdges.predecessors(classMethods);
+		Q containingClassesForCallingMethods = containEdges.predecessors(methodsCallingOutClassMethods).nodes(XCSG.Type);
+		containingClassesForCallingMethods = containingClassesForCallingMethods.difference(testClasses.union(classQ));
+		containingClassesForCallingMethods = containingClassesForCallingMethods.intersection(projectClasses);
+		classNodes = containingClassesForCallingMethods.eval().nodes();
+		for(Node classNode: classNodes) {
+			Edge newEdge = Graph.U.createEdge(classNode, this.getClassNode());
+			newEdge.tag("interacts");
+			newEdge.tag(XCSG.Edge);
+		}
+		
+		interactsEdges = Query.universe().edges("interacts");
+		Q interactionClassQ = containingClassesForCalledMethods.union(containingClassesForCallingMethods).union(this.getClassQ()).induce(interactsEdges);
+		return interactionClassQ;
+	}
+	
+	private void deleteInteractionEdges() {
+		Q interactsEdges = Query.universe().edges("interacts");
+		AtlasSet<Edge> interactionEdges = interactsEdges.eval().edges();
+		List<Edge> edges = new ArrayList<Edge>();
+		for(Edge edge: interactionEdges) {
+			edges.add(edge);	
+		}
+		
+		for(Edge edge: edges) {
+			Graph.U.delete(edge);
+		}
+	}
+	
 	private void generateInteractionImage(String filePath) {
-		// TODO
+		Q containsEdges = Query.universe().edges(XCSG.Contains);
+		Q containmentGraphQ = containsEdges.forward(this.getClassQ()).nodes(XCSG.Type).induce(containsEdges);
+		containmentGraphQ = Common.extend(containmentGraphQ, XCSG.Contains);
+		Markup markup = new Markup();
+		markup.set(this.getClassQ(), MarkupProperty.NODE_BACKGROUND_COLOR, Color.YELLOW);
+		this.saveGraph(filePath, containmentGraphQ, markup);
 	}
 	
 	private AtlasSet<Node> getInnerClasses() {
@@ -462,80 +531,111 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private AtlasSet<Node> getMethods() {
-		return this.getClassQ().successorsOn(Query.universe().edges(XCSG.Contains)).nodes(XCSG.Method).eval().nodes();
+		Q classMethods = this.getClassQ().successorsOn(Query.universe().edges(XCSG.Contains)).nodes(XCSG.Method);
+		Q initMethods = classMethods.selectNode(XCSG.name, "<init>").union(classMethods.selectNode(XCSG.name, "<clinit>"));
+		return classMethods.difference(initMethods).eval().nodes();
 	}
 	
 	private AtlasSet<Node> getFields() {
 		return this.getClassQ().successorsOn(Query.universe().edges(XCSG.Contains)).nodes(XCSG.Field).eval().nodes();
 	}   
 	
-	private Code getClassPropertiesElement() {
-		Code code = new Code();
+	private Ul getClassPropertiesElement() {
 		
-		code.appendText(this.getVisibility());
-		code.appendText(" ");
+		Ul list = new Ul();
+		list.setStyle("margin: 5; padding: 0");
 		
-		if(this.isStatic()) {
-			code.appendText("static");
-			code.appendText(" ");
-		}
+			Li hierarchyLi = new Li();
+				Strong hierarchyTag = new Strong();
+				hierarchyTag.appendText("Hierarchy:");
+			hierarchyLi.appendChild(hierarchyTag);
+		list.appendChild(hierarchyLi);
 		
-		if(this.isFinal()) {
-			code.appendText("final");
-			code.appendText(" ");
-		}	
-		
-		if(this.isAbstract()) {
-			code.appendText("abstract");
-			code.appendText(" ");
-		}
-		
-		if(this.isInterface()) {
-			code.appendText("interface");
-			code.appendText(" ");
-		}
-		
-		if(this.isEnum()) {
-			code.appendText("enum");
-			code.appendText(" ");
-		}
-		
-		if(!this.isEnum() && !this.isInterface()) {
-			code.appendText("class");
-			code.appendText(" ");
-		}
-		
-			A classLink = new A();
-			classLink.setHref("#");
-			classLink.appendText(this.getName());
-			code.appendChild(classLink);
+			Code code = new Code();
+			
+			code.appendText(this.getVisibility());
 			code.appendText(" ");
 			
-		Node extendedClassNode = this.getExtendedClassNode();
-		if(extendedClassNode != null) {
-			code.appendText("extends");
-			code.appendText(" ");
-				A extendedClassLink = new A();
-				extendedClassLink.setHref("#");
-				extendedClassLink.appendText(extendedClassNode.getAttr(XCSG.name).toString());
-				code.appendChild(extendedClassLink);
-				code.appendText(" ");
-		}
-		
-		AtlasSet<Node> implementedClassNodes = this.getImplementedClassNodes();
-		if(!implementedClassNodes.isEmpty()) {
-			code.appendText("implements");
-			code.appendText(" ");
-			for(Node implementedClassNode: implementedClassNodes) {
-				A implementedClassLink = new A();
-				implementedClassLink.setHref("#");
-				implementedClassLink.appendText(implementedClassNode.getAttr(XCSG.name).toString());
-				code.appendChild(implementedClassLink);
+			if(this.isStatic()) {
+				code.appendText("static");
 				code.appendText(" ");
 			}
-		}
+			
+			if(this.isFinal()) {
+				code.appendText("final");
+				code.appendText(" ");
+			}	
+			
+			if(this.isAbstract()) {
+				code.appendText("abstract");
+				code.appendText(" ");
+			}
+			
+			if(this.isInterface()) {
+				code.appendText("interface");
+				code.appendText(" ");
+			}
+			
+			if(this.isEnum()) {
+				code.appendText("enum");
+				code.appendText(" ");
+			}
+			
+			if(!this.isEnum() && !this.isInterface()) {
+				code.appendText("class");
+				code.appendText(" ");
+			}
+			
+				A classLink = new A();
+				classLink.setHref("#");
+				classLink.appendText(this.getName());
+				code.appendChild(classLink);
+				code.appendText(" ");
+				
+			Node extendedClassNode = this.getExtendedClassNode();
+			if(extendedClassNode != null) {
+				code.appendText("extends");
+				code.appendText(" ");
+					A extendedClassLink = new A();
+					extendedClassLink.setHref("#");
+					extendedClassLink.appendText(extendedClassNode.getAttr(XCSG.name).toString());
+					code.appendChild(extendedClassLink);
+					code.appendText(" ");
+			}
+			
+			AtlasSet<Node> implementedClassNodes = this.getImplementedClassNodes();
+			if(!implementedClassNodes.isEmpty()) {
+				code.appendText("implements");
+				code.appendText(" ");
+				for(Node implementedClassNode: implementedClassNodes) {
+					A implementedClassLink = new A();
+					implementedClassLink.setHref("#");
+					implementedClassLink.appendText(implementedClassNode.getAttr(XCSG.name).toString());
+					code.appendChild(implementedClassLink);
+					code.appendText(" ");
+				}
+			}
+		list.appendChild(code);
 		
-		return code;
+			Li nestedClassesLi = new Li();
+				Strong nestedClassesTag = new Strong();
+				nestedClassesTag.appendText("Nested Classes:");
+			nestedClassesLi.appendChild(nestedClassesTag);
+		list.appendChild(nestedClassesLi);
+		
+		AtlasSet<Node> nestedClasses = this.getInnerClasses();
+			Ul nestedClassesList = new Ul();
+			list.setStyle("margin: 5; padding: 0");
+			for(Node nestedClass: nestedClasses) {
+				Li nestedClassLi = new Li();
+					Code classCode = new Code();
+					classCode.appendText(nestedClass.getAttr(XCSG.name).toString());
+				nestedClassLi.appendChild(classCode);
+				nestedClassesList.appendChild(nestedClassLi);
+			}
+		
+		list.appendChild(nestedClassesList);
+		return list;
 	}
 	
 	private Node getExtendedClassNode() {
@@ -711,21 +811,11 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private void generateCFGImageForMethod(String filePath, Node methodNode) {
-		Q cfgQ = CommonQueries.cfg(methodNode);
+		Q cfgQ = CommonQueries.excfg(methodNode);
 		cfgQ = Common.extend(cfgQ, XCSG.Contains);
-		Markup labelEdgesMarkup = new Markup() {
-			@Override
-			public PropertySet get(GraphElement element) {
-				if (element instanceof Edge) {
-					if (element.taggedWith(XCSG.ControlFlow_Edge) && element.hasAttr(XCSG.conditionValue)) {
-						return new PropertySet().set(MarkupProperty.LABEL_TEXT, element.getAttr(XCSG.conditionValue).toString());
-					}
-				}
-				return new PropertySet();
-			}
-		};
-		UnionMarkup markup = new UnionMarkup(Arrays.asList(labelEdgesMarkup));
-		this.saveGraph(filePath, cfgQ, markup);
+		Markup m = new Markup();
+		CFGHighlighter.applyHighlightsForCFG(m);
+		this.saveGraph(filePath, cfgQ, m );
 	}
 	
 	private void generateCallHierarchyImageForMethod(String filePath, Node methodNode) {
@@ -739,11 +829,50 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private void generateUsageImageForMethod(String filePath, Node methodNode) {
-		// TODO
+		DataDependenceGraph dataDependenceGraph = DependenceGraph.Factory.buildDDG(methodNode);
+		Q dataDependenceGraphQ = dataDependenceGraph.getGraph();
+		Q methodParameters = Common.toQ(this.getParametersForMethod(methodNode));
+		if(!methodParameters.eval().nodes().isEmpty()) {
+			dataDependenceGraphQ = dataDependenceGraphQ.forward(methodParameters);
+		}
+		dataDependenceGraphQ = Common.extend(dataDependenceGraphQ, XCSG.Contains);
+		Markup labelEdgesMarkup = new Markup() {
+			@Override
+			public PropertySet get(GraphElement element) {
+				if (element instanceof Edge && element.taggedWith(DataDependenceGraph.DATA_DEPENDENCE_EDGE)) {
+					return new PropertySet().set(MarkupProperty.LABEL_TEXT, DataDependenceGraph.DATA_DEPENDENCE_EDGE);
+				}
+				return new PropertySet();
+			}
+		};
+		Markup nodeMarkup = new Markup();
+		nodeMarkup.set(methodParameters, MarkupProperty.NODE_BACKGROUND_COLOR, Color.YELLOW);
+		UnionMarkup markup = new UnionMarkup(Arrays.asList(nodeMarkup, labelEdgesMarkup));
+		this.saveGraph(filePath, dataDependenceGraphQ, markup);
 	}
 	
 	private void generateUsageImageForField(String filePath, Node fieldNode) {
-		// TODO
+		Q dataFlowEdges = Query.universe().edges(XCSG.DataFlow_Edge);
+		Q fieldQ = Common.toQ(fieldNode);
+		Q dataFlowGraphQ = dataFlowEdges.forwardStep(fieldQ).union(dataFlowEdges.reverseStep(fieldQ));
+		dataFlowGraphQ = Common.extend(dataFlowGraphQ, XCSG.Contains);
+		Markup labelEdgesMarkup = new Markup() {
+			@Override
+			public PropertySet get(GraphElement element) {
+				if (element instanceof Edge) {
+					if(element.taggedWith(XCSG.LocalDataFlow)) {
+						return new PropertySet().set(MarkupProperty.LABEL_TEXT, "local-dataflow");
+					}else if(element.taggedWith(XCSG.InterproceduralDataFlow)) {
+						return new PropertySet().set(MarkupProperty.LABEL_TEXT, "inter-dataflow");
+					}
+				}
+				return new PropertySet();
+			}
+		};
+		Markup nodeMarkup = new Markup();
+		nodeMarkup.set(fieldNode, MarkupProperty.NODE_BACKGROUND_COLOR, Color.YELLOW);
+		UnionMarkup markup = new UnionMarkup(Arrays.asList(nodeMarkup, labelEdgesMarkup));
+		this.saveGraph(filePath, dataFlowGraphQ, markup);
 	}
 	
 	private String getUniqueMethodName(Node methodNode) {
@@ -898,6 +1027,7 @@ public class ClassDocumentationGenerator {
 		
 		this.generateUsageImageForMethod(usageImageAbsolutePath, methodNode);
 		link.setHref(usageImageRelativePath);
+		link.setTarget("_blank");
 		link.setAttribute("role", "button");
 		link.setAttribute("class", "btn btn-primary");
 		link.appendText("Show");
@@ -938,7 +1068,7 @@ public class ClassDocumentationGenerator {
 	
 	private Div generateFieldsTableSection() {
 		Div fieldsTableDiv = new Div();
-		fieldsTableDiv.setCSSClass("card text-white bg-primary mb-3");
+		fieldsTableDiv.setCSSClass("card text-white bg-secondary mb-3");
 		fieldsTableDiv.setStyle("max-width: 98%; margin: 10pt");
 		
 			Div cardHeader = new Div();
@@ -1016,7 +1146,7 @@ public class ClassDocumentationGenerator {
 	
 	private boolean isExternallyUsedField(Node fieldNode) {
 		Q dataFlowEdges = Query.universe().edges(XCSG.DataFlow_Edge);
-		Q currentContainingClass = Common.edges(XCSG.Contains).predecessors(Common.toQ(fieldNode)).nodes(XCSG.Java.Class);
+		Q currentContainingClass = this.getClassQ();
 		Q forwardStepDataFlow = dataFlowEdges.forwardStep(Common.toQ(fieldNode));
 		Q reverseStepDataFlow = dataFlowEdges.reverseStep(Common.toQ(fieldNode));
 		Q surroundingDataFlowOneStep = forwardStepDataFlow.union(reverseStepDataFlow);
@@ -1095,6 +1225,7 @@ public class ClassDocumentationGenerator {
 		
 		this.generateUsageImageForField(usageImageAbsolutePath, fieldNode);
 		link.setHref(usageImageRelativePath);
+		link.setTarget("_blank");
 		link.setAttribute("role", "button");
 		link.setAttribute("class", "btn btn-primary");
 		link.appendText("Show");
@@ -1117,7 +1248,7 @@ public class ClassDocumentationGenerator {
 	
 	private Div generateMethodsTableSection() {
 		Div methodsTableDiv = new Div();
-		methodsTableDiv.setCSSClass("card text-white bg-primary mb-3");
+		methodsTableDiv.setCSSClass("card text-white bg-info mb-3");
 		methodsTableDiv.setStyle("max-width: 98%; margin: 10pt");
 		
 			Div cardHeader = new Div();
