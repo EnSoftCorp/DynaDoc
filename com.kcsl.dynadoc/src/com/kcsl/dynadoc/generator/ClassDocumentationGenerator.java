@@ -16,7 +16,6 @@ import org.apache.commons.io.IOUtils;
 import org.osgi.framework.Bundle;
 
 import com.ensoftcorp.atlas.core.db.graph.Edge;
-import com.ensoftcorp.atlas.core.db.graph.Graph;
 import com.ensoftcorp.atlas.core.db.graph.GraphElement;
 import com.ensoftcorp.atlas.core.db.graph.Node;
 import com.ensoftcorp.atlas.core.db.set.AtlasSet;
@@ -46,7 +45,6 @@ import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Link;
 import com.hp.gagawa.java.elements.Meta;
 import com.hp.gagawa.java.elements.Ol;
-import com.hp.gagawa.java.elements.P;
 import com.hp.gagawa.java.elements.Script;
 import com.hp.gagawa.java.elements.Strong;
 import com.hp.gagawa.java.elements.Table;
@@ -58,6 +56,7 @@ import com.hp.gagawa.java.elements.Thead;
 import com.hp.gagawa.java.elements.Title;
 import com.hp.gagawa.java.elements.Tr;
 import com.hp.gagawa.java.elements.Ul;
+import com.kcsl.dynado.doc.JavaDocAttributes;
 import com.kcsl.dynadoc.Activator;
 import com.kcsl.dynadoc.Configurations;
 import com.kcsl.dynadoc.html.Nav;
@@ -70,11 +69,27 @@ import static com.kcsl.dynado.doc.JavaDocAttributes.CodeMap;
 
 public class ClassDocumentationGenerator {
 
-	private static final String [] CONSTRUCTORS_TABLE_HEADERS = { "Visibility", "Static", "Return", "Name", "Parameters", "Abstract", "Override", "External Use", "CFG", "Call", "Usage"};
+	private static final String CONSTRUCTORS_SECTION_HEADER = "Constructor Summary";
+	
+	private static final String METHODS_SECTION_HEADER = "Method Summary";
+	
+	private static final String FIELDS_SECTION_HEADER = "Field Summary";
+	
+	private static final String ISSUES_SECTION_HEADER = "Issue Summary";
+	
+	private static final String COMMIT_SECTION_HEADER = "Revision Control Summary";
+	
+	private static final String CALL_GRAPH_FILE_NAME_TEMPLATE = "%s-call.svg";
+	
+	private static final String CFG_GRAPH_FILE_NAME_TEMPLATE = "%s-cfg.svg";
+	
+	private static final String DATA_DEPENDENCY_GRAPH_FILE_NAME_TEMPLATE = "%s-ddg.svg";
+	
+	private static final String [] CONSTRUCTORS_TABLE_HEADERS = { "Visibility", "Name", "Parameters", "Deprecated", "External Use", "CFG", "Call", "DDG"};
 
-	private static final String [] METHODS_TABLE_HEADERS = { "Visibility", "Static", "Return", "Name", "Parameters", "Abstract", "Override", "External Use", "CFG", "Call", "Usage"};
+	private static final String [] METHODS_TABLE_HEADERS = { "Visibility", "Return", "Name", "Parameters", "Static", "Instance", "Concrete", "Deprecated", "External Use", "CFG", "Call", "DDG"};
 
-	private static final String [] FIELDS_TABLE_HEADERS = { "Visibility", "Static", "Final", "Type", "Name", "External Use", "Usage"};
+	private static final String [] FIELDS_TABLE_HEADERS = { "Visibility", "Type", "Name", "Static", "Instance", "Final", "Deprecated", "External Use", "Data Flow"};
 	
 	private static final String [] JQUERY_DATATABLES_SCRIPT_FILENAMES = { "jquery-constructors-table-script.js", "jquery-methods-table-script.js", "jquery-fields-table-script.js" };
 	
@@ -239,9 +254,6 @@ public class ClassDocumentationGenerator {
 		
 		Div revisionControlSummarySection = this.generateRevisionControlSummarySection();
 		body.appendChild(revisionControlSummarySection);
-		
-		Div discussionSection = this.generateDiscussionSection();
-		body.appendChild(discussionSection);
 		
 		return body;
 	}
@@ -447,72 +459,6 @@ public class ClassDocumentationGenerator {
 		}
 	}
 	
-	private Q classInteraction() {
-		Q containEdges = Query.universe().edges(XCSG.Contains);
-		Q projectQ = Common.toQ(CommonQueries.getContainingNode(this.getClassNode(), XCSG.Project));
-		Q projectClasses = containEdges.forward(projectQ).nodes(XCSG.Type);
-		
-		
-		Q testClasses = CommonQueries.nodesAttributeValuesStartingWith(XCSG.name, "Test").nodes(XCSG.Type);
-		
-		Q interactsEdges = Query.universe().edges("interacts");
-		AtlasSet<Edge> interactionEdges = interactsEdges.eval().edges();
-		List<Edge> edges = new ArrayList<Edge>();
-		for(Edge edge: interactionEdges) {
-			edges.add(edge);	
-		}
-		
-		for(Edge edge: edges) {
-			Graph.U.delete(edge);
-		}
-		
-		Q classQ = this.getClassQ();
-		Q callEdges = Query.universe().edges(XCSG.Call);
-		
-		
-		Q classMethods = Common.toQ(this.getMethods());
-		
-		Q calledMethodsByOurClassMethods = callEdges.successors(classMethods);
-		Q containingClassesForCalledMethods = containEdges.predecessors(calledMethodsByOurClassMethods).nodes(XCSG.Type);
-		containingClassesForCalledMethods = containingClassesForCalledMethods.difference(testClasses.union(classQ));
-		containingClassesForCalledMethods = containingClassesForCalledMethods.intersection(projectClasses);
-		containingClassesForCalledMethods = Common.empty();
-		AtlasSet<Node> classNodes = containingClassesForCalledMethods.eval().nodes();
-		for(Node classNode: classNodes) {
-			Edge newEdge = Graph.U.createEdge(this.getClassNode(), classNode);
-			newEdge.tag("interacts");
-			newEdge.tag(XCSG.Edge);
-		}
-		
-		Q methodsCallingOutClassMethods = callEdges.predecessors(classMethods);
-		Q containingClassesForCallingMethods = containEdges.predecessors(methodsCallingOutClassMethods).nodes(XCSG.Type);
-		containingClassesForCallingMethods = containingClassesForCallingMethods.difference(testClasses.union(classQ));
-		containingClassesForCallingMethods = containingClassesForCallingMethods.intersection(projectClasses);
-		classNodes = containingClassesForCallingMethods.eval().nodes();
-		for(Node classNode: classNodes) {
-			Edge newEdge = Graph.U.createEdge(classNode, this.getClassNode());
-			newEdge.tag("interacts");
-			newEdge.tag(XCSG.Edge);
-		}
-		
-		interactsEdges = Query.universe().edges("interacts");
-		Q interactionClassQ = containingClassesForCalledMethods.union(containingClassesForCallingMethods).union(this.getClassQ()).induce(interactsEdges);
-		return interactionClassQ;
-	}
-	
-	private void deleteInteractionEdges() {
-		Q interactsEdges = Query.universe().edges("interacts");
-		AtlasSet<Edge> interactionEdges = interactsEdges.eval().edges();
-		List<Edge> edges = new ArrayList<Edge>();
-		for(Edge edge: interactionEdges) {
-			edges.add(edge);	
-		}
-		
-		for(Edge edge: edges) {
-			Graph.U.delete(edge);
-		}
-	}
-	
 	private void generateInteractionImage(String filePath) {
 		Q containsEdges = Query.universe().edges(XCSG.Contains);
 		Q containmentGraphQ = containsEdges.forward(this.getClassQ()).nodes(XCSG.Type).induce(containsEdges);
@@ -531,7 +477,7 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private AtlasSet<Node> getMethods() {
-		Q classMethods = this.getClassQ().successorsOn(Query.universe().edges(XCSG.Contains)).nodes(XCSG.Method);
+		Q classMethods = Query.universe().edges(XCSG.Contains).successors(this.getClassQ()).nodes(XCSG.Method);
 		Q initMethods = classMethods.selectNode(XCSG.name, "<init>").union(classMethods.selectNode(XCSG.name, "<clinit>"));
 		return classMethods.difference(initMethods).eval().nodes();
 	}
@@ -691,7 +637,7 @@ public class ClassDocumentationGenerator {
 		
 			Div cardHeader = new Div();
 			cardHeader.setCSSClass("card-header");
-			cardHeader.appendText("Constrcutors Summary");
+			cardHeader.appendText(CONSTRUCTORS_SECTION_HEADER);
 			
 				Div cardContent = new Div();
 				cardContent.setCSSClass("card-body bg-white text-dark");
@@ -721,7 +667,7 @@ public class ClassDocumentationGenerator {
 						Tbody tBody = new Tbody();
 						AtlasSet<Node> constructors = this.getConstructors();
 							for(Node constructor: constructors) {
-								Tr constructorRow = this.constructMethodRow(constructor);
+								Tr constructorRow = this.constructConstructorRow(constructor);
 								tBody.appendChild(constructorRow);
 							}
 						table.appendChild(tBody);
@@ -791,13 +737,12 @@ public class ClassDocumentationGenerator {
 		return CommonQueries.functionParameter(Common.toQ(methodNode)).eval().nodes();
 	}
 	
-	private boolean isAbstractMethod(Node methodNode) {
-		return methodNode.taggedWith(XCSG.abstractMethod);
+	private boolean isConcreteMethod(Node methodNode) {
+		return !methodNode.taggedWith(XCSG.abstractMethod);
 	}
 	
-	private boolean isOverridingMethod(Node methodNode) {
-		// TODO:
-		return false;
+	private boolean isMethodDeprecated(Node methodNode) {
+		return methodNode.taggedWith(JavaDocAttributes.CodeMap.Tags.Deprecated);
 	}
 	
 	private boolean isExternallyUsedMethod(Node methodNode) {
@@ -883,7 +828,7 @@ public class ClassDocumentationGenerator {
 		return this.getQualifiedName() + "-" + fieldNode.getAttr(XCSG.name);
 	}
 	
-	private Tr constructMethodRow(Node methodNode) {
+	private Tr constructConstructorRow(Node methodNode) {
 		List<Td> columns = new ArrayList<Td>();
 		
 		// Expand Column
@@ -898,12 +843,136 @@ public class ClassDocumentationGenerator {
 		accessorColumn.appendChild(code);
 		columns.add(accessorColumn);
 		
-		// Static Column
-		Td staticColumn = new Td();
-		if(methodNode.taggedWith(XCSG.ClassMethod) || methodNode.taggedWith("static")) {
-			staticColumn.appendChild(this.getTickImage());
+		
+		// Name Column
+		Td nameColumn = new Td();
+		code = new Code();
+		code.appendText(methodNode.getAttr(XCSG.name).toString());
+		nameColumn.appendChild(code);
+		columns.add(nameColumn);
+		
+		// Parameters Column
+		Td parametersColumn = new Td();
+		parametersColumn.setStyle("white-space:nowrap");
+		AtlasSet<Node> parameterNodes = this.getParametersForMethod(methodNode);
+		for(int parameterIndex = 0; parameterIndex < parameterNodes.size(); parameterIndex++) {
+			Node parameterNode = parameterNodes.filter(XCSG.parameterIndex, parameterIndex).one();
+			Node typeNode = Query.universe().edges(XCSG.TypeOf).successors(Common.toQ(parameterNode)).nodes(XCSG.Type).eval().nodes().one();
+			String fullyQualifiedClassName = typeNode.getAttr(XCSG.name).toString();
+			
+			// Parameter (parameterIndex)
+			Code parameter1 = new Code();
+			if(typeNode.taggedWith(XCSG.Primitive)) {
+				parameter1.appendText(fullyQualifiedClassName);
+			}else {
+				A link1 = new A();
+				link1.setHref("#");
+				link1.appendText(fullyQualifiedClassName);
+				parameter1.appendChild(link1);
+			}
+			parameter1.appendText(" " + parameterNode.getAttr(XCSG.name));
+			parametersColumn.appendChild(parameter1);
+			if(parameterIndex < parameterNodes.size() - 1) {
+				parametersColumn.appendChild(new Br());
+			}
 		}
-		columns.add(staticColumn);
+		columns.add(parametersColumn);
+		
+		// Deprecated Column
+		Td deprecatedColumn = new Td();
+		if(this.isMethodDeprecated(methodNode)) {
+			deprecatedColumn.appendChild(this.getTickImage());
+		}
+		columns.add(deprecatedColumn);
+		
+		// Externally Used Column
+		Td externalColumn = new Td();
+		if(this.isExternallyUsedMethod(methodNode)) {
+			externalColumn.appendChild(this.getTickImage());
+		}
+		columns.add(externalColumn);
+		
+		// CFG Column
+		Td cfgColumn = new Td();
+		A CFGlink = new A();
+		
+		String cfgImageFileName = String.format(CFG_GRAPH_FILE_NAME_TEMPLATE, this.getUniqueMethodName(methodNode));
+		String cfgImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), cfgImageFileName);
+		String cfgImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), cfgImageFileName);
+		
+		
+		this.generateCFGImageForMethod(cfgImageAbsolutePath, methodNode);
+		CFGlink.setHref(cfgImageRelativePath);
+		CFGlink.setTarget("_blank");
+		CFGlink.setAttribute("role", "button");
+		CFGlink.setAttribute("class", "btn btn-success");
+		CFGlink.appendText("Show");
+		cfgColumn.appendChild(CFGlink);
+		columns.add(cfgColumn);
+		
+		
+		// Call Hierarchy Column
+		Td callColumn = new Td();
+		A link = new A();
+		
+		String callImageFileName = String.format(CALL_GRAPH_FILE_NAME_TEMPLATE, this.getUniqueMethodName(methodNode));
+		String callImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), callImageFileName);
+		String callImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), callImageFileName);
+		
+		this.generateCallHierarchyImageForMethod(callImageAbsolutePath, methodNode);
+		link.setHref(callImageRelativePath);
+		link.setTarget("_blank");
+		link.setAttribute("role", "button");
+		link.setAttribute("class", "btn btn-success");
+		link.appendText("Show");
+		callColumn.appendChild(link);
+		columns.add(callColumn);
+		
+		// Usage Example Column
+		Td usageExampleColumn = new Td();
+		link = new A();
+		
+		String usageImageFileName = String.format(DATA_DEPENDENCY_GRAPH_FILE_NAME_TEMPLATE, this.getUniqueMethodName(methodNode));
+		String usageImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), usageImageFileName);
+		String usageImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), usageImageFileName);
+		
+		this.generateUsageImageForMethod(usageImageAbsolutePath, methodNode);
+		link.setHref(usageImageRelativePath);
+		link.setTarget("_blank");
+		link.setAttribute("role", "button");
+		link.setAttribute("class", "btn btn-primary");
+		link.appendText("Show");
+		usageExampleColumn.appendChild(link);
+		columns.add(usageExampleColumn);
+		
+		// User Comments Column
+		Td userCommentsColumn = new Td();
+		userCommentsColumn.setAttribute("style", "display:none;");
+		Div container = this.generateMethodAnnotations(methodNode);
+		userCommentsColumn.appendChild(container);
+		columns.add(userCommentsColumn);
+		
+		Tr methodRow = new Tr();
+		for(Td column : columns) {
+			methodRow.appendChild(column);
+		}
+		return methodRow;
+	}
+	
+	private Tr constructMethodRow(Node methodNode) {
+		List<Td> columns = new ArrayList<Td>();
+		
+		// Expand Column
+		Td expandColumn = new Td();
+		expandColumn.setCSSClass("details-control");
+		columns.add(expandColumn);
+		
+		// Visibility Column
+		Td accessorColumn = new Td();
+		Code code = new Code();
+		code.appendText(this.getMethodVisibility(methodNode));
+		accessorColumn.appendChild(code);
+		columns.add(accessorColumn);
 		
 		// Return Type Column
 		Td returnTypeColumn = new Td();
@@ -924,7 +993,6 @@ public class ClassDocumentationGenerator {
 		returnTypeColumn.appendChild(code);
 		columns.add(returnTypeColumn);
 		
-		
 		// Name Column
 		Td nameColumn = new Td();
 		code = new Code();
@@ -934,6 +1002,7 @@ public class ClassDocumentationGenerator {
 		
 		// Parameters Column
 		Td parametersColumn = new Td();
+		parametersColumn.setStyle("white-space:nowrap");
 		AtlasSet<Node> parameterNodes = this.getParametersForMethod(methodNode);
 		for(int parameterIndex = 0; parameterIndex < parameterNodes.size(); parameterIndex++) {
 			Node parameterNode = parameterNodes.filter(XCSG.parameterIndex, parameterIndex).one();
@@ -958,21 +1027,36 @@ public class ClassDocumentationGenerator {
 		}
 		columns.add(parametersColumn);
 
-		
-		// Abstract
-		Td abstractColumn = new Td();
-		if(this.isAbstractMethod(methodNode)) {
-			abstractColumn.appendChild(this.getTickImage());
+		// Static Column
+		Td staticColumn = new Td();
+		boolean staticMethod = methodNode.taggedWith(XCSG.ClassMethod) || methodNode.taggedWith("static");
+		if(staticMethod) {
+			staticColumn.appendChild(this.getTickImage());
 		}
-		columns.add(abstractColumn);
+		columns.add(staticColumn);
 		
-		
-		// Override
-		Td overrideColumn = new Td();
-		if(this.isOverridingMethod(methodNode)) {
-			overrideColumn.appendChild(this.getTickImage());
+		// Instance Column
+		Td instanceColumn = new Td();
+		boolean instanceMethod = methodNode.taggedWith(XCSG.InstanceMethod) || !staticMethod;
+		if(instanceMethod) {
+			instanceColumn.appendChild(this.getTickImage());
 		}
-		columns.add(overrideColumn);
+		columns.add(instanceColumn);
+				
+		// Concrete
+		Td concreteMethod = new Td();
+		if(this.isConcreteMethod(methodNode)) {
+			concreteMethod.appendChild(this.getTickImage());
+		}
+		columns.add(concreteMethod);
+		
+		// Deprecated Column
+		Td deprecatedColumn = new Td();
+		if(this.isMethodDeprecated(methodNode)) {
+			deprecatedColumn.appendChild(this.getTickImage());
+		}
+		columns.add(deprecatedColumn);
+		
 		
 		// Externally Used Column
 		Td externalColumn = new Td();
@@ -985,7 +1069,7 @@ public class ClassDocumentationGenerator {
 		Td cfgColumn = new Td();
 		A CFGlink = new A();
 		
-		String cfgImageFileName = this.getUniqueMethodName(methodNode) + "-cfg.svg";
+		String cfgImageFileName = String.format(CFG_GRAPH_FILE_NAME_TEMPLATE, this.getUniqueMethodName(methodNode));;
 		String cfgImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), cfgImageFileName);
 		String cfgImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), cfgImageFileName);
 		
@@ -1004,7 +1088,7 @@ public class ClassDocumentationGenerator {
 		Td callColumn = new Td();
 		A link = new A();
 		
-		String callImageFileName = this.getUniqueMethodName(methodNode) + "-call.svg";
+		String callImageFileName = String.format(CALL_GRAPH_FILE_NAME_TEMPLATE, this.getUniqueMethodName(methodNode));
 		String callImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), callImageFileName);
 		String callImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), callImageFileName);
 		
@@ -1021,7 +1105,7 @@ public class ClassDocumentationGenerator {
 		Td usageExampleColumn = new Td();
 		link = new A();
 		
-		String usageImageFileName = this.getUniqueMethodName(methodNode) + "-usage.svg";
+		String usageImageFileName = String.format(DATA_DEPENDENCY_GRAPH_FILE_NAME_TEMPLATE, this.getUniqueMethodName(methodNode));
 		String usageImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), usageImageFileName);
 		String usageImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), usageImageFileName);
 		
@@ -1050,8 +1134,8 @@ public class ClassDocumentationGenerator {
 	
 	private Div generateMethodAnnotations(Node methodNode) {
 		Div commentDiv = new Div();
-		if(methodNode.hasAttr(CodeMap.Commnets)) {
-			String comment = methodNode.getAttr(CodeMap.Commnets).toString();
+		if(methodNode.hasAttr(CodeMap.Attributes.Commnets)) {
+			String comment = methodNode.getAttr(CodeMap.Attributes.Commnets).toString();
 			commentDiv.appendText(comment);
 		}
 		return commentDiv;
@@ -1059,8 +1143,8 @@ public class ClassDocumentationGenerator {
 	
 	private Div generateFieldAnnotations(Node fieldNode) {
 		Div commentDiv = new Div();
-		if(fieldNode.hasAttr(CodeMap.Commnets)) {
-			String comment = fieldNode.getAttr(CodeMap.Commnets).toString();
+		if(fieldNode.hasAttr(CodeMap.Attributes.Commnets)) {
+			String comment = fieldNode.getAttr(CodeMap.Attributes.Commnets).toString();
 			commentDiv.appendText(comment);
 		}
 		return commentDiv;
@@ -1073,7 +1157,7 @@ public class ClassDocumentationGenerator {
 		
 			Div cardHeader = new Div();
 			cardHeader.setCSSClass("card-header");
-			cardHeader.appendText("Fields Summary");
+			cardHeader.appendText(FIELDS_SECTION_HEADER);
 			
 				Div cardContent = new Div();
 				cardContent.setCSSClass("card-body bg-white text-dark");
@@ -1140,6 +1224,10 @@ public class ClassDocumentationGenerator {
 		return fieldNode.taggedWith(XCSG.immutable) || fieldNode.taggedWith("final");
 	}
 	
+	private boolean isDeprecatedField(Node fieldNode) {
+		return fieldNode.taggedWith(CodeMap.Tags.Deprecated);
+	}
+	
 	private Node getTypeForField(Node fieldNode) {
 		return Query.universe().edges(XCSG.TypeOf).successors(Common.toQ(fieldNode)).nodes(XCSG.Type).eval().nodes().one();
 	}
@@ -1158,7 +1246,7 @@ public class ClassDocumentationGenerator {
 	
 	private Tr constructFieldRow(Node fieldNode) {
 		List<Td> columns = new ArrayList<Td>();
-		
+
 		// Expand Column
 		Td expandColumn = new Td();
 		expandColumn.setCSSClass("details-control");
@@ -1170,20 +1258,6 @@ public class ClassDocumentationGenerator {
 		code.appendText(this.getFieldVisibility(fieldNode));
 		accessorColumn.appendChild(code);
 		columns.add(accessorColumn);
-		
-		// Static Column
-		Td staticColumn = new Td();
-		if(this.isStaticField(fieldNode)) {
-			staticColumn.appendChild(this.getTickImage());
-		}
-		columns.add(staticColumn);
-		
-		// Final Column
-		Td finalColumn = new Td();
-		if(this.isFinalField(fieldNode)) {
-			finalColumn.appendChild(this.getTickImage());
-		}
-		columns.add(finalColumn);
 		
 		// Type Column
 		Td typeColumn = new Td();
@@ -1208,6 +1282,35 @@ public class ClassDocumentationGenerator {
 		nameColumn.appendChild(code);
 		columns.add(nameColumn);
 		
+		// Static Column
+		Td staticColumn = new Td();
+		boolean staticField = this.isStaticField(fieldNode);
+		if(staticField) {
+			staticColumn.appendChild(this.getTickImage());
+		}
+		columns.add(staticColumn);
+		
+		// Instance Column
+		Td instanceColumn = new Td();
+		if(!staticField) {
+			instanceColumn.appendChild(this.getTickImage());
+		}
+		columns.add(instanceColumn);
+		
+		// Final Column
+		Td finalColumn = new Td();
+		if(this.isFinalField(fieldNode)) {
+			finalColumn.appendChild(this.getTickImage());
+		}
+		columns.add(finalColumn);
+		
+		// Deprecated Column
+		Td deprecatedColumn = new Td();
+		if(this.isDeprecatedField(fieldNode)) {
+			deprecatedColumn.appendChild(this.getTickImage());
+		}
+		columns.add(deprecatedColumn);
+		
 		// Externally Used Column
 		Td externalColumn = new Td();
 		if(this.isExternallyUsedField(fieldNode)) {
@@ -1219,7 +1322,7 @@ public class ClassDocumentationGenerator {
 		Td usageExampleColumn = new Td();
 		A link = new A();
 		
-		String usageImageFileName = this.getUniqueFiledName(fieldNode) + "-usage.svg";
+		String usageImageFileName = String.format(DATA_DEPENDENCY_GRAPH_FILE_NAME_TEMPLATE, this.getUniqueFiledName(fieldNode));
 		String usageImageAbsolutePath = this.getAbsoluteFilePathString(this.getGraphsDirectoryPath(), usageImageFileName);
 		String usageImageRelativePath = this.getRelativeFilePathString(this.getGraphsDirectoryPath(), usageImageFileName);
 		
@@ -1253,7 +1356,7 @@ public class ClassDocumentationGenerator {
 		
 			Div cardHeader = new Div();
 			cardHeader.setCSSClass("card-header");
-			cardHeader.appendText("Methods Summary");
+			cardHeader.appendText(METHODS_SECTION_HEADER);
 			
 				Div cardContent = new Div();
 				cardContent.setCSSClass("card-body bg-white text-dark");
@@ -1327,15 +1430,10 @@ public class ClassDocumentationGenerator {
 		return new Div();
 	}
 	
-	private Div generateDiscussionSection() {
-		// TODO
-		return new Div();
-	}
-	
 	private Div getClassUserAnnotations() {
 		Div commentDiv = new Div();
-		if(this.getClassNode().hasAttr(CodeMap.Commnets)) {
-			String comment = this.getClassNode().getAttr(CodeMap.Commnets).toString();
+		if(this.getClassNode().hasAttr(CodeMap.Attributes.Commnets)) {
+			String comment = this.getClassNode().getAttr(CodeMap.Attributes.Commnets).toString();
 			commentDiv.appendText(comment);
 		}
 		return commentDiv;

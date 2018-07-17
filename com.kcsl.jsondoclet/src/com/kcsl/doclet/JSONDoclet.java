@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.sun.javadoc.*;
@@ -13,6 +14,12 @@ public final class JSONDoclet {
 	private static final String OUTPUT_DIRECTORY_COMMAND_LINE_OPTION_NAME = "-output";
 	
 	private static final String JAVA_DOC_METHOD_SIGNATURE_SEPARATOR = "###";
+	
+	private static final String JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR = "@@@";
+	
+	private static final String DEPRECATED_TAG = "@deprecated";
+	
+	private static final String DEPRECATED_TAG_TYPE = "java.lang.Deprecated";
 	
 	private static Path OUTPUT_DIRECTORY_PATH;
 	
@@ -78,32 +85,39 @@ public final class JSONDoclet {
     	classJSONObject.put("class_comments", classDoc.commentText());
     	
 		JSONObject fieldsJSONObject = new JSONObject();
-		FieldDoc[] fieldDocs = classDoc.fields();
-		for(FieldDoc fieldDoc: fieldDocs) {
-			fieldsJSONObject.put(fieldDoc.name(), fieldDoc.commentText());
-		}
+		parseFields(classDoc.fields(), fieldsJSONObject);
     	classJSONObject.put("class_fields", fieldsJSONObject);
     		
 		JSONObject methodsJSONObject = new JSONObject();
-		
-		ConstructorDoc[] constructorDocs = classDoc.constructors();
-		for(ConstructorDoc constructorDoc: constructorDocs) {
-			String methodSignature = formMethodSignatureWithParameterNames(constructorDoc);
-			methodsJSONObject.put(methodSignature.toString(), constructorDoc.commentText());
-		}
-		
-		MethodDoc[] methodDocs = classDoc.methods();
-		for(MethodDoc methodDoc: methodDocs) {
-			String methodSignature = formMethodSignatureWithParameterNames(methodDoc);
-			methodsJSONObject.put(methodSignature.toString(), methodDoc.commentText());
-		}
+		parseMethods(classDoc.constructors(), methodsJSONObject);
+		parseMethods(classDoc.methods(), methodsJSONObject);
     	classJSONObject.put("class_methods", methodsJSONObject);
     	
     	saveJSONClassDocumentation(classDoc.qualifiedName(), classJSONObject);
     }
     
-    private static String formMethodSignatureWithParameterNames(ExecutableMemberDoc methodDoc) {
-    	//TODO: probably we can plan to use {@link methodDoc#flatSignature}.
+    private static void parseFields(FieldDoc[] fieldDocs, JSONObject fieldsJSONObject) {
+		for(FieldDoc fieldDoc: fieldDocs) {
+			JSONArray fieldProperties = new JSONArray();
+			boolean isDeprecated = isDeprecated(fieldDoc);
+			fieldProperties.put(isDeprecated);
+			fieldProperties.put(fieldDoc.commentText());
+			fieldsJSONObject.put(fieldDoc.name(), fieldProperties);
+		}
+    }
+    
+    private static void parseMethods(ExecutableMemberDoc[] methodDocs, JSONObject methodsJSONObject) {
+		for(ExecutableMemberDoc methodDoc: methodDocs) {
+			JSONArray methodsProperties = new JSONArray();
+			String methodSignature = formMethodSignature(methodDoc);
+			boolean isDeprecated = isDeprecated(methodDoc);
+			methodsProperties.put(isDeprecated);
+			methodsProperties.put(methodDoc.commentText());
+			methodsJSONObject.put(methodSignature, methodsProperties);
+		}
+    }
+    
+    private static String formMethodSignature(ExecutableMemberDoc methodDoc) {
 		StringBuilder methodSignature = new StringBuilder();
 		String methodName = methodDoc.name();
 		methodSignature.append(methodName);
@@ -112,27 +126,30 @@ public final class JSONDoclet {
 			methodSignature.append(JAVA_DOC_METHOD_SIGNATURE_SEPARATOR);
 			String parameterName = parameters[index].name();
 			methodSignature.append(parameterName);
+			methodSignature.append(JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR);
+			methodSignature.append(parameters[index].type().simpleTypeName());
 		}
 		return methodSignature.toString();
     }
     
-    @SuppressWarnings(value = { "unused" })
-    private static String formMethodSignatureWithParameterTypes(ExecutableMemberDoc methodDoc) {
-		StringBuilder methodSignature = new StringBuilder();
-		String methodName = methodDoc.name();
-		methodSignature.append(methodName);
-		Parameter[] parameters = methodDoc.parameters();
-		for(int index = 0; index < parameters.length; index++) {
-			methodSignature.append(JAVA_DOC_METHOD_SIGNATURE_SEPARATOR);
-			String parameterTypeName = parameters[index].type().simpleTypeName();
-			methodSignature.append(parameterTypeName);
+    private static boolean isDeprecated(ProgramElementDoc programElementDoc) {
+    	AnnotationDesc[] annotations = programElementDoc.annotations();
+		for (AnnotationDesc annotation : annotations) {
+			try {
+				if (annotation.annotationType().qualifiedTypeName().equals(DEPRECATED_TAG_TYPE)) {
+					return true;
+				}
+			} catch (RuntimeException e) {
+				System.err.println(annotation + " has invalid javadoc: " + e.getClass() + ": " + e.getMessage());
+			}
 		}
-		return methodSignature.toString();
-    }
-    
-    @SuppressWarnings(value = { "unused" })
-    private static String formMethodSignatureWithLineNumbers(ExecutableMemberDoc methodDoc) {
-		return methodDoc.name() + JAVA_DOC_METHOD_SIGNATURE_SEPARATOR + methodDoc.position().line();
+		Tag[] tags = programElementDoc.tags();
+		for(Tag tag: tags) {
+			if(DEPRECATED_TAG.equals(tag.name().toLowerCase())) {
+				return true;
+			}
+		}
+		return false;
     }
     
     private static void saveJSONClassDocumentation(String qualifiedClassName, JSONObject jsonObject) {

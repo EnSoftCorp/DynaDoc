@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.lang3.StringUtils;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -33,6 +34,8 @@ import static com.kcsl.dynado.doc.JavaDocAttributes.JSONData;
 public class CodeMapJavaDocInjector {
 	
 	private static final String JAVA_DOC_METHOD_SIGNATURE_SEPARATOR = "###";
+	
+	private static final String JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR = "@@@";
 	
 	private Node projectNode;
 	
@@ -95,16 +98,29 @@ public class CodeMapJavaDocInjector {
 	
 	private void populateForClass(String comment, Q classQ) {
 		Node classNode = classQ.eval().nodes().one();
-		classNode.putAttr(CodeMap.Commnets, comment);
+		classNode.putAttr(CodeMap.Attributes.Commnets, comment);
 	}
 	
 	private void populateForMethods(JSONObject methodsObject, Q classQ) {
-		Q classMethodsQ = classQ.successorsOn(Query.universe().edges(XCSG.Contains)).nodes(XCSG.Method);
+		Q classMethodsQ = Query.universe().edges(XCSG.Contains).successors(classQ).nodes(XCSG.Method);
+		Q initMethods = classMethodsQ.selectNode(XCSG.name, "<init>").union(classMethodsQ.selectNode(XCSG.name, "<clinit>"));
+		classMethodsQ = classMethodsQ.difference(initMethods);
 		AtlasSet<Node> methodNdoes = classMethodsQ.eval().nodes();
 		for(Node methodNode: methodNdoes) {
 			String methodSignature = this.formJavaDocMethodSignatureFromMethodNode(methodNode);
-			String comment = (String) methodsObject.get(methodSignature);
-			methodNode.putAttr(CodeMap.Commnets, comment);
+			JSONArray jsonArray = (JSONArray) methodsObject.get(methodSignature);
+			if(jsonArray == null) {
+				Log.warning("Missing documentation for method with signature: " + methodSignature);
+				continue;
+			}
+			
+			boolean isDeprecated = (boolean) jsonArray.get(0);
+			if(isDeprecated) {
+				methodNode.tag(CodeMap.Tags.Deprecated);
+			}
+			
+			String comment = (String) jsonArray.get(1);
+			methodNode.putAttr(CodeMap.Attributes.Commnets, comment);
 		}
 	}
 	
@@ -117,9 +133,29 @@ public class CodeMapJavaDocInjector {
 		for(Node parameter: parameters) {
 			methodSignature.append(JAVA_DOC_METHOD_SIGNATURE_SEPARATOR);
 			methodSignature.append(parameter.getAttr(XCSG.name));
+			methodSignature.append(JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR);
+			methodSignature.append(getParamterSimplyTypeName(parameter));
 		}
 		
 		return methodSignature.toString();
+	}
+	
+	private String getParamterSimplyTypeName(Node parameter) {
+		Node typeNode = Query.universe().edges(XCSG.TypeOf).successors(Common.toQ(parameter)).nodes(XCSG.Type).eval().nodes().one();
+		
+		// Remove the array or bracket notations from the signature. That occurs whenever we have primitvie type (e.g., byte[], int[])
+		String typeName = typeNode.getAttr(XCSG.name).toString();
+		int indextOfArrayBracket = typeName.indexOf("[");
+		int indexOfMapCarrent = typeName.indexOf("<");
+		if(indextOfArrayBracket >= 0) {
+			typeName = typeName.substring(0, indextOfArrayBracket);
+		}
+		
+		if(indexOfMapCarrent >= 0) {
+			typeName = typeName.substring(0, indexOfMapCarrent);
+		}
+		
+		return typeName.trim();
 	}
 	
 	private List<Node> getSortedParameterListForMethodNode(Node methodNode) {
@@ -145,8 +181,19 @@ public class CodeMapJavaDocInjector {
 		AtlasSet<Node> fields = classFieldsQ.eval().nodes();
 		for(Node field: fields) {
 			String name = field.getAttr(XCSG.name).toString();
-			String comment = (String) fieldsObject.get(name);
-			field.putAttr(CodeMap.Commnets, comment);
+			JSONArray jsonArray = (JSONArray) fieldsObject.get(name);
+			if(jsonArray == null) {
+				Log.warning("Missing documentation for field with signature: " + name);
+				continue;
+			}
+			
+			boolean isDeprecated = (boolean) jsonArray.get(0);
+			if(isDeprecated) {
+				field.tag(CodeMap.Tags.Deprecated);
+			}
+			
+			String comment = (String) jsonArray.get(1);
+			field.putAttr(CodeMap.Attributes.Commnets, comment);
 		}
 	}
 	

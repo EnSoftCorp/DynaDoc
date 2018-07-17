@@ -5,12 +5,14 @@
                 {
                     "orderable":      false,
                 },
-                { "data": "accessor" },
-                { "data": "static" },
-                { "data": "final" },
+                { "data": "visibility" },
                 { "data": "type" },
                 { "data": "name" },
-                { "data": "externally_used" },
+                { "data": "static" },
+                { "data": "instance" },
+                { "data": "final" },
+                { "data": "deprecated" },
+                { "data": "used" },
                 { "bSearchable": false, "orderable": false, "data": "usage_example" },
                 { "orderable": false, "data": "comments" }
             ],

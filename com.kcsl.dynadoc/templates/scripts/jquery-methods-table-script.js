@@ -1,18 +1,20 @@
     $(document).ready(function() {
         var dt = $('#methods-table').DataTable( {
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             "columns": 
             [
                 {
                     "orderable":      false,
                 },
                 { "data": "visibility" },
-                { "data": "static" },
                 { "data": "return" },
                 { "data": "name" },
                 { "data": "parameters" },
-                { "data": "abstract" },
-                { "data": "override" },
-                { "data": "externally_used" },
+                { "data": "static" },
+                { "data": "instance" },
+                { "data": "concrete" },
+                { "data": "deprecated" },
+                { "data": "used" },
                 { "bSearchable": false, "orderable": false, "data": "cfg" },
                 { "bSearchable": false, "orderable": false, "data": "call" },
                 { "bSearchable": false, "orderable": false, "data": "usage_example" },
