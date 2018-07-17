@@ -3,8 +3,8 @@ package com.kcsl.dynadoc;
 import com.ensoftcorp.atlas.core.db.graph.Node;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
-import com.kcsl.dynado.doc.CodeMapJavaDocInjector;
-import com.kcsl.dynado.doc.JavaDocGeneratorTask;
+import com.kcsl.dynadoc.doc.CodeMapJavaDocInjector;
+import com.kcsl.dynadoc.doc.JavaDocGeneratorTask;
 import com.kcsl.dynadoc.generator.ClassDocumentationGenerator;
 
 public class DynaDocDriver { 

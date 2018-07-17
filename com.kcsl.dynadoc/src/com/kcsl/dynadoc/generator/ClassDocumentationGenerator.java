@@ -56,16 +56,19 @@ import com.hp.gagawa.java.elements.Thead;
 import com.hp.gagawa.java.elements.Title;
 import com.hp.gagawa.java.elements.Tr;
 import com.hp.gagawa.java.elements.Ul;
-import com.kcsl.dynado.doc.JavaDocAttributes;
 import com.kcsl.dynadoc.Activator;
 import com.kcsl.dynadoc.Configurations;
+import com.kcsl.dynadoc.doc.JavaDocAttributes;
 import com.kcsl.dynadoc.html.Nav;
+import com.kcsl.importer.NonProgramArtifacts;
 
 import static com.kcsl.dynadoc.Configurations.OUTPUT_GRAPHS_DIRECTORY_NAME;
 import static com.kcsl.dynadoc.Configurations.OUTPUT_RESOURCES_DIRECTORY_NAME;
 import static com.kcsl.dynadoc.Configurations.PLUGIN_SCRIPTS_DIRECTORY_PATH;
+import static com.kcsl.dynadoc.doc.JavaDocAttributes.CodeMap;
 
-import static com.kcsl.dynado.doc.JavaDocAttributes.CodeMap;
+import static com.kcsl.importer.NonProgramArtifacts.Commits;
+import static com.kcsl.importer.NonProgramArtifacts.Issues;;
 
 public class ClassDocumentationGenerator {
 
@@ -91,7 +94,11 @@ public class ClassDocumentationGenerator {
 
 	private static final String [] FIELDS_TABLE_HEADERS = { "Visibility", "Type", "Name", "Static", "Instance", "Final", "Deprecated", "External Use", "Data Flow"};
 	
-	private static final String [] JQUERY_DATATABLES_SCRIPT_FILENAMES = { "jquery-constructors-table-script.js", "jquery-methods-table-script.js", "jquery-fields-table-script.js" };
+	private static final String [] ISSUES_TABLE_HEADERS = { "Issue Id", "Last Changed", "Summary", "Status", "Severity", "Priority", "Issue Report" };
+	
+	private static final String [] COMMITS_TABLE_HEADERS = { "Commit Id", "Commiter", "Date/Time", "Summary", "Commit Details" };
+	
+	private static final String [] JQUERY_DATATABLES_SCRIPT_FILENAMES = { "jquery-constructors-table-script.js", "jquery-methods-table-script.js", "jquery-fields-table-script.js", "jquery-issues-table-script.js", "jquery-commits-table-script.js" };
 	
 	private Node classNode;
 	
@@ -245,9 +252,6 @@ public class ClassDocumentationGenerator {
 		
 		Div methodsTableSection = this.generateMethodsTableSection();
 		body.appendChild(methodsTableSection);
-		
-		Div usageExamplesSection = this.generateUsageExamplesSection();
-		body.appendChild(usageExamplesSection);
 		
 		Div issuesSummarySection = this.generateIssueSummarySection();
 		body.appendChild(issuesSummarySection);
@@ -1414,20 +1418,251 @@ public class ClassDocumentationGenerator {
 			methodsTableDiv.appendChild(cardHeader);
 		return methodsTableDiv;
 	}
+
+	private Div generateIssueSummarySection() {
+		Div fieldsTableDiv = new Div();
+		fieldsTableDiv.setCSSClass("card text-white bg-secondary mb-3");
+		fieldsTableDiv.setStyle("max-width: 98%; margin: 10pt");
+		
+			Div cardHeader = new Div();
+			cardHeader.setCSSClass("card-header");
+			cardHeader.appendText(ISSUES_SECTION_HEADER);
+			
+				Div cardContent = new Div();
+				cardContent.setCSSClass("card-body bg-white text-dark");
+				
+					Table table = new Table();
+					table.setId("fields-table");
+					table.setCSSClass("display small");
+					table.setStyle("width:100%");
+						
+						Thead tHead = new Thead();
+							Tr tr = new Tr();
+								Th firstColumn = new Th();
+								tr.appendChild(firstColumn);
+								
+								for(String headerText: ISSUES_TABLE_HEADERS) {
+									Th column = new Th();
+									column.appendText(headerText);
+									tr.appendChild(column);
+								}
+
+								Th lastColumn = new Th();
+								lastColumn.setStyle("display:none;");
+								tr.appendChild(lastColumn);
+							tHead.appendChild(tr);
+						table.appendChild(tHead);
+						
+						Tbody tBody = new Tbody();
+						
+						AtlasSet<Node> issues = this.getClassIssues();
+							for(Node issue: issues) {
+								Tr issueRow = this.constructIssueRow(issue);
+								tBody.appendChild(issueRow);
+							}
+						table.appendChild(tBody);
+						
+						Tfoot tFoot = new Tfoot();
+							tr = new Tr();
+								firstColumn = new Th();
+								tr.appendChild(firstColumn);
+								
+								for(int i = 0; i < FIELDS_TABLE_HEADERS.length; i++) {
+									Th column = new Th();
+									tr.appendChild(column);
+								}
 	
-	private Div generateUsageExamplesSection() {
-		// TODO
-		return new Div();
+								lastColumn = new Th();
+								lastColumn.setStyle("display:none;");
+								tr.appendChild(lastColumn);							
+							tFoot.appendChild(tr);
+						table.appendChild(tFoot);
+						
+					cardContent.appendChild(table);
+				
+				cardHeader.appendChild(cardContent);
+			
+			fieldsTableDiv.appendChild(cardHeader);
+		return fieldsTableDiv;
 	}
 	
-	private Div generateIssueSummarySection() {
-		// TODO
-		return new Div();
+	private AtlasSet<Node> getClassIssues() {
+		Q linkedToEdges = Query.universe().edges(NonProgramArtifacts.LINKED_TO_EDGE_TAG);
+		return linkedToEdges.successors(this.getClassQ()).nodes(Issues.Tags.ISSUE_NODE_TAG).eval().nodes();
+	}
+	
+	private AtlasSet<Node> getClassCommits() {
+		Q linkedToEdges = Query.universe().edges(NonProgramArtifacts.LINKED_TO_EDGE_TAG);
+		return linkedToEdges.successors(this.getClassQ()).nodes(Commits.Tags.COMMIT_NODE_TAG).eval().nodes();
+	}
+	
+	private Tr constructIssueRow(Node issueNode) {
+		List<Td> columns = new ArrayList<Td>();
+
+		// Expand Column
+		Td expandColumn = new Td();
+		expandColumn.setCSSClass("details-control");
+		columns.add(expandColumn);
+		
+		// Issue Id Column
+		Td issueIdColumn = new Td();
+		issueIdColumn.appendText(issueNode.getAttr(Issues.Attributes.ISSUE_ID).toString());
+		columns.add(issueIdColumn);
+		
+		// Last Changed Column
+		Td lastChangedColumn = new Td();
+		lastChangedColumn.appendText(issueNode.getAttr(Issues.Attributes.ISSUE_LAST_CHANGED).toString());
+		columns.add(lastChangedColumn);
+		
+		// Summary Column
+		Td summaryColumn = new Td();
+		summaryColumn.appendText(issueNode.getAttr(Issues.Attributes.ISSUE_SUMMARY).toString());
+		columns.add(summaryColumn);
+		
+		// Status Column
+		Td statusColumn = new Td();
+		statusColumn.appendText(issueNode.getAttr(Issues.Attributes.ISSUE_STATUS).toString());
+		columns.add(statusColumn);
+		
+		// Severity Column
+		Td severityColumn = new Td();
+		severityColumn.appendText(issueNode.getAttr(Issues.Attributes.ISSUE_SEVERITY).toString());
+		columns.add(severityColumn);
+		
+		// Priority Column
+		Td priorityColumn = new Td();
+		priorityColumn.appendText(issueNode.getAttr(Issues.Attributes.ISSUE_PRIORITY).toString());
+		columns.add(priorityColumn);
+		
+		// Issue Report Column
+		Td issueUrlColumn = new Td();
+		A link = new A();
+		link.setHref(issueNode.getAttr(Issues.Attributes.ISSUE_URL).toString());
+		link.setTarget("_blank");
+		link.setAttribute("role", "button");
+		link.setAttribute("class", "btn btn-primary");
+		link.appendText("Show");
+		issueUrlColumn.appendChild(link);
+		columns.add(issueUrlColumn);
+		
+		Tr fieldRow = new Tr();
+		for(Td column : columns) {
+			fieldRow.appendChild(column);
+		}
+		return fieldRow;
 	}
 	
 	private Div generateRevisionControlSummarySection() {
-		// TODO
-		return new Div();
+		Div fieldsTableDiv = new Div();
+		fieldsTableDiv.setCSSClass("card text-white bg-secondary mb-3");
+		fieldsTableDiv.setStyle("max-width: 98%; margin: 10pt");
+		
+			Div cardHeader = new Div();
+			cardHeader.setCSSClass("card-header");
+			cardHeader.appendText(COMMIT_SECTION_HEADER);
+			
+				Div cardContent = new Div();
+				cardContent.setCSSClass("card-body bg-white text-dark");
+				
+					Table table = new Table();
+					table.setId("fields-table");
+					table.setCSSClass("display small");
+					table.setStyle("width:100%");
+						
+						Thead tHead = new Thead();
+							Tr tr = new Tr();
+								Th firstColumn = new Th();
+								tr.appendChild(firstColumn);
+								
+								for(String headerText: COMMITS_TABLE_HEADERS) {
+									Th column = new Th();
+									column.appendText(headerText);
+									tr.appendChild(column);
+								}
+
+								Th lastColumn = new Th();
+								lastColumn.setStyle("display:none;");
+								tr.appendChild(lastColumn);
+							tHead.appendChild(tr);
+						table.appendChild(tHead);
+						
+						Tbody tBody = new Tbody();
+						
+						AtlasSet<Node> commits = this.getClassCommits();
+							for(Node commit: commits) {
+								Tr commitRow = this.constructCommitRow(commit);
+								tBody.appendChild(commitRow);
+							}
+						table.appendChild(tBody);
+						
+						Tfoot tFoot = new Tfoot();
+							tr = new Tr();
+								firstColumn = new Th();
+								tr.appendChild(firstColumn);
+								
+								for(int i = 0; i < FIELDS_TABLE_HEADERS.length; i++) {
+									Th column = new Th();
+									tr.appendChild(column);
+								}
+	
+								lastColumn = new Th();
+								lastColumn.setStyle("display:none;");
+								tr.appendChild(lastColumn);							
+							tFoot.appendChild(tr);
+						table.appendChild(tFoot);
+						
+					cardContent.appendChild(table);
+				
+				cardHeader.appendChild(cardContent);
+			
+			fieldsTableDiv.appendChild(cardHeader);
+		return fieldsTableDiv;
+	}
+	
+	private Tr constructCommitRow(Node commitNode) {
+		List<Td> columns = new ArrayList<Td>();
+		
+		// Expand Column
+		Td expandColumn = new Td();
+		expandColumn.setCSSClass("details-control");
+		columns.add(expandColumn);
+		
+		// Commit Id Column
+		Td commitIdColumn = new Td();
+		commitIdColumn.appendText(commitNode.getAttr(Commits.Attributes.COMMIT_ID).toString());
+		columns.add(commitIdColumn);
+		
+		// Commiter Column
+		Td commiterColumn = new Td();
+		commiterColumn.appendText(commitNode.getAttr(Commits.Attributes.COMMIT_COMMITER).toString());
+		columns.add(commiterColumn);
+		
+		// DataTime Column
+		Td dataTimeColumn = new Td();
+		dataTimeColumn.appendText(commitNode.getAttr(Commits.Attributes.COMMIT_DATA_TIME).toString());
+		columns.add(dataTimeColumn);
+		
+		// Summary Column
+		Td summaryColumn = new Td();
+		summaryColumn.appendText(commitNode.getAttr(Commits.Attributes.COMMIT_MESSAGE).toString());
+		columns.add(summaryColumn);
+		
+		// Commit URL Column
+		Td commitUrlColumn = new Td();
+		A link = new A();
+		link.setHref(commitNode.getAttr(Commits.Attributes.COMMIT_URL).toString());
+		link.setTarget("_blank");
+		link.setAttribute("role", "button");
+		link.setAttribute("class", "btn btn-primary");
+		link.appendText("Show");
+		commitUrlColumn.appendChild(link);
+		columns.add(commitUrlColumn);
+		
+		Tr commitRow = new Tr();
+		for(Td column : columns) {
+			commitRow.appendChild(column);
+		}
+		return commitRow;
 	}
 	
 	private Div getClassUserAnnotations() {

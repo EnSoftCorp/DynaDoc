@@ -1,4 +1,4 @@
-package com.kcsl.dynado.doc;
+package com.kcsl.dynadoc.doc;
 
 public final class JavaDocAttributes {
 

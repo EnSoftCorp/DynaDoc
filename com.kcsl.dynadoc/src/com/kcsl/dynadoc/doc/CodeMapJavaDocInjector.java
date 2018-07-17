@@ -1,4 +1,7 @@
-package com.kcsl.dynado.doc;
+package com.kcsl.dynadoc.doc;
+
+import static com.kcsl.dynadoc.doc.JavaDocAttributes.CodeMap;
+import static com.kcsl.dynadoc.doc.JavaDocAttributes.JSONData;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,9 +30,6 @@ import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.open.commons.analysis.CommonQueries;
 import com.kcsl.dynadoc.Configurations;
-
-import static com.kcsl.dynado.doc.JavaDocAttributes.CodeMap;
-import static com.kcsl.dynado.doc.JavaDocAttributes.JSONData;
 
 public class CodeMapJavaDocInjector {
 	
