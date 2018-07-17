@@ -1,5 +1,5 @@
     $(document).ready(function() {
-        var dt = $('#methods-table').DataTable( {
+        var dt = $('#issues-table').DataTable( {
             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
             "columns": 
             [
@@ -19,7 +19,7 @@
 
         var detailRows = [];
      
-        $('#methods-table tbody').on( 'click', 'tr td.details-control', function () {
+        $('#issues-table tbody').on( 'click', 'tr td.details-control', function () {
             var tr = $(this).closest('tr');
             var row = dt.row( tr );
             var idx = $.inArray( tr.attr('id'), detailRows );

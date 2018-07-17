@@ -1,8 +1,5 @@
 package com.kcsl.importer.internal;
 
-import static com.kcsl.importer.Configurations.PLUGIN_ISSUES_CSV_FILE_PATH;
-import static com.kcsl.importer.Configurations.ISSUE_URL_TEMPLATE;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,6 +16,8 @@ import com.ensoftcorp.atlas.core.log.Log;
 import com.kcsl.importer.Activator;
 
 import static com.kcsl.importer.NonProgramArtifacts.Issues;
+import static com.kcsl.importer.Configurations.PLUGIN_ISSUES_CSV_FILE_PATH;
+import static com.kcsl.importer.Configurations.ISSUE_URL_TEMPLATE;
 
 public class IssuesImporter {
 

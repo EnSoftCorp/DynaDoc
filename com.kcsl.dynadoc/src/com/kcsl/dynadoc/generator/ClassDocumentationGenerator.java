@@ -1,5 +1,9 @@
 package com.kcsl.dynadoc.generator;
 
+import static com.kcsl.dynadoc.Configurations.OUTPUT_GRAPHS_DIRECTORY_NAME;
+import static com.kcsl.dynadoc.Configurations.OUTPUT_RESOURCES_DIRECTORY_NAME;
+import static com.kcsl.dynadoc.Configurations.PLUGIN_SCRIPTS_DIRECTORY_PATH;
+
 import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -59,16 +63,11 @@ import com.hp.gagawa.java.elements.Ul;
 import com.kcsl.dynadoc.Activator;
 import com.kcsl.dynadoc.Configurations;
 import com.kcsl.dynadoc.doc.JavaDocAttributes;
+import com.kcsl.dynadoc.doc.JavaDocAttributes.CodeMap;
 import com.kcsl.dynadoc.html.Nav;
 import com.kcsl.importer.NonProgramArtifacts;
-
-import static com.kcsl.dynadoc.Configurations.OUTPUT_GRAPHS_DIRECTORY_NAME;
-import static com.kcsl.dynadoc.Configurations.OUTPUT_RESOURCES_DIRECTORY_NAME;
-import static com.kcsl.dynadoc.Configurations.PLUGIN_SCRIPTS_DIRECTORY_PATH;
-import static com.kcsl.dynadoc.doc.JavaDocAttributes.CodeMap;
-
-import static com.kcsl.importer.NonProgramArtifacts.Commits;
-import static com.kcsl.importer.NonProgramArtifacts.Issues;;
+import com.kcsl.importer.NonProgramArtifacts.Commits;
+import com.kcsl.importer.NonProgramArtifacts.Issues;;
 
 public class ClassDocumentationGenerator {
 
@@ -1432,7 +1431,7 @@ public class ClassDocumentationGenerator {
 				cardContent.setCSSClass("card-body bg-white text-dark");
 				
 					Table table = new Table();
-					table.setId("fields-table");
+					table.setId("issues-table");
 					table.setCSSClass("display small");
 					table.setStyle("width:100%");
 						
@@ -1446,10 +1445,6 @@ public class ClassDocumentationGenerator {
 									column.appendText(headerText);
 									tr.appendChild(column);
 								}
-
-								Th lastColumn = new Th();
-								lastColumn.setStyle("display:none;");
-								tr.appendChild(lastColumn);
 							tHead.appendChild(tr);
 						table.appendChild(tHead);
 						
@@ -1467,14 +1462,10 @@ public class ClassDocumentationGenerator {
 								firstColumn = new Th();
 								tr.appendChild(firstColumn);
 								
-								for(int i = 0; i < FIELDS_TABLE_HEADERS.length; i++) {
+								for(int i = 0; i < ISSUES_TABLE_HEADERS.length; i++) {
 									Th column = new Th();
 									tr.appendChild(column);
-								}
-	
-								lastColumn = new Th();
-								lastColumn.setStyle("display:none;");
-								tr.appendChild(lastColumn);							
+								}						
 							tFoot.appendChild(tr);
 						table.appendChild(tFoot);
 						
@@ -1554,7 +1545,7 @@ public class ClassDocumentationGenerator {
 	
 	private Div generateRevisionControlSummarySection() {
 		Div fieldsTableDiv = new Div();
-		fieldsTableDiv.setCSSClass("card text-white bg-secondary mb-3");
+		fieldsTableDiv.setCSSClass("card text-white bg-warning mb-3");
 		fieldsTableDiv.setStyle("max-width: 98%; margin: 10pt");
 		
 			Div cardHeader = new Div();
@@ -1565,7 +1556,7 @@ public class ClassDocumentationGenerator {
 				cardContent.setCSSClass("card-body bg-white text-dark");
 				
 					Table table = new Table();
-					table.setId("fields-table");
+					table.setId("commits-table");
 					table.setCSSClass("display small");
 					table.setStyle("width:100%");
 						
@@ -1580,9 +1571,6 @@ public class ClassDocumentationGenerator {
 									tr.appendChild(column);
 								}
 
-								Th lastColumn = new Th();
-								lastColumn.setStyle("display:none;");
-								tr.appendChild(lastColumn);
 							tHead.appendChild(tr);
 						table.appendChild(tHead);
 						
@@ -1600,14 +1588,10 @@ public class ClassDocumentationGenerator {
 								firstColumn = new Th();
 								tr.appendChild(firstColumn);
 								
-								for(int i = 0; i < FIELDS_TABLE_HEADERS.length; i++) {
+								for(int i = 0; i < COMMITS_TABLE_HEADERS.length; i++) {
 									Th column = new Th();
 									tr.appendChild(column);
-								}
-	
-								lastColumn = new Th();
-								lastColumn.setStyle("display:none;");
-								tr.appendChild(lastColumn);							
+								}						
 							tFoot.appendChild(tr);
 						table.appendChild(tFoot);
 						
