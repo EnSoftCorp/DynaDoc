@@ -1,7 +1,5 @@
 package com.kcsl.dynadoc.generator;
 
-import static com.kcsl.dynadoc.Configurations.OUTPUT_GRAPHS_DIRECTORY_NAME;
-import static com.kcsl.dynadoc.Configurations.OUTPUT_RESOURCES_DIRECTORY_NAME;
 import static com.kcsl.dynadoc.Configurations.PLUGIN_SCRIPTS_DIRECTORY_PATH;
 
 import java.awt.Color;
@@ -1691,11 +1689,11 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private Path getGraphsDirectoryPath() {
-		return Configurations.getOutputDirectoryPath().resolve(OUTPUT_GRAPHS_DIRECTORY_NAME);
+		return Configurations.getOutputGraphsDirectoryPath();
 	}
 	
 	private Path getResourcesDirectoryPath() {
-		return  Configurations.getOutputDirectoryPath().resolve(OUTPUT_RESOURCES_DIRECTORY_NAME);
+		return  Configurations.getOutputResourcesDirectoryPath();
 	}
 	
 	private String getAbsoluteFilePathString(Path containingDirectory, String fileName) {

@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DynaDoc
+Bundle-SymbolicName: com.kcsl.docdoclet;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.kcsl.docdoclet.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.ensoftcorp.atlas.core;bundle-version="3.1.0",
+ com.ensoftcorp.atlas.ui;bundle-version="3.1.0",
+ com.ensoftcorp.atlas.ui.shell;bundle-version="3.1.0",
+ org.json.simple;bundle-version="1.1.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Knowledge-Centric Software Lab
+Export-Package: com.kcsl.docdoclet
+Bundle-ClassPath: lib/tools.jar,
+ .

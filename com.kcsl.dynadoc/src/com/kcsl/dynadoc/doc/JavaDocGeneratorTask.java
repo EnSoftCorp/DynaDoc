@@ -29,21 +29,23 @@ public class JavaDocGeneratorTask implements Runnable {
 	/**
 	 * The following is the list of arguments:
 	 * <p>1. The absolute/relative path to the project for which the generation will occur.</p>
-	 * <p>2. The absolute/relative path to the output directory of the Doclet project.</p>
-	 * <p>3. The absolute/relative path to the output directory where the results will be stored.</p>
+	 * <p>2. The doclet qualified class name</p>
+	 * <p>3. The absolute/relative path to the output directory of the Doclet project.</p>
+	 * <p>4. The absolute/relative path to the output directory where the results will be stored.</p>
 	 */
 	@SuppressWarnings(value = { "unused" })
-	private static final String JAVA_DOC_RUN_ON_PROJECT_COMMAND_TEMPLATE = "find %s -type f -name \"*.java\" | xargs javadoc -quiet -private -doclet " + Configurations.DOCLET_QULALIFIED_NAME + " -docletpath %s -output %s";
+	private static final String JAVA_DOC_RUN_ON_PROJECT_COMMAND_TEMPLATE = "find %s -type f -name \"*.java\" | xargs javadoc -quiet -private -doclet %s -docletpath %s -output %s";
 	
 	/**
 	 * The following is the list of arguments:
-	 * <p>1. The absolute/relative path to the output directory of the Doclet project.</p>
-	 * <p>2. The "-sourcepath" option placeholder (if any).</p>
-	 * <p>3. The "-classpath" option placeholder (if any).</p>
-	 * <p>4. The absolute/relative path to the class for which the generation will occur.</p>
-	 * <p>5. The absolute/relative path to the output directory where the results will be stored.</p>
+	 * <p>1. The doclet qualified class name</p>
+	 * <p>2. The absolute/relative path to the output directory of the Doclet project.</p>
+	 * <p>3. The "-sourcepath" option placeholder (if any).</p>
+	 * <p>4. The "-classpath" option placeholder (if any).</p>
+	 * <p>5. The absolute/relative path to the class for which the generation will occur.</p>
+	 * <p>6. The absolute/relative path to the output directory where the results will be stored.</p>
 	 */
-	private static final String JAVA_DOC_RUN_ON_CLASS_COMMAND_TEMPLATE = "javadoc -quiet -private -doclet " + Configurations.DOCLET_QULALIFIED_NAME + " -docletpath %s %s %s %s -output %s"; 	
+	private static final String JAVA_DOC_RUN_ON_CLASS_COMMAND_TEMPLATE = "javadoc -quiet -private -doclet %s -docletpath %s %s %s %s -output %s"; 	
 	
 	
 	private String command;
@@ -101,6 +103,7 @@ public class JavaDocGeneratorTask implements Runnable {
 		String classSourceFileAbsolutePath = classSourceFile.getLocation().toString();
 		
 		String command = String.format(JAVA_DOC_RUN_ON_CLASS_COMMAND_TEMPLATE, 
+											Configurations.getDocletQualifiedClassName(),
 											Configurations.getDocletProjectOutputDirectoryPath(), 
 											sourcePathOptionCommandString, 
 											classPathOptionCommandString, 
