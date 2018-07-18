@@ -9,4 +9,6 @@ public class Configurations {
 	public static final String PLUGIN_ISSUES_CSV_FILE_PATH = "./resources/All _Apache_POI-3.17_Bugzilla_Bugs.csv";
 	
 	public static final String PLUGIN_COMMITS_CSV_FILE_PATH = "./resources/commits-history.csv";
+	
+	public static final String PLUGIN_COMMITS_ISSUES_RELATION_FILE_PATH = "./resources/commits-bug-relation.csv";
 }

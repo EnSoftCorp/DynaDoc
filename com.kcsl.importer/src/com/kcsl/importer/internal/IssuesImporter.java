@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -12,7 +14,11 @@ import org.osgi.framework.Bundle;
 
 import com.ensoftcorp.atlas.core.db.graph.Graph;
 import com.ensoftcorp.atlas.core.db.graph.Node;
+import com.ensoftcorp.atlas.core.db.set.AtlasSet;
 import com.ensoftcorp.atlas.core.log.Log;
+import com.ensoftcorp.atlas.core.query.Q;
+import com.ensoftcorp.atlas.core.query.Query;
+import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.kcsl.importer.Activator;
 
 import static com.kcsl.importer.NonProgramArtifacts.Issues;
@@ -22,7 +28,7 @@ import static com.kcsl.importer.Configurations.ISSUE_URL_TEMPLATE;
 public class IssuesImporter {
 
 	public static void importData() {
-		
+		clean();
 		Bundle pluginBundle = Activator.getDefault().getBundle();
 		InputStream issuesCSVFileInputStream;
 		try {
@@ -59,9 +65,23 @@ public class IssuesImporter {
 	        	
 	        	String bugReportUrl = String.format(ISSUE_URL_TEMPLATE, bugId);
 	        	newIssueNode.putAttr(Issues.Attributes.ISSUE_URL, bugReportUrl);
+	        	newIssueNode.putAttr(XCSG.name, bugId);
 	        }
 		} catch (IOException e) {
 			Log.error("Error while reading the CSV file: " + PLUGIN_ISSUES_CSV_FILE_PATH, e);
 		}
 	}
+	
+	private static void clean() {
+		Q issuesQ = Query.universe().nodes(Issues.Tags.ISSUE_NODE_TAG);
+		AtlasSet<Node> issueNodes = issuesQ.eval().nodes();
+		List<Node> nodes = new ArrayList<Node>();
+		for(Node issueNode: issueNodes) {
+			nodes.add(issueNode);
+		}
+		for(Node node: nodes) {
+			Graph.U.delete(node);
+		}
+	}
+	
 }
