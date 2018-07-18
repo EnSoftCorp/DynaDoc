@@ -1,7 +1,6 @@
 package com.kcsl.dynadoc.doc;
 
 import static com.kcsl.dynadoc.doc.JavaDocAttributes.CodeMap;
-import static com.kcsl.dynadoc.doc.JavaDocAttributes.JSONData;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,13 +28,10 @@ import com.ensoftcorp.atlas.core.query.Query;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.open.commons.analysis.CommonQueries;
+import com.kcsl.docdoclet.JavaDocConstants;
 import com.kcsl.dynadoc.Configurations;
 
 public class CodeMapJavaDocInjector {
-	
-	private static final String JAVA_DOC_METHOD_SIGNATURE_SEPARATOR = "###";
-	
-	private static final String JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR = "@@@";
 	
 	private Node projectNode;
 	
@@ -60,18 +56,18 @@ public class CodeMapJavaDocInjector {
 		try {
 			Object obj = jsonParser.parse(new FileReader(javaDocFile));
 			JSONObject jsonObject = (JSONObject) obj;
-			String packageName = (String) jsonObject.get(JSONData.ClassPackage);
-			String className = (String) jsonObject.get(JSONData.ClassName);
+			String packageName = (String) jsonObject.get(JavaDocConstants.CLASS_PACKAGE_NAME_ATTRIBUTE);
+			String className = (String) jsonObject.get(JavaDocConstants.CLASS_NAME_ATTRIBUTE);
 			
 			Q classQ = this.findClassQ(packageName, className);
 			
-			String classComment = (String) jsonObject.get(JSONData.ClassComments);
+			String classComment = (String) jsonObject.get(JavaDocConstants.CLASS_COMMENTS_ATTRIBUTE);
 			this.populateForClass(classComment, classQ);
 			
-			JSONObject methodsObject = (JSONObject) jsonObject.get(JSONData.ClassMethods);
+			JSONObject methodsObject = (JSONObject) jsonObject.get(JavaDocConstants.CLASS_METHODS_ATTRIBUTE);
 			this.populateForMethods(methodsObject, classQ);
 			
-			JSONObject fieldsObject = (JSONObject) jsonObject.get(JSONData.ClassFields);
+			JSONObject fieldsObject = (JSONObject) jsonObject.get(JavaDocConstants.CLASS_FIELDS_ATTRIBUTE);
 			this.populateForFields(fieldsObject, classQ);
 			
 		} catch (FileNotFoundException e) {
@@ -131,9 +127,9 @@ public class CodeMapJavaDocInjector {
 		
 		List<Node> parameters = this.getSortedParameterListForMethodNode(methodNode);
 		for(Node parameter: parameters) {
-			methodSignature.append(JAVA_DOC_METHOD_SIGNATURE_SEPARATOR);
+			methodSignature.append(JavaDocConstants.JAVA_DOC_METHOD_SIGNATURE_SEPARATOR);
 			methodSignature.append(parameter.getAttr(XCSG.name));
-			methodSignature.append(JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR);
+			methodSignature.append(JavaDocConstants.JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR);
 			methodSignature.append(getParamterSimplyTypeName(parameter));
 		}
 		

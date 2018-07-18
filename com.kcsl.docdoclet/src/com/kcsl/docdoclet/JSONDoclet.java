@@ -13,10 +13,6 @@ public final class JSONDoclet {
 	
 	private static final String OUTPUT_DIRECTORY_COMMAND_LINE_OPTION_NAME = "-output";
 	
-	private static final String JAVA_DOC_METHOD_SIGNATURE_SEPARATOR = "###";
-	
-	private static final String JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR = "@@@";
-	
 	private static final String DEPRECATED_TAG = "@deprecated";
 	
 	private static final String DEPRECATED_TAG_TYPE = "java.lang.Deprecated";
@@ -80,19 +76,19 @@ public final class JSONDoclet {
     @SuppressWarnings("unchecked")
 	private static void generateDocumentationForJavaClass(ClassDoc classDoc) {
     	JSONObject classJSONObject = new JSONObject();
-    	classJSONObject.put((Object)"class_package", (Object)classDoc.containingPackage().name());
-    	classJSONObject.put("class_name", classDoc.name());
-    	classJSONObject.put("class_qualified_name", classDoc.qualifiedName());
-    	classJSONObject.put("class_comments", classDoc.commentText());
+    	classJSONObject.put(JavaDocConstants.CLASS_PACKAGE_NAME_ATTRIBUTE, classDoc.containingPackage().name());
+    	classJSONObject.put(JavaDocConstants.CLASS_NAME_ATTRIBUTE, classDoc.name());
+    	classJSONObject.put(JavaDocConstants.CLASS_QUALIFIED_NAME_ATTRIBUTE, classDoc.qualifiedName());
+    	classJSONObject.put(JavaDocConstants.CLASS_COMMENTS_ATTRIBUTE, classDoc.commentText());
     	
 		JSONObject fieldsJSONObject = new JSONObject();
 		parseFields(classDoc.fields(), fieldsJSONObject);
-    	classJSONObject.put("class_fields", fieldsJSONObject);
+    	classJSONObject.put(JavaDocConstants.CLASS_FIELDS_ATTRIBUTE, fieldsJSONObject);
     		
 		JSONObject methodsJSONObject = new JSONObject();
 		parseMethods(classDoc.constructors(), methodsJSONObject);
 		parseMethods(classDoc.methods(), methodsJSONObject);
-    	classJSONObject.put("class_methods", methodsJSONObject);
+    	classJSONObject.put(JavaDocConstants.CLASS_METHODS_ATTRIBUTE, methodsJSONObject);
     	
     	saveJSONClassDocumentation(classDoc.qualifiedName(), classJSONObject);
     }
@@ -126,10 +122,10 @@ public final class JSONDoclet {
 		methodSignature.append(methodName);
 		Parameter[] parameters = methodDoc.parameters();
 		for(int index = 0; index < parameters.length; index++) {
-			methodSignature.append(JAVA_DOC_METHOD_SIGNATURE_SEPARATOR);
+			methodSignature.append(JavaDocConstants.JAVA_DOC_METHOD_SIGNATURE_SEPARATOR);
 			String parameterName = parameters[index].name();
 			methodSignature.append(parameterName);
-			methodSignature.append(JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR);
+			methodSignature.append(JavaDocConstants.JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR);
 			methodSignature.append(parameters[index].type().simpleTypeName());
 		}
 		return methodSignature.toString();
