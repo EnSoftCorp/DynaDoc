@@ -56,7 +56,6 @@ import com.hp.gagawa.java.elements.Ul;
 import com.kcsl.dynadoc.Configurations;
 import com.kcsl.dynadoc.doc.JavaDocAttributes;
 import com.kcsl.dynadoc.doc.JavaDocAttributes.CodeMap;
-import com.kcsl.dynadoc.html.Nav;
 import com.kcsl.supplementary.SupplementaryArtifactConstants.CommitIssueRelation;
 import com.kcsl.supplementary.SupplementaryArtifactConstants.BugzillaIssues;
 import com.kcsl.supplementary.SupplementaryArtifactConstants.CommitHistory;
@@ -155,8 +154,8 @@ public class ClassDocumentationGenerator {
 		Link boostrapCSS = new Link();
 		boostrapCSS.setRel("stylesheet");
 		boostrapCSS.setType("text/css");
-		boostrapCSS.setHref("https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
-		boostrapCSS.setAttribute("integrity", "sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm");
+		boostrapCSS.setHref("https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css");
+		boostrapCSS.setAttribute("integrity", "sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B");
 		boostrapCSS.setAttribute("crossorigin", "anonymous");
 		styleSheets.add(boostrapCSS);
 		
@@ -193,7 +192,9 @@ public class ClassDocumentationGenerator {
 		
 		// Bootstrap script
 		Script bootstrapScript = new Script("text/javascript");
-		bootstrapScript.setSrc("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js");
+		bootstrapScript.setSrc("https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js");
+		bootstrapScript.setAttribute("integrity", "sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em");
+		bootstrapScript.setAttribute("crossorigin", "anonymous");
 		scripts.add(bootstrapScript);
 		
 		// table scripts
@@ -209,7 +210,7 @@ public class ClassDocumentationGenerator {
 	private Body generateBody() {
 		Body body = new Body();
 		
-		Nav breadcrumbSection = this.generateBreadcrumbSection();
+		Div breadcrumbSection = this.generateBreadcrumbSection();
 		body.appendChild(breadcrumbSection);
 		
 		Div classNameSection = this.generateClassNameSection();
@@ -236,9 +237,10 @@ public class ClassDocumentationGenerator {
 		return body;
 	}
 	
-	private Nav generateBreadcrumbSection() {
-		Nav breadcrumb = new Nav();
-		breadcrumb.setAttribute("aria-label", "breadcrumb");
+	private Div generateBreadcrumbSection() {
+		Div breadcrumb = new Div();
+		breadcrumb.setCSSClass("nav-container");
+		breadcrumb.setStyle("position:relative;");
 		
 			Ol ol = new Ol();
 			ol.setCSSClass("breadcrumb");
@@ -250,12 +252,21 @@ public class ClassDocumentationGenerator {
 				
 				Li classLi = new Li();
 				classLi.setCSSClass("breadcrumb-item active");
-				classLi.setAttribute("aria-current", "page");
 				classLi.appendText(this.getName());
 				
 				ol.appendChild(classLi);
-			
 			breadcrumb.appendChild(ol);
+		
+			A guideLink = new A();
+			guideLink.setHref(Configurations.getHTMLGuidePagePath());
+			guideLink.setTarget("_blank");
+			guideLink.setCSSClass("btn btn-bg btn-danger");
+			guideLink.setStyle("position:absolute; right:1rem; top:50%; transform:translateY(-50%);");
+			guideLink.setAttribute("role", "button");
+			guideLink.appendText("DynaDoc Guide");
+			
+			breadcrumb.appendChild(guideLink);
+		
 		return breadcrumb;
 	}
 	

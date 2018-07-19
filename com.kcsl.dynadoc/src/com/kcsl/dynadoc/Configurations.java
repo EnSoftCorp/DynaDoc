@@ -16,6 +16,8 @@ import com.ensoftcorp.atlas.core.log.Log;
 
 public class Configurations {
 	
+	private static final String DYANDOC_GUIDE_HTML_PAGE_NAME = "dynadoc-guide.html";
+	
 	private static final String OUTPUT_GRAPHS_DIRECTORY_NAME = "graphs";
 	
 	private static final String OUTPUT_JAVADOC_DIRECTORY_NAME = "javadoc";
@@ -26,9 +28,15 @@ public class Configurations {
 	
 	private static final String PLUGIN_RESOURCES_ROOT_DIRECTORY = "./templates/";
 	
-	public static final String PLUGIN_SCRIPTS_DIRECTORY_PATH = PLUGIN_RESOURCES_ROOT_DIRECTORY + "scripts/";
+	private static final String PLUGIN_GUIDE_HTML_PAGE_PATH = PLUGIN_RESOURCES_ROOT_DIRECTORY + "guide/" + DYANDOC_GUIDE_HTML_PAGE_NAME;
+	
+	private static final String PLUGIN_SCRIPTS_DIRECTORY_PATH = PLUGIN_RESOURCES_ROOT_DIRECTORY + "scripts/";
 	
 	private static final String PLUGIN_RESOURCES_DIRECTORY_PATH = PLUGIN_RESOURCES_ROOT_DIRECTORY + "resources/";
+	
+	private static final String PLUGIN_GUIDE_IMAGES_DIRECTORY_PATH = PLUGIN_RESOURCES_ROOT_DIRECTORY + "guide/slides/";
+	
+	private static final String [] GUIDE_IMAGES_DIRECTORY_CONTENTS_TO_BE_COPIES = { "slide1.png", "slide2.png", "slide3.png", "slide4.png", "slide5.png", "slide6.png", "slide7.png", "slide8.png", "slide9.png" };
 	
 	private static final String [] RESOURCES_DIRECTORY_CONTENTS_TO_BE_COPIED = { "check.svg", "details_close.png", "details_open.png", "styles.css"};
 	
@@ -85,6 +93,16 @@ public class Configurations {
 			mainOutputDirectory.mkdirs();
 		}
 		
+		// copy the guide.html
+		Bundle pluginBundle = Activator.getDefault().getBundle();
+		try {
+			InputStream pluginHTMLGuidePageInputStream = pluginBundle.getEntry(PLUGIN_GUIDE_HTML_PAGE_PATH).openStream();
+			File destinationFile = new File(mainOutputDirectory, DYANDOC_GUIDE_HTML_PAGE_NAME);
+			FileUtils.copyInputStreamToFile(pluginHTMLGuidePageInputStream, destinationFile);
+		} catch (IOException e) {
+			System.err.println("Error while copying the dynadoc guide HTML page");
+		}
+		
 		// "graphs" directory
 		OUTPUT_GRAPHS_DIRECTORY_PATH = OUTPUT_DIRECTORY_PATH.resolve(OUTPUT_GRAPHS_DIRECTORY_NAME);
 		File graphsDirectoryFile = OUTPUT_GRAPHS_DIRECTORY_PATH.toFile();
@@ -96,7 +114,6 @@ public class Configurations {
 		resourcesDirectoryFile.mkdirs();
 		
 		// Copy stuff into resources directory
-		Bundle pluginBundle = Activator.getDefault().getBundle();
 		for(String pluginResourceFileName: RESOURCES_DIRECTORY_CONTENTS_TO_BE_COPIED) {
 			try {
 				InputStream pluginResourceInputStream = pluginBundle.getEntry(PLUGIN_RESOURCES_DIRECTORY_PATH + pluginResourceFileName).openStream();
@@ -104,6 +121,16 @@ public class Configurations {
 				FileUtils.copyInputStreamToFile(pluginResourceInputStream, destinationFile);
 			} catch (IOException e) {
 				System.err.println("Error while copying contents of plugin resources file");
+			}
+		}
+		
+		for(String pluginGuideImageFileName: GUIDE_IMAGES_DIRECTORY_CONTENTS_TO_BE_COPIES) {
+			try {
+				InputStream pluginGuideImageInputStream = pluginBundle.getEntry(PLUGIN_GUIDE_IMAGES_DIRECTORY_PATH + pluginGuideImageFileName).openStream();
+				File destinationFile = new File(resourcesDirectoryFile, pluginGuideImageFileName);
+				FileUtils.copyInputStreamToFile(pluginGuideImageInputStream, destinationFile);
+			} catch (IOException e) {
+				System.err.println("Error while copying contents of guide slides into resources output directory");
 			}
 		}
 		
@@ -177,6 +204,10 @@ public class Configurations {
 	
 	public static Path getOutputScriptsDirectoryPath() {
 		return OUTPUT_SCRIPTS_DIRECTORY_PATH;
+	}
+	
+	public static String getHTMLGuidePagePath() {
+		return DYANDOC_GUIDE_HTML_PAGE_NAME;
 	}
 
 }
