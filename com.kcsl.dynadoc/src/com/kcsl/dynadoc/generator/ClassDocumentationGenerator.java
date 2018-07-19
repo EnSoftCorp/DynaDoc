@@ -1,13 +1,9 @@
 package com.kcsl.dynadoc.generator;
 
-import static com.kcsl.dynadoc.Configurations.PLUGIN_SCRIPTS_DIRECTORY_PATH;
-
 import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -15,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.osgi.framework.Bundle;
 
 import com.ensoftcorp.atlas.core.db.graph.Edge;
 import com.ensoftcorp.atlas.core.db.graph.GraphElement;
@@ -58,7 +53,6 @@ import com.hp.gagawa.java.elements.Thead;
 import com.hp.gagawa.java.elements.Title;
 import com.hp.gagawa.java.elements.Tr;
 import com.hp.gagawa.java.elements.Ul;
-import com.kcsl.dynadoc.Activator;
 import com.kcsl.dynadoc.Configurations;
 import com.kcsl.dynadoc.doc.JavaDocAttributes;
 import com.kcsl.dynadoc.doc.JavaDocAttributes.CodeMap;
@@ -91,12 +85,10 @@ public class ClassDocumentationGenerator {
 
 	private static final String [] FIELDS_TABLE_HEADERS = { "Visibility", "Type", "Name", "Static", "Instance", "Final", "Deprecated", "External Use", "Data Flow"};
 	
-	private static final String [] ISSUES_TABLE_HEADERS = { "Issue Id", "Last Changed", "Summary", "Status", "Severity", "Priority", "Issue Report" };
+	private static final String [] ISSUES_TABLE_HEADERS = { "Issue Id", "Last Changed", "Summary", "Status", "Severity", "Priority", "Related Commits", "View Report" };
 	
-	private static final String [] COMMITS_TABLE_HEADERS = { "Commit Id", "Commiter", "Date/Time", "Summary", "Commit Details" };
-	
-	private static final String [] JQUERY_DATATABLES_SCRIPT_FILENAMES = { "jquery-constructors-table-script.js", "jquery-methods-table-script.js", "jquery-fields-table-script.js", "jquery-issues-table-script.js", "jquery-commits-table-script.js" };
-	
+	private static final String [] COMMITS_TABLE_HEADERS = { "Commit Id", "Commiter", "Date/Time", "Summary", "Related Issues", "View Commit" };
+		
 	private Node classNode;
 	
 	public ClassDocumentationGenerator(Node classNode) {
@@ -204,26 +196,11 @@ public class ClassDocumentationGenerator {
 		bootstrapScript.setSrc("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js");
 		scripts.add(bootstrapScript);
 		
-		scripts.addAll(this.generateJQueryDataTableScripts());
-		
-		return scripts;
-	}
-	
-	private List<Script> generateJQueryDataTableScripts() {
-		List<Script> scripts = new ArrayList<Script>();
-		
-		Bundle pluginBundle = Activator.getDefault().getBundle();
-		
-		for(String scriptFileName: JQUERY_DATATABLES_SCRIPT_FILENAMES) {
-			try {
-				InputStream dataTableScriptInputStream = pluginBundle.getEntry(PLUGIN_SCRIPTS_DIRECTORY_PATH + scriptFileName).openStream();
-				List<String> dataTableScriptLines = IOUtils.readLines(dataTableScriptInputStream);
-				Script dataTableScript = new Script("text/javascript");
-				dataTableScript.appendText(collapseListOfStrings(dataTableScriptLines));
-				scripts.add(dataTableScript);
-			} catch (IOException e) {
-				System.err.println("Error reading [" + PLUGIN_SCRIPTS_DIRECTORY_PATH + scriptFileName + "] File.");
-			}
+		// table scripts
+		for(String tableScriptFileName: Configurations.getClassDocumentationScriptFileNames()) {
+			Script tableScript = new Script("text/javascript");
+			tableScript.setSrc(this.getRelativeFilePathString(this.getScriptsDirectoryPath(), tableScriptFileName));
+			scripts.add(tableScript);
 		}
 		
 		return scripts;
@@ -1523,6 +1500,11 @@ public class ClassDocumentationGenerator {
 		priorityColumn.appendText(issueNode.getAttr(BugzillaIssues.Attributes.ISSUE_PRIORITY).toString());
 		columns.add(priorityColumn);
 		
+		// Associated Commits Column
+		Td associatedCommitsColumn = new Td();
+		associatedCommitsColumn.appendText(this.getCommitsForIssue(issueNode));
+		columns.add(associatedCommitsColumn);
+		
 		// Issue Report Column
 		Td issueUrlColumn = new Td();
 		A link = new A();
@@ -1629,6 +1611,11 @@ public class ClassDocumentationGenerator {
 		summaryColumn.appendText(commitNode.getAttr(CommitHistory.Attributes.COMMIT_MESSAGE).toString());
 		columns.add(summaryColumn);
 		
+		// Associated Issues Column
+		Td associatedIssuesColumn = new Td();
+		associatedIssuesColumn.appendText(this.getIssuesForCommit(commitNode));
+		columns.add(associatedIssuesColumn);
+		
 		// Commit URL Column
 		Td commitUrlColumn = new Td();
 		A link = new A();
@@ -1645,6 +1632,34 @@ public class ClassDocumentationGenerator {
 			commitRow.appendChild(column);
 		}
 		return commitRow;
+	}
+	
+	private String getCommitsForIssue(Node issueNode) {
+		StringBuilder sb = new StringBuilder();
+		AtlasSet<Node> commits = Query.universe().edges(CommitIssueRelation.COMMIT_LINKED_TO_ISSUE_EDGE_TAG).predecessors(Common.toQ(issueNode)).eval().nodes();
+		int index = 0;
+		for(Node commit: commits) {
+			sb.append(commit.getAttr(CommitHistory.Attributes.COMMIT_ID));
+			if(index < commits.size() - 1) {
+				sb.append(", ");
+			}
+			index++;
+		}
+		return sb.toString();
+	}
+	
+	private String getIssuesForCommit(Node commitNode) {
+		StringBuilder sb = new StringBuilder();
+		AtlasSet<Node> issues = Query.universe().edges(CommitIssueRelation.COMMIT_LINKED_TO_ISSUE_EDGE_TAG).successors(Common.toQ(commitNode)).eval().nodes();
+		int index = 0;
+		for(Node issue: issues) {
+			sb.append(issue.getAttr(BugzillaIssues.Attributes.ISSUE_ID));
+			if(index < issues.size() - 1) {
+				sb.append(", ");
+			}
+			index++;
+		}
+		return sb.toString();
 	}
 	
 	private Div getClassUserAnnotations() {
@@ -1672,14 +1687,6 @@ public class ClassDocumentationGenerator {
 		return this.getContainingPackage().getAttr(XCSG.name).toString();
 	}
 	
-	private static String collapseListOfStrings(List<String> strings) {
-		StringBuilder stringBuilder = new StringBuilder();
-		for(String string: strings) {
-			stringBuilder.append(string);
-		}
-		return stringBuilder.toString();
-	}
-	
 	private Q getClassQ() {
 		return Common.toQ(this.getClassNode());
 	}
@@ -1694,6 +1701,10 @@ public class ClassDocumentationGenerator {
 	
 	private Path getResourcesDirectoryPath() {
 		return  Configurations.getOutputResourcesDirectoryPath();
+	}
+	
+	private Path getScriptsDirectoryPath() {
+		return  Configurations.getOutputScriptsDirectoryPath();
 	}
 	
 	private String getAbsoluteFilePathString(Path containingDirectory, String fileName) {

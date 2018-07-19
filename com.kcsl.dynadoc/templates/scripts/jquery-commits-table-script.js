@@ -10,6 +10,7 @@
                 { "data": "commiter" },
                 { "data": "dataTime" },
                 { "data": "summary" },
+                { "data": "issues" },
                 { "bSearchable": false, "orderable": false, "data": "commitDetails" },
             ],
             "order": [[1, 'asc']]

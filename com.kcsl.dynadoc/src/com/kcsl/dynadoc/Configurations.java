@@ -22,6 +22,8 @@ public class Configurations {
 	
 	private static final String OUTPUT_RESOURCES_DIRECTORY_NAME = "resources";
 	
+	private static final String OUTPUT_SCRIPTS_DIRECTORY_NAME = "scripts";
+	
 	private static final String PLUGIN_RESOURCES_ROOT_DIRECTORY = "./templates/";
 	
 	public static final String PLUGIN_SCRIPTS_DIRECTORY_PATH = PLUGIN_RESOURCES_ROOT_DIRECTORY + "scripts/";
@@ -29,6 +31,8 @@ public class Configurations {
 	private static final String PLUGIN_RESOURCES_DIRECTORY_PATH = PLUGIN_RESOURCES_ROOT_DIRECTORY + "resources/";
 	
 	private static final String [] RESOURCES_DIRECTORY_CONTENTS_TO_BE_COPIED = { "check.svg", "details_close.png", "details_open.png", "styles.css"};
+	
+	private static final String [] SCRIPTS_DIRECTORY_CONTENTS_TO_BE_COPIED = { "jquery-constructors-table-script.js", "jquery-methods-table-script.js", "jquery-fields-table-script.js", "jquery-issues-table-script.js", "jquery-commits-table-script.js" };
 	
 	private static String DOCLET_QULALIFIED_CLASS_NAME = null;
 	
@@ -43,6 +47,8 @@ public class Configurations {
 	private static Path OUTPUT_GRAPHS_DIRECTORY_PATH = null;
 	
 	private static Path OUTPUT_RESOURCES_DIRECTORY_PATH = null;
+	
+	private static Path OUTPUT_SCRIPTS_DIRECTORY_PATH = null;
 	
 	public static void createProperOutputDirectoriesStructure() {		
 		// Doclet configurations
@@ -101,6 +107,21 @@ public class Configurations {
 			}
 		}
 		
+		OUTPUT_SCRIPTS_DIRECTORY_PATH = OUTPUT_DIRECTORY_PATH.resolve(OUTPUT_SCRIPTS_DIRECTORY_NAME);
+		File scriptsOutputDirectoryFile = OUTPUT_SCRIPTS_DIRECTORY_PATH.toFile();
+		scriptsOutputDirectoryFile.mkdirs();
+		
+		// Copy stuff into scripts directory
+		for(String pluginScriptFileName: SCRIPTS_DIRECTORY_CONTENTS_TO_BE_COPIED) {
+			try {
+				InputStream pluginScriptInputStream = pluginBundle.getEntry(PLUGIN_SCRIPTS_DIRECTORY_PATH + pluginScriptFileName).openStream();
+				File destinationFile = new File(scriptsOutputDirectoryFile, pluginScriptFileName);
+				FileUtils.copyInputStreamToFile(pluginScriptInputStream, destinationFile);
+			} catch (IOException e) {
+				System.err.println("Error while copying contents of plugin scripts file");
+			}
+		}
+		
 		// "javadoc" directory
 		OUTPUT_JAVADOC_DIRECTORY_PATH = OUTPUT_DIRECTORY_PATH.resolve(OUTPUT_JAVADOC_DIRECTORY_NAME);
 		File javadocDirectoryFile = OUTPUT_JAVADOC_DIRECTORY_PATH.toFile();
@@ -126,6 +147,10 @@ public class Configurations {
 		return OUTPUT_DIRECTORY_ABSOLUTE_PATH != null;
 	}
 	
+	public static String[] getClassDocumentationScriptFileNames() {
+		return SCRIPTS_DIRECTORY_CONTENTS_TO_BE_COPIED;
+	}
+	
 	public static Path getDocletProjectOutputDirectoryPath() {
 		return DOCLET_PROJECT_OUTPUT_DIRECTORY_PATH;
 	}
@@ -147,7 +172,11 @@ public class Configurations {
 	}
 	
 	public static Path getOutputResourcesDirectoryPath() {
-		return  OUTPUT_RESOURCES_DIRECTORY_PATH;
+		return OUTPUT_RESOURCES_DIRECTORY_PATH;
+	}
+	
+	public static Path getOutputScriptsDirectoryPath() {
+		return OUTPUT_SCRIPTS_DIRECTORY_PATH;
 	}
 
 }

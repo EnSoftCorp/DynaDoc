@@ -12,6 +12,7 @@
                 { "data": "status" },
                 { "data": "severity" },
                 { "data": "priority" },
+                { "data": "commits" },
                 { "bSearchable": false, "orderable": false, "data": "bug_report" },
             ],
             "order": [[1, 'asc']]
