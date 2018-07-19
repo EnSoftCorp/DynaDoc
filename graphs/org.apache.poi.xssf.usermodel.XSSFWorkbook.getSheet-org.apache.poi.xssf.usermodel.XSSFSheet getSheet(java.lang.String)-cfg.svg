@@ -86,23 +86,23 @@
       <image stroke-linecap="square" x="48" y="100" transform="translate(0,0.998)" clip-path="url(#clipPath9)" width="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAbUlEQVR42mOMi4v7&#10;z0AmaG9vZ2ABMRYuXEiy5h07djBISUlBDACBZ8+ekWTA8uXLGTw8PBiYGCgEw8AA&#10;FnQBaWlpvBqePn1KmQtAUYfXBSAb0BWR5AVS08RwiUZQxgClbbIMAGVJUKiDMgY5&#10;AAAckR2JbOwokAAAAABJRU5ErkJggg==" height="16" preserveAspectRatio="none" stroke-miterlimit="10"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M145.6471 171.4023 L227.1237 130.6641 L308.6003 171.4023 L227.1237 212.1406 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
+      <path d="M145.6471 171.4024 L227.1237 130.6641 L308.6003 171.4024 L227.1237 212.1406 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
     </g>
     <g fill="rgb(35,122,170)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(35,122,170)">
-      <path d="M145.6471 171.4023 L227.1237 130.6641 L308.6003 171.4023 L227.1237 212.1406 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M145.6471 171.4024 L227.1237 130.6641 L308.6003 171.4024 L227.1237 212.1406 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g font-size="14" stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill="white" font-family="sans-serif" stroke="white" stroke-miterlimit="1.45">
       <text x="184.6237" xml:space="preserve" y="168.4492" clip-path="url(#clipPath2)" stroke="none">→ enhanced</text>
       <text x="188.1237" xml:space="preserve" y="184.9375" clip-path="url(#clipPath2)" stroke="none">for (sheets)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M145.6471 171.4023 L227.1237 130.6641 L308.6003 171.4023 L227.1237 212.1406 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M145.6471 171.4024 L227.1237 130.6641 L308.6003 171.4024 L227.1237 212.1406 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M60 380.2559 L199.9648 310.2734 L339.9297 380.2559 L199.9648 450.2383 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
+      <path d="M60 380.2559 L199.9649 310.2735 L339.9296 380.2559 L199.9649 450.2383 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
     </g>
     <g fill="rgb(35,122,170)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(35,122,170)">
-      <path d="M60 380.2559 L199.9648 310.2734 L339.9297 380.2559 L199.9648 450.2383 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M60 380.2559 L199.9649 310.2735 L339.9296 380.2559 L199.9649 450.2383 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g font-size="14" stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill="white" font-family="sans-serif" stroke="white" stroke-miterlimit="1.45">
       <text x="171.9648" xml:space="preserve" y="369.0586" clip-path="url(#clipPath2)" stroke="none">if (name</text>
@@ -110,7 +110,7 @@
       <text x="138.4648" xml:space="preserve" y="402.0352" clip-path="url(#clipPath2)" stroke="none">.getSheetName()))</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M60 380.2559 L199.9648 310.2734 L339.9297 380.2559 L199.9648 450.2383 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M60 380.2559 L199.9649 310.2735 L339.9296 380.2559 L199.9649 450.2383 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
       <rect x="144.4648" y="508.3711" clip-path="url(#clipPath10)" width="111" rx="4" ry="4" height="30" stroke="none"/>
@@ -143,11 +143,11 @@
       <path fill="none" d="M247.9935 201.7279 L409.9297 252.1406 L409.9297 357.2282" clip-path="url(#clipPath2)" stroke="black"/>
       <path fill="black" d="M409.9297 365.2282 L414.9297 353.2282 L409.9297 356.2282 L404.9297 353.2282 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="379.9297" y="267.4309" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">false</text>
-      <path fill="none" d="M199.9648 450.2383 L199.9648 500.3427" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M199.9648 450.2667 L199.9648 500.3427" clip-path="url(#clipPath2)"/>
       <path d="M199.9648 508.3427 L204.9648 496.3427 L199.9648 499.3427 L194.9648 496.3427 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="172.9648" y="483.8398" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">true</text>
-      <path fill="none" d="M246.6312 333.5895 L269.9473 310.2734 L220.3182 270.2734 L220.3182 252.1406 L225.7819 220.0273" clip-path="url(#clipPath2)" stroke="black"/>
-      <path fill="black" d="M227.1237 212.1406 L220.1818 223.132 L225.6142 221.0131 L230.0401 224.8093 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M246.6312 333.5895 L269.9473 310.2734 L220.3182 270.2734 L220.3182 252.1406 L225.7752 220.0664" clip-path="url(#clipPath2)" stroke="black"/>
+      <path fill="black" d="M227.1171 212.1797 L220.1751 223.1711 L225.6075 221.0522 L230.0335 224.8483 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="189.3182" y="265.7422" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">false</text>
     </g>
   </g>

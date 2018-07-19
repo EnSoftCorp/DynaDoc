@@ -110,16 +110,16 @@
       <rect x="474.5" y="200.6641" clip-path="url(#clipPath2)" fill="none" width="348" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M570.0117 309.9082 L648.5 270.6641 L726.9883 309.9082 L648.5 349.1523 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
+      <path d="M570.0117 309.9082 L648.5 270.6641 L726.9882 309.9082 L648.5 349.1523 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
     </g>
     <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(51,175,243)">
-      <path d="M570.0117 309.9082 L648.5 270.6641 L726.9883 309.9082 L648.5 349.1523 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M570.0117 309.9082 L648.5 270.6641 L726.9882 309.9082 L648.5 349.1523 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt">
       <text x="592.5" xml:space="preserve" y="315.1992" clip-path="url(#clipPath2)" stroke="none">switch (visibility)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M570.0117 309.9082 L648.5 270.6641 L726.9883 309.9082 L648.5 349.1523 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M570.0117 309.9082 L648.5 270.6641 L726.9882 309.9082 L648.5 349.1523 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
       <rect x="148.5" y="389.1523" clip-path="url(#clipPath10)" width="95" rx="4" ry="4" height="30" stroke="none"/>

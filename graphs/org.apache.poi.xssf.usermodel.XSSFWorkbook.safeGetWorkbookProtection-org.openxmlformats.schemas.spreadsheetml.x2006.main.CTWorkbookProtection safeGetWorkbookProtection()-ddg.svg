@@ -154,17 +154,17 @@
       <rect x="60" y="258.7969" clip-path="url(#clipPath2)" fill="none" width="319" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M652.0234 439.918 L798 366.9297 L943.9766 439.918 L798 512.9062 Z" fill-rule="evenodd" clip-path="url(#clipPath8)" stroke="none"/>
+      <path d="M652.0235 439.918 L797.9999 366.9297 L943.9765 439.918 L797.9999 512.9062 Z" fill-rule="evenodd" clip-path="url(#clipPath8)" stroke="none"/>
     </g>
     <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(51,175,243)">
-      <path d="M652.0234 439.918 L798 366.9297 L943.9766 439.918 L798 512.9062 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M652.0235 439.918 L797.9999 366.9297 L943.9765 439.918 L797.9999 512.9062 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt">
       <text x="784.5" xml:space="preserve" y="436.9648" clip-path="url(#clipPath2)" stroke="none">→ if</text>
       <text x="691" xml:space="preserve" y="453.4531" clip-path="url(#clipPath2)" stroke="none">(!workbookProtectionPresent())</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M652.0234 439.918 L798 366.9297 L943.9766 439.918 L798 512.9062 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M652.0235 439.918 L797.9999 366.9297 L943.9765 439.918 L797.9999 512.9062 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" stroke-miterlimit="1.45">
       <path fill="none" d="M421.75 127.998 L461.75 167.998 L461.75 186.1309 L575 226.1309 L575 250.765" clip-path="url(#clipPath2)"/>

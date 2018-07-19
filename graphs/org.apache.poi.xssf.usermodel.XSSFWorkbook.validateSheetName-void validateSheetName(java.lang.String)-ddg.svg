@@ -132,8 +132,8 @@
       <path fill="none" d="M671.7266 160.6641 L437 200.6641 L437 278.2316" clip-path="url(#clipPath2)"/>
       <path d="M437 286.2316 L442 274.2316 L437 277.2316 L432 274.2316 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="328" xml:space="preserve" y="215.2656" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
-      <path fill="none" d="M724.2266 160.6641 L958.9531 200.6641 L958.9531 230.7596" clip-path="url(#clipPath2)"/>
-      <path d="M958.9531 238.7596 L963.9531 226.7596 L958.9531 229.7596 L953.9531 226.7596 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M724.2266 160.6641 L958.9531 200.6641 L958.9531 230.7969" clip-path="url(#clipPath2)"/>
+      <path d="M958.9531 238.7969 L963.9531 226.7969 L958.9531 229.7969 L953.9531 226.7969 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="849.9531" xml:space="preserve" y="215.2656" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
     </g>
   </g>

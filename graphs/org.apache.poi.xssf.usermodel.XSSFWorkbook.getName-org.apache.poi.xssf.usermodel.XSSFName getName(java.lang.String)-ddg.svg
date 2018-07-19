@@ -126,16 +126,16 @@
       <rect x="136" y="462.5508" clip-path="url(#clipPath2)" fill="none" width="52" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M284 365.6738 L361.4883 326.9297 L438.9766 365.6738 L361.4883 404.418 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
+      <path d="M284 365.6738 L361.4883 326.9297 L438.9766 365.6738 L361.4883 404.4179 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
     </g>
     <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(51,175,243)">
-      <path d="M284 365.6738 L361.4883 326.9297 L438.9766 365.6738 L361.4883 404.418 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M284 365.6738 L361.4883 326.9297 L438.9766 365.6738 L361.4883 404.4179 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt">
       <text x="306.4883" xml:space="preserve" y="370.9648" clip-path="url(#clipPath2)" stroke="none">if (list.isEmpty())</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M284 365.6738 L361.4883 326.9297 L438.9766 365.6738 L361.4883 404.418 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M284 365.6738 L361.4883 326.9297 L438.9766 365.6738 L361.4883 404.4179 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
       <rect x="85.2441" y="218.7969" clip-path="url(#clipPath10)" width="353" rx="4" ry="4" height="30" stroke="none"/>
@@ -159,8 +159,8 @@
       <path fill="none" d="M173.4941 248.7969 L162 288.7969 L162 342.6436" clip-path="url(#clipPath2)"/>
       <path d="M162 350.6436 L167 338.6436 L162 341.6436 L157 338.6436 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="53" xml:space="preserve" y="303.3984" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
-      <path fill="none" d="M349.9941 248.7969 L361.4883 288.7969 L361.4883 318.9297" clip-path="url(#clipPath2)"/>
-      <path d="M361.4883 326.9297 L366.4883 314.9297 L361.4883 317.9297 L356.4883 314.9297 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M349.9941 248.7969 L361.4883 288.7969 L361.4883 318.8925" clip-path="url(#clipPath2)"/>
+      <path d="M361.4883 326.8925 L366.4883 314.8925 L361.4883 317.8925 L356.4883 314.8925 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="252.4883" xml:space="preserve" y="303.3984" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
     </g>
   </g>

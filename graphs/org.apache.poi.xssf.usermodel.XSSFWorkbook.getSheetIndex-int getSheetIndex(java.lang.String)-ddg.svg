@@ -119,8 +119,8 @@
       <path fill="none" d="M61.5 283.5293 L190.9648 218.7969 L320.4297 283.5293 L190.9648 348.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,14,15)" stroke-miterlimit="1.45">
-      <path fill="none" d="M190.9648 160.6641 L190.9648 210.7685" clip-path="url(#clipPath2)"/>
-      <path d="M190.9648 218.7685 L195.9648 206.7685 L190.9648 209.7685 L185.9648 206.7685 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M190.9648 160.6641 L190.9648 210.7969" clip-path="url(#clipPath2)"/>
+      <path d="M190.9648 218.7969 L195.9648 206.7969 L190.9648 209.7969 L185.9648 206.7969 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="81.9648" xml:space="preserve" y="194.2656" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
     </g>
   </g>
