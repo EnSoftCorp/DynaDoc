@@ -149,10 +149,10 @@
       <rect x="371.5" y="620.2617" clip-path="url(#clipPath2)" fill="none" width="70" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,14,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M275.0352 406.3965 L406.5 340.664 L537.9648 406.3965 L406.5 472.1289 Z" fill-rule="evenodd" clip-path="url(#clipPath11)" stroke="none"/>
+      <path d="M275.0352 406.3965 L406.5 340.6641 L537.9648 406.3965 L406.5 472.1289 Z" fill-rule="evenodd" clip-path="url(#clipPath11)" stroke="none"/>
     </g>
     <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,14,15)" stroke="rgb(51,175,243)">
-      <path d="M275.0352 406.3965 L406.5 340.664 L537.9648 406.3965 L406.5 472.1289 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M275.0352 406.3965 L406.5 340.6641 L537.9648 406.3965 L406.5 472.1289 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,14,15)" stroke-linecap="butt">
       <text x="345.5" xml:space="preserve" y="395.1992" clip-path="url(#clipPath2)" stroke="none">if (value &amp;&amp; calcPr</text>
@@ -160,15 +160,15 @@
       <text x="330.5" xml:space="preserve" y="428.1758" clip-path="url(#clipPath2)" stroke="none">STCalcMode.MANUAL)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,14,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M275.0352 406.3965 L406.5 340.664 L537.9648 406.3965 L406.5 472.1289 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M275.0352 406.3965 L406.5 340.6641 L537.9648 406.3965 L406.5 472.1289 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="gray" stroke-miterlimit="1.45" transform="matrix(1,0,0,1,14,15)" stroke-linecap="butt" stroke="gray">
       <path fill="none" d="M406.5 160.6641 L406.5 192.625" clip-path="url(#clipPath2)"/>
       <path d="M406.5 200.625 L411.5 188.625 L406.5 191.625 L401.5 188.625 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <path fill="none" d="M406.5 230.6641 L406.5 262.625" clip-path="url(#clipPath2)"/>
       <path d="M406.5 270.625 L411.5 258.625 L406.5 261.625 L401.5 258.625 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <path fill="none" d="M406.5 300.6641 L406.5 332.625" clip-path="url(#clipPath2)"/>
-      <path d="M406.5 340.625 L411.5 328.625 L406.5 331.625 L401.5 328.625 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M406.5 300.6641 L406.5 332.6641" clip-path="url(#clipPath2)"/>
+      <path d="M406.5 340.6641 L411.5 328.6641 L406.5 331.6641 L401.5 328.6641 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <path fill="none" d="M310.5 580.2617 L381.8337 616.6101" clip-path="url(#clipPath2)"/>
       <path d="M388.9617 620.2422 L380.5398 610.3391 L380.9427 616.1561 L375.9997 619.249 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <path fill="none" d="M456.7505 447.0313 L502.5 521.1953 L502.5 574.3281 L430.9431 616.199" clip-path="url(#clipPath2)" stroke="black"/>

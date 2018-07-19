@@ -114,8 +114,8 @@
       <rect x="123" y="130.6641" clip-path="url(#clipPath2)" fill="none" width="66" rx="4" ry="4" height="30"/>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" stroke-miterlimit="1.45">
-      <path fill="none" d="M156 160.6641 L156 210.7685" clip-path="url(#clipPath2)"/>
-      <path d="M156 218.7685 L161 206.7685 L156 209.7685 L151 206.7685 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M156 160.6641 L156 210.7969" clip-path="url(#clipPath2)"/>
+      <path d="M156 218.7969 L161 206.7969 L156 209.7969 L151 206.7969 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="47" xml:space="preserve" y="194.2656" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
     </g>
   </g>

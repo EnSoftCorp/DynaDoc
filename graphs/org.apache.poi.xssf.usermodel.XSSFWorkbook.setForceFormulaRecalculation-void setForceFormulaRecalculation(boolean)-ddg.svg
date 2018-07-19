@@ -105,10 +105,10 @@
       <rect x="160.4648" y="130.6641" clip-path="url(#clipPath2)" fill="none" width="65" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,14,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M61.5 284.5293 L192.9648 218.7969 L324.4297 284.5293 L192.9648 350.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath11)" stroke="none"/>
+      <path d="M61.5 284.5293 L192.9649 218.7969 L324.4297 284.5293 L192.9649 350.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath11)" stroke="none"/>
     </g>
     <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,14,15)" stroke="rgb(51,175,243)">
-      <path d="M61.5 284.5293 L192.9648 218.7969 L324.4297 284.5293 L192.9648 350.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M61.5 284.5293 L192.9649 218.7969 L324.4297 284.5293 L192.9649 350.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,14,15)" stroke-linecap="butt">
       <text x="131.9648" xml:space="preserve" y="273.332" clip-path="url(#clipPath2)" stroke="none">if (value &amp;&amp; calcPr</text>
@@ -116,11 +116,11 @@
       <text x="116.9648" xml:space="preserve" y="306.3086" clip-path="url(#clipPath2)" stroke="none">STCalcMode.MANUAL)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,14,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M61.5 284.5293 L192.9648 218.7969 L324.4297 284.5293 L192.9648 350.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M61.5 284.5293 L192.9649 218.7969 L324.4297 284.5293 L192.9649 350.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,14,15)" stroke-miterlimit="1.45">
-      <path fill="none" d="M192.9648 160.6641 L192.9648 210.7969" clip-path="url(#clipPath2)"/>
-      <path d="M192.9648 218.7969 L197.9648 206.7969 L192.9648 209.7969 L187.9648 206.7969 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M192.9648 160.6641 L192.9648 210.7685" clip-path="url(#clipPath2)"/>
+      <path d="M192.9648 218.7685 L197.9648 206.7685 L192.9648 209.7685 L187.9648 206.7685 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="83.9648" xml:space="preserve" y="194.2656" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
     </g>
   </g>

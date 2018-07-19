@@ -125,10 +125,10 @@
       <rect x="308.4414" y="581.8242" clip-path="url(#clipPath2)" fill="none" width="100" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M192 440.4707 L358.4414 357.25 L524.8828 440.4707 L358.4414 523.6914 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
+      <path d="M192 440.4707 L358.4414 357.25 L524.8828 440.4707 L358.4414 523.6913 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
     </g>
     <g fill="rgb(35,122,170)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(35,122,170)">
-      <path d="M192 440.4707 L358.4414 357.25 L524.8828 440.4707 L358.4414 523.6914 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M192 440.4707 L358.4414 357.25 L524.8828 440.4707 L358.4414 523.6913 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g font-size="14" stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill="white" font-family="sans-serif" stroke="white" stroke-miterlimit="1.45">
       <text x="303.9414" xml:space="preserve" y="412.7852" clip-path="url(#clipPath2)" stroke="none">→ enhanced for</text>
@@ -138,7 +138,7 @@
       <text x="320.4414" xml:space="preserve" y="478.7383" clip-path="url(#clipPath2)" stroke="none">.ENGLISH)))</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M192 440.4707 L358.4414 357.25 L524.8828 440.4707 L358.4414 523.6914 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M192 440.4707 L358.4414 357.25 L524.8828 440.4707 L358.4414 523.6913 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="white" stroke-miterlimit="1.45" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt" stroke="white">
       <path fill="none" d="M280.2827 241.4682 L116 299.1172 L116 417.4398" clip-path="url(#clipPath2)"/>

@@ -98,10 +98,10 @@
       <rect x="175.75" y="130.6641" clip-path="url(#clipPath2)" fill="none" width="257" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M206.2852 249.6465 L304.25 200.6641 L402.2148 249.6465 L304.25 298.6289 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
+      <path d="M206.2851 249.6465 L304.25 200.6641 L402.2148 249.6465 L304.25 298.6289 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
     </g>
     <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(51,175,243)">
-      <path d="M206.2852 249.6465 L304.25 200.6641 L402.2148 249.6465 L304.25 298.6289 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M206.2851 249.6465 L304.25 200.6641 L402.2148 249.6465 L304.25 298.6289 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt">
       <text x="261.75" xml:space="preserve" y="238.4492" clip-path="url(#clipPath2)" stroke="none">if (index &lt; 0</text>
@@ -109,7 +109,7 @@
       <text x="264.25" xml:space="preserve" y="271.4258" clip-path="url(#clipPath2)" stroke="none">lastSheetIx)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M206.2852 249.6465 L304.25 200.6641 L402.2148 249.6465 L304.25 298.6289 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M206.2851 249.6465 L304.25 200.6641 L402.2148 249.6465 L304.25 298.6289 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
       <rect x="60" y="376.7617" clip-path="url(#clipPath10)" width="289" rx="4" ry="4" height="30" stroke="none"/>
@@ -124,10 +124,10 @@
       <rect x="60" y="376.7617" clip-path="url(#clipPath2)" fill="none" width="289" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M109.0352 494.4941 L204.5 446.7617 L299.9648 494.4941 L204.5 542.2266 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
+      <path d="M109.0352 494.4942 L204.5 446.7618 L299.9648 494.4942 L204.5 542.2266 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
     </g>
     <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(51,175,243)">
-      <path d="M109.0352 494.4941 L204.5 446.7617 L299.9648 494.4941 L204.5 542.2266 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M109.0352 494.4942 L204.5 446.7618 L299.9648 494.4942 L204.5 542.2266 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt">
       <text x="200" xml:space="preserve" y="483.2969" clip-path="url(#clipPath2)" stroke="none">if</text>
@@ -135,7 +135,7 @@
       <text x="180.5" xml:space="preserve" y="516.2734" clip-path="url(#clipPath2)" stroke="none">== -1)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M109.0352 494.4941 L204.5 446.7617 L299.9648 494.4941 L204.5 542.2266 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M109.0352 494.4942 L204.5 446.7618 L299.9648 494.4942 L204.5 542.2266 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
       <rect x="60.5" y="620.3594" clip-path="url(#clipPath10)" width="158" rx="4" ry="4" height="30" stroke="none"/>

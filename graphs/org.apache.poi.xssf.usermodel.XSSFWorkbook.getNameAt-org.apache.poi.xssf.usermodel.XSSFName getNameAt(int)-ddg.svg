@@ -128,10 +128,10 @@
       <rect x="77.5" y="279.0293" clip-path="url(#clipPath2)" fill="none" width="67" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M468.5 294.0293 L578.9648 238.7969 L689.4297 294.0293 L578.9648 349.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath11)" stroke="none"/>
+      <path d="M468.5 294.0293 L578.9649 238.7969 L689.4297 294.0293 L578.9649 349.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath11)" stroke="none"/>
     </g>
     <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(51,175,243)">
-      <path d="M468.5 294.0293 L578.9648 238.7969 L689.4297 294.0293 L578.9648 349.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M468.5 294.0293 L578.9649 238.7969 L689.4297 294.0293 L578.9649 349.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt">
       <text x="523.9648" xml:space="preserve" y="282.832" clip-path="url(#clipPath2)" stroke="none">if (nameIndex &lt;</text>
@@ -139,7 +139,7 @@
       <text x="541.4648" xml:space="preserve" y="315.8086" clip-path="url(#clipPath2)" stroke="none">&gt; nNames)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M468.5 294.0293 L578.9648 238.7969 L689.4297 294.0293 L578.9648 349.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M468.5 294.0293 L578.9649 238.7969 L689.4297 294.0293 L578.9649 349.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
       <rect x="253.5" y="130.6641" clip-path="url(#clipPath11)" width="106" rx="4" ry="4" height="30" stroke="none"/>

@@ -105,22 +105,22 @@
       <rect x="280.6782" y="130.6641" clip-path="url(#clipPath2)" fill="none" width="96" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M857.8551 307.7793 L939.3433 267.0352 L1020.8316 307.7793 L939.3433 348.5235 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
+      <path d="M857.8549 307.7793 L939.3431 267.0351 L1020.8314 307.7793 L939.3431 348.5234 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
     </g>
     <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(51,175,243)">
-      <path d="M857.8551 307.7793 L939.3433 267.0352 L1020.8316 307.7793 L939.3433 348.5235 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M857.8549 307.7793 L939.3431 267.0351 L1020.8314 307.7793 L939.3431 348.5234 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt">
       <text x="880.3433" xml:space="preserve" y="313.0703" clip-path="url(#clipPath2)" stroke="none">if (i == oldIndex)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M857.8551 307.7793 L939.3433 267.0352 L1020.8316 307.7793 L939.3433 348.5235 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M857.8549 307.7793 L939.3431 267.0351 L1020.8314 307.7793 L939.3431 348.5234 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M364.0263 307.7793 L458.9912 260.2969 L553.9562 307.7793 L458.9912 355.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
+      <path d="M364.0264 307.7793 L458.9912 260.2969 L553.9561 307.7793 L458.9912 355.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
     </g>
     <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(51,175,243)">
-      <path d="M364.0263 307.7793 L458.9912 260.2969 L553.9562 307.7793 L458.9912 355.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M364.0264 307.7793 L458.9912 260.2969 L553.9561 307.7793 L458.9912 355.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt">
       <text x="419.4912" xml:space="preserve" y="296.582" clip-path="url(#clipPath2)" stroke="none">if (oldIndex</text>
@@ -128,7 +128,7 @@
       <text x="422.9912" xml:space="preserve" y="329.5586" clip-path="url(#clipPath2)" stroke="none">newIndex)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M364.0263 307.7793 L458.9912 260.2969 L553.9562 307.7793 L458.9912 355.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M364.0264 307.7793 L458.9912 260.2969 L553.9561 307.7793 L458.9912 355.2617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
       <rect x="60" y="292.7793" clip-path="url(#clipPath10)" width="229" rx="4" ry="4" height="30" stroke="none"/>
@@ -156,10 +156,10 @@
       <rect x="754.6079" y="130.6641" clip-path="url(#clipPath2)" fill="none" width="90" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M573.9561 307.7793 L671.9208 258.7968 L769.8857 307.7793 L671.9208 356.7617 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
+      <path d="M573.956 307.7793 L671.9208 258.7969 L769.8857 307.7793 L671.9208 356.7617 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
     </g>
     <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(51,175,243)">
-      <path d="M573.9561 307.7793 L671.9208 258.7968 L769.8857 307.7793 L671.9208 356.7617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M573.956 307.7793 L671.9208 258.7969 L769.8857 307.7793 L671.9208 356.7617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt">
       <text x="629.4209" xml:space="preserve" y="296.582" clip-path="url(#clipPath2)" stroke="none">if (newIndex</text>
@@ -167,7 +167,7 @@
       <text x="638.9209" xml:space="preserve" y="329.5586" clip-path="url(#clipPath2)" stroke="none">oldIndex)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M573.9561 307.7793 L671.9208 258.7968 L769.8857 307.7793 L671.9208 356.7617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M573.956 307.7793 L671.9208 258.7969 L769.8857 307.7793 L671.9208 356.7617 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" stroke-miterlimit="1.45">
       <path fill="none" d="M328.6782 160.6641 L328.6782 218.7969 L428.0508 268.5848" clip-path="url(#clipPath2)"/>

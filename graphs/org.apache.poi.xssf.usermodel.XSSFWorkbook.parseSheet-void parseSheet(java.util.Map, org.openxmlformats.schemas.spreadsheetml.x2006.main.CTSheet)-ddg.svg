@@ -95,16 +95,16 @@
       <image stroke-linecap="square" x="60" y="100" transform="translate(0.5,0.998)" clip-path="url(#clipPath10)" width="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAbUlEQVR42mOMi4v7&#10;z0AmaG9vZ2ABMRYuXEiy5h07djBISUlBDACBZ8+ekWTA8uXLGTw8PBiYGCgEw8AA&#10;FnQBaWlpvBqePn1KmQtAUYfXBSAb0BWR5AVS08RwiUZQxgClbbIMAGVJUKiDMgY5&#10;AAAckR2JbOwokAAAAABJRU5ErkJggg==" height="16" preserveAspectRatio="none" stroke-miterlimit="10"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M578.25 401.9238 L648.2383 366.9297 L718.2266 401.9238 L648.2383 436.918 Z" fill-rule="evenodd" clip-path="url(#clipPath11)" stroke="none"/>
+      <path d="M578.2501 401.9238 L648.2383 366.9297 L718.2266 401.9238 L648.2383 436.9179 Z" fill-rule="evenodd" clip-path="url(#clipPath11)" stroke="none"/>
     </g>
     <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(51,175,243)">
-      <path d="M578.25 401.9238 L648.2383 366.9297 L718.2266 401.9238 L648.2383 436.918 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M578.2501 401.9238 L648.2383 366.9297 L718.2266 401.9238 L648.2383 436.9179 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt">
       <text x="600.7383" xml:space="preserve" y="407.2148" clip-path="url(#clipPath2)" stroke="none">if (sh == null)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M578.25 401.9238 L648.2383 366.9297 L718.2266 401.9238 L648.2383 436.918 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M578.2501 401.9238 L648.2383 366.9297 L718.2266 401.9238 L648.2383 436.9179 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
       <rect x="72.5" y="258.7969" clip-path="url(#clipPath11)" width="77" rx="4" ry="4" height="30" stroke="none"/>
@@ -211,8 +211,8 @@
       <path fill="none" d="M497.0754 288.7969 L501.75 328.7969 L501.75 378.8954" clip-path="url(#clipPath2)"/>
       <path d="M501.75 386.8954 L506.75 374.8954 L501.75 377.8954 L496.75 374.8954 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="392.75" xml:space="preserve" y="343.3984" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
-      <path fill="none" d="M608.4088 288.7969 L648.2383 328.7969 L648.2383 358.9297" clip-path="url(#clipPath2)"/>
-      <path d="M648.2383 366.9297 L653.2383 354.9297 L648.2383 357.9297 L643.2383 354.9297 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M608.4088 288.7969 L648.2383 328.7969 L648.2383 358.8925" clip-path="url(#clipPath2)"/>
+      <path d="M648.2383 366.8925 L653.2383 354.8925 L648.2383 357.8925 L643.2383 354.8925 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="539.2383" xml:space="preserve" y="343.3984" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
     </g>
   </g>
