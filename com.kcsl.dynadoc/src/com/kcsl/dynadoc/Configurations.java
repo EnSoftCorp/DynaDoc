@@ -113,6 +113,8 @@ public class Configurations {
 		    public void run() {
 		        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 				DirectoryDialog dialog = new DirectoryDialog(shell);
+				dialog.setText("Select an output directory");
+				dialog.setMessage("The output directory will be used to store all the generated documentation files");
 				if(OUTPUT_DIRECTORY_ABSOLUTE_PATH == null) {
 					dialog.setFilterPath(".");
 				} else {

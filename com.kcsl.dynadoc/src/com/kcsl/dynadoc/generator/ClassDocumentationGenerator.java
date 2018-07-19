@@ -63,9 +63,9 @@ import com.kcsl.dynadoc.Configurations;
 import com.kcsl.dynadoc.doc.JavaDocAttributes;
 import com.kcsl.dynadoc.doc.JavaDocAttributes.CodeMap;
 import com.kcsl.dynadoc.html.Nav;
-import com.kcsl.importer.NonProgramArtifacts;
-import com.kcsl.importer.NonProgramArtifacts.Commits;
-import com.kcsl.importer.NonProgramArtifacts.Issues;;
+import com.kcsl.supplementary.SupplementaryArtifactConstants.CommitIssueRelation;
+import com.kcsl.supplementary.SupplementaryArtifactConstants.BugzillaIssues;
+import com.kcsl.supplementary.SupplementaryArtifactConstants.CommitHistory;
 
 public class ClassDocumentationGenerator {
 
@@ -1476,13 +1476,13 @@ public class ClassDocumentationGenerator {
 	}
 	
 	private AtlasSet<Node> getClassIssues() {
-		Q linkedToEdges = Query.universe().edges(NonProgramArtifacts.LINKED_TO_EDGE_TAG);
-		return linkedToEdges.successors(this.getClassQ()).nodes(Issues.Tags.ISSUE_NODE_TAG).eval().nodes();
+		Q linkedToEdges = Query.universe().edges(CommitIssueRelation.PROGRAM_ARTIFACT_LINKED_TO_SUPPLEMENTARY_ARTIFACT_EDGE_TAG);
+		return linkedToEdges.successors(this.getClassQ()).nodes(BugzillaIssues.Tags.ISSUE_NODE_TAG).eval().nodes();
 	}
 	
 	private AtlasSet<Node> getClassCommits() {
-		Q linkedToEdges = Query.universe().edges(NonProgramArtifacts.LINKED_TO_EDGE_TAG);
-		return linkedToEdges.successors(this.getClassQ()).nodes(Commits.Tags.COMMIT_NODE_TAG).eval().nodes();
+		Q linkedToEdges = Query.universe().edges(CommitIssueRelation.PROGRAM_ARTIFACT_LINKED_TO_SUPPLEMENTARY_ARTIFACT_EDGE_TAG);
+		return linkedToEdges.successors(this.getClassQ()).nodes(CommitHistory.Tags.COMMIT_NODE_TAG).eval().nodes();
 	}
 	
 	private Tr constructIssueRow(Node issueNode) {
@@ -1495,38 +1495,38 @@ public class ClassDocumentationGenerator {
 		
 		// Issue Id Column
 		Td issueIdColumn = new Td();
-		issueIdColumn.appendText(issueNode.getAttr(Issues.Attributes.ISSUE_ID).toString());
+		issueIdColumn.appendText(issueNode.getAttr(BugzillaIssues.Attributes.ISSUE_ID).toString());
 		columns.add(issueIdColumn);
 		
 		// Last Changed Column
 		Td lastChangedColumn = new Td();
-		lastChangedColumn.appendText(issueNode.getAttr(Issues.Attributes.ISSUE_LAST_CHANGED).toString());
+		lastChangedColumn.appendText(issueNode.getAttr(BugzillaIssues.Attributes.ISSUE_LAST_CHANGED).toString());
 		columns.add(lastChangedColumn);
 		
 		// Summary Column
 		Td summaryColumn = new Td();
-		summaryColumn.appendText(issueNode.getAttr(Issues.Attributes.ISSUE_SUMMARY).toString());
+		summaryColumn.appendText(issueNode.getAttr(BugzillaIssues.Attributes.ISSUE_SUMMARY).toString());
 		columns.add(summaryColumn);
 		
 		// Status Column
 		Td statusColumn = new Td();
-		statusColumn.appendText(issueNode.getAttr(Issues.Attributes.ISSUE_STATUS).toString());
+		statusColumn.appendText(issueNode.getAttr(BugzillaIssues.Attributes.ISSUE_STATUS).toString());
 		columns.add(statusColumn);
 		
 		// Severity Column
 		Td severityColumn = new Td();
-		severityColumn.appendText(issueNode.getAttr(Issues.Attributes.ISSUE_SEVERITY).toString());
+		severityColumn.appendText(issueNode.getAttr(BugzillaIssues.Attributes.ISSUE_SEVERITY).toString());
 		columns.add(severityColumn);
 		
 		// Priority Column
 		Td priorityColumn = new Td();
-		priorityColumn.appendText(issueNode.getAttr(Issues.Attributes.ISSUE_PRIORITY).toString());
+		priorityColumn.appendText(issueNode.getAttr(BugzillaIssues.Attributes.ISSUE_PRIORITY).toString());
 		columns.add(priorityColumn);
 		
 		// Issue Report Column
 		Td issueUrlColumn = new Td();
 		A link = new A();
-		link.setHref(issueNode.getAttr(Issues.Attributes.ISSUE_URL).toString());
+		link.setHref(issueNode.getAttr(BugzillaIssues.Attributes.ISSUE_URL).toString());
 		link.setTarget("_blank");
 		link.setAttribute("role", "button");
 		link.setAttribute("class", "btn btn-primary");
@@ -1611,28 +1611,28 @@ public class ClassDocumentationGenerator {
 		
 		// Commit Id Column
 		Td commitIdColumn = new Td();
-		commitIdColumn.appendText(commitNode.getAttr(Commits.Attributes.COMMIT_ID).toString());
+		commitIdColumn.appendText(commitNode.getAttr(CommitHistory.Attributes.COMMIT_ID).toString());
 		columns.add(commitIdColumn);
 		
 		// Commiter Column
 		Td commiterColumn = new Td();
-		commiterColumn.appendText(commitNode.getAttr(Commits.Attributes.COMMIT_COMMITER).toString());
+		commiterColumn.appendText(commitNode.getAttr(CommitHistory.Attributes.COMMIT_COMMITER).toString());
 		columns.add(commiterColumn);
 		
 		// DataTime Column
 		Td dataTimeColumn = new Td();
-		dataTimeColumn.appendText(commitNode.getAttr(Commits.Attributes.COMMIT_DATA_TIME).toString());
+		dataTimeColumn.appendText(commitNode.getAttr(CommitHistory.Attributes.COMMIT_DATA_TIME).toString());
 		columns.add(dataTimeColumn);
 		
 		// Summary Column
 		Td summaryColumn = new Td();
-		summaryColumn.appendText(commitNode.getAttr(Commits.Attributes.COMMIT_MESSAGE).toString());
+		summaryColumn.appendText(commitNode.getAttr(CommitHistory.Attributes.COMMIT_MESSAGE).toString());
 		columns.add(summaryColumn);
 		
 		// Commit URL Column
 		Td commitUrlColumn = new Td();
 		A link = new A();
-		link.setHref(commitNode.getAttr(Commits.Attributes.COMMIT_URL).toString());
+		link.setHref(commitNode.getAttr(CommitHistory.Attributes.COMMIT_URL).toString());
 		link.setTarget("_blank");
 		link.setAttribute("role", "button");
 		link.setAttribute("class", "btn btn-primary");

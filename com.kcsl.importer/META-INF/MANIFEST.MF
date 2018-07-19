@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: DynaDoc
-Bundle-SymbolicName: com.kcsl.importer;singleton:=true
+Bundle-Name: Supplementary Artifacts Importer and CodeMap Populater
+Bundle-SymbolicName: com.kcsl.supplementary;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.kcsl.importer.Activator
+Bundle-Activator: com.kcsl.supplementary.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.ensoftcorp.atlas.core;bundle-version="3.1.0",
@@ -14,6 +14,6 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Knowledge-Centric Software Lab
-Export-Package: com.kcsl.importer
+Export-Package: com.kcsl.supplementary
 Bundle-ClassPath: lib/commons-csv-1.5.jar,
  .

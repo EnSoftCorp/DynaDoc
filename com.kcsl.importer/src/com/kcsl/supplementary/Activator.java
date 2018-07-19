@@ -1,4 +1,6 @@
-package com.kcsl.importer;
+package com.kcsl.supplementary;
+
+import java.net.URL;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -9,7 +11,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "com.kcsl.importer"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.kcsl.supplementary"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
@@ -45,6 +47,10 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+	
+	public static URL getFileURL(String entryFilePath) {
+		return getDefault().getBundle().getEntry(entryFilePath);
 	}
 
 }
