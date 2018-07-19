@@ -78,11 +78,11 @@ public class ClassDocumentationGenerator {
 	
 	private static final String DATA_DEPENDENCY_GRAPH_FILE_NAME_TEMPLATE = "%s-ddg.svg";
 	
-	private static final String [] CONSTRUCTORS_TABLE_HEADERS = { "Visibility", "Name", "Parameters", "Deprecated", "External Use", "CFG", "Call", "DDG"};
+	private static final String [] CONSTRUCTORS_TABLE_HEADERS = { "Visibility", "Name", "Parameters", "Deprecated", "External Use", "CFG", "Call", "Intra DDG"};
 
-	private static final String [] METHODS_TABLE_HEADERS = { "Visibility", "Return", "Name", "Parameters", "Static", "Instance", "Concrete", "Deprecated", "External Use", "CFG", "Call", "DDG"};
+	private static final String [] METHODS_TABLE_HEADERS = { "Visibility", "Return", "Name", "Parameters", "Static", "Instance", "Concrete", "Deprecated", "External Use", "CFG", "Call", "Inra DDG"};
 
-	private static final String [] FIELDS_TABLE_HEADERS = { "Visibility", "Type", "Name", "Static", "Instance", "Final", "Deprecated", "External Use", "Data Flow"};
+	private static final String [] FIELDS_TABLE_HEADERS = { "Visibility", "Type", "Name", "Static", "Instance", "Final", "Deprecated", "External Use", "Inter DDG"};
 	
 	private static final String [] ISSUES_TABLE_HEADERS = { "Issue Id", "Last Changed", "Summary", "Status", "Severity", "Priority", "Related Commits", "View Report" };
 	
