@@ -104,6 +104,18 @@
       <image stroke-linecap="square" x="180" y="296" transform="translate(0.25,0.7969)" clip-path="url(#clipPath10)" width="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAbUlEQVR42mOMi4v7&#10;z0AmaG9vZ2ABMRYuXEiy5h07djBISUlBDACBZ8+ekWTA8uXLGTw8PBiYGCgEw8AA&#10;FnQBaWlpvBqePn1KmQtAUYfXBSAb0BWR5AVS08RwiUZQxgClbbIMAGVJUKiDMgY5&#10;AAAckR2JbOwokAAAAABJRU5ErkJggg==" height="16" preserveAspectRatio="none" stroke-miterlimit="10"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,-117,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
+      <rect x="192.25" y="434.5957" clip-path="url(#clipPath11)" width="585" rx="4" ry="4" height="30" stroke="none"/>
+    </g>
+    <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,-117,15)" stroke="rgb(51,175,243)">
+      <rect x="192.25" y="434.5957" clip-path="url(#clipPath2)" width="585" rx="4" ry="4" height="30" stroke="none"/>
+    </g>
+    <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,-117,15)" stroke-linecap="butt">
+      <text x="196.75" xml:space="preserve" y="454.8867" clip-path="url(#clipPath2)" stroke="none">→ return isMacroEnabled() ? XSSFWorkbookType.XLSM : XSSFWorkbookType.XLSX →</text>
+    </g>
+    <g stroke-linecap="butt" transform="matrix(1,0,0,1,-117,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
+      <rect x="192.25" y="434.5957" clip-path="url(#clipPath2)" fill="none" width="585" rx="4" ry="4" height="30"/>
+    </g>
+    <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,-117,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
       <rect x="457.75" y="326.4629" clip-path="url(#clipPath11)" width="54" rx="4" ry="4" height="30" stroke="none"/>
     </g>
     <g fill="rgb(52,194,219)" transform="matrix(1,0,0,1,-117,15)" stroke="rgb(52,194,219)">
@@ -115,18 +127,6 @@
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,-117,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
       <rect x="457.75" y="326.4629" clip-path="url(#clipPath2)" fill="none" width="54" rx="4" ry="4" height="30"/>
-    </g>
-    <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,-117,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <rect x="192.25" y="434.5957" clip-path="url(#clipPath11)" width="585" rx="4" ry="4" height="30" stroke="none"/>
-    </g>
-    <g fill="rgb(51,175,243)" transform="matrix(1,0,0,1,-117,15)" stroke="rgb(51,175,243)">
-      <rect x="192.25" y="434.5957" clip-path="url(#clipPath2)" width="585" rx="4" ry="4" height="30" stroke="none"/>
-    </g>
-    <g stroke-miterlimit="1.45" font-size="14" font-family="sans-serif" transform="matrix(1,0,0,1,-117,15)" stroke-linecap="butt">
-      <text x="196.75" xml:space="preserve" y="454.8867" clip-path="url(#clipPath2)" stroke="none">→ return isMacroEnabled() ? XSSFWorkbookType.XLSM : XSSFWorkbookType.XLSX →</text>
-    </g>
-    <g stroke-linecap="butt" transform="matrix(1,0,0,1,-117,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <rect x="192.25" y="434.5957" clip-path="url(#clipPath2)" fill="none" width="585" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,-117,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
       <rect x="458.75" y="522.7285" clip-path="url(#clipPath11)" width="52" rx="4" ry="4" height="30" stroke="none"/>
@@ -185,12 +185,12 @@
       <path fill="none" d="M508.25 127.998 L508.25 181.1309 L448.75 221.1309 L448.75 253.7969 L522.25 293.7969 L522.25 385.5293 L672.0736 432.2043" clip-path="url(#clipPath2)"/>
       <path d="M679.7115 434.5837 L669.7418 426.2408 L671.1188 431.9068 L666.7675 435.7882 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="399.25" xml:space="preserve" y="163.6621" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
-      <path fill="none" d="M484.75 356.4629 L484.75 426.5576" clip-path="url(#clipPath2)"/>
-      <path d="M484.75 434.5576 L489.75 422.5576 L484.75 425.5576 L479.75 422.5576 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <text x="375.75" xml:space="preserve" y="380.1895" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
       <path fill="none" d="M484.75 464.5957 L484.75 514.7001" clip-path="url(#clipPath2)"/>
       <path d="M484.75 522.7001 L489.75 510.7001 L484.75 513.7001 L479.75 510.7001 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="375.75" xml:space="preserve" y="498.1973" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
+      <path fill="none" d="M484.75 356.4629 L484.75 426.5576" clip-path="url(#clipPath2)"/>
+      <path d="M484.75 434.5576 L489.75 422.5576 L484.75 425.5576 L479.75 422.5576 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="375.75" xml:space="preserve" y="380.1895" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
     </g>
   </g>
 </svg>

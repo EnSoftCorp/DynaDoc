@@ -211,7 +211,7 @@
       <rect x="676.9517" y="302.2734" clip-path="url(#clipPath2)" fill="none" width="70" rx="4" ry="4" height="30"/>
     </g>
     <g fill="white" stroke-miterlimit="1.45" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt" stroke="white">
-      <path fill="none" d="M493.7471 224.1788 L493.7471 294.2353" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M493.7471 224.1406 L493.7471 294.2353" clip-path="url(#clipPath2)"/>
       <path d="M493.7471 302.2353 L498.7471 290.2353 L493.7471 293.2353 L488.7471 290.2353 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="466.7471" y="287.6172" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">true</text>
       <path fill="none" d="M523.1589 209.4505 L711.9517 264.1406 L711.9517 294.2362" clip-path="url(#clipPath2)" stroke="black"/>

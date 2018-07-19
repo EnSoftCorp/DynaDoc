@@ -98,17 +98,17 @@
       <rect x="268.1635" y="130.6641" clip-path="url(#clipPath2)" fill="none" width="103" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
-      <path d="M241.687 239.6523 L319.6636 200.6641 L397.6402 239.6523 L319.6636 278.6406 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
+      <path d="M241.687 239.6524 L319.6635 200.6641 L397.6401 239.6524 L319.6635 278.6407 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
     </g>
     <g fill="rgb(35,122,170)" transform="matrix(1,0,0,1,15,15)" stroke="rgb(35,122,170)">
-      <path d="M241.687 239.6523 L319.6636 200.6641 L397.6402 239.6523 L319.6636 278.6406 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M241.687 239.6524 L319.6635 200.6641 L397.6401 239.6524 L319.6635 278.6407 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
     <g font-size="14" stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill="white" font-family="sans-serif" stroke="white" stroke-miterlimit="1.45">
       <text x="286.1635" xml:space="preserve" y="236.6992" clip-path="url(#clipPath2)" stroke="none">enhanced</text>
       <text x="280.6635" xml:space="preserve" y="253.1875" clip-path="url(#clipPath2)" stroke="none">for (sheets)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M241.687 239.6523 L319.6636 200.6641 L397.6402 239.6523 L319.6636 278.6406 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M241.687 239.6524 L319.6635 200.6641 L397.6401 239.6524 L319.6635 278.6407 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
       <path d="M60 421.5059 L189.4648 356.7734 L318.9297 421.5059 L189.4648 486.2383 Z" fill-rule="evenodd" clip-path="url(#clipPath10)" stroke="none"/>
@@ -175,8 +175,8 @@
       <path fill="none" d="M271.8501 445.0622 L237.0487 526.2383 L237.0487 544.3711 L256.3569 577.4243" clip-path="url(#clipPath2)" stroke="black"/>
       <path fill="black" d="M260.3921 584.332 L258.6566 571.4484 L255.8525 576.5608 L250.0219 576.4924 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="206.0487" y="539.8398" clip-path="url(#clipPath2)" fill="black" font-family="sans-serif" stroke="none" xml:space="preserve">false</text>
-      <path fill="none" d="M288.9347 584.3471 L329.4297 535.3047 L329.4297 327.707 L321.2252 286.4867" clip-path="url(#clipPath2)"/>
-      <path d="M319.6635 278.6406 L317.1022 291.3858 L321.4204 287.4675 L326.9099 289.4337 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M288.9347 584.3471 L329.4297 535.3047 L329.4297 327.707 L321.2347 286.5346" clip-path="url(#clipPath2)"/>
+      <path d="M319.6731 278.6885 L317.1118 291.4337 L321.43 287.5154 L326.9194 289.4816 Z" clip-path="url(#clipPath2)" stroke="none"/>
     </g>
   </g>
 </svg>

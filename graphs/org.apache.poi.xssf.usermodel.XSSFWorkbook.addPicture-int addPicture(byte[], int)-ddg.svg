@@ -198,12 +198,12 @@
       <path fill="none" d="M342.75 160.6641 L342.75 210.7685" clip-path="url(#clipPath2)"/>
       <path d="M342.75 218.7685 L347.75 206.7685 L342.75 209.7685 L337.75 206.7685 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="233.75" xml:space="preserve" y="194.2656" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
-      <path fill="none" d="M323.5 248.7969 L135 288.7969 L135 426.7935" clip-path="url(#clipPath2)"/>
-      <path d="M135 434.7935 L140 422.7935 L135 425.7935 L130 422.7935 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <text x="26" xml:space="preserve" y="303.3984" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
       <path fill="none" d="M362 248.7969 L501.75 288.7969 L501.75 306.9297 L453 346.9297 L453 371.5638" clip-path="url(#clipPath2)"/>
       <path d="M453 379.5638 L458 367.5638 L453 370.5638 L448 367.5638 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="392.75" xml:space="preserve" y="302.3984" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
+      <path fill="none" d="M323.5 248.7969 L135 288.7969 L135 426.7935" clip-path="url(#clipPath2)"/>
+      <path d="M135 434.7935 L140 422.7935 L135 425.7935 L130 422.7935 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="26" xml:space="preserve" y="303.3984" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
       <path fill="none" d="M561 409.5957 L517.5 449.5957 L517.5 467.7285 L532.6237 500.4284" clip-path="url(#clipPath2)"/>
       <path d="M535.9819 507.6895 L535.4827 494.699 L532.2039 499.5208 L526.4065 498.8968 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="408.5" xml:space="preserve" y="463.1973" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>

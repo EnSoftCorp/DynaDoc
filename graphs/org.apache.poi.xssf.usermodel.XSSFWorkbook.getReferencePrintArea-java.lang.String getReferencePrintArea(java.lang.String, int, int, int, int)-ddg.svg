@@ -229,12 +229,12 @@
       <path fill="none" d="M626.5741 396.9297 L626.5741 447.0341" clip-path="url(#clipPath2)"/>
       <path d="M626.5741 455.0341 L631.5741 443.0341 L626.5741 446.0341 L621.5741 443.0341 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="517.5741" xml:space="preserve" y="430.5312" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
-      <path fill="none" d="M600.5 160.6641 L513.6574 200.6641 L513.6574 218.7969 L518.741 250.8565" clip-path="url(#clipPath2)"/>
-      <path d="M519.9938 258.7578 L523.0529 246.1228 L518.5844 249.8689 L513.1762 247.6889 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <text x="404.6574" xml:space="preserve" y="214.2656" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
       <path fill="none" d="M653 160.6641 L742.8333 200.6641 L742.8333 218.7969 L730.0995 251.3088" clip-path="url(#clipPath2)"/>
       <path d="M727.1819 258.7578 L736.2139 249.4077 L730.4642 250.3777 L726.9026 245.7608 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="633.8333" xml:space="preserve" y="214.2656" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
+      <path fill="none" d="M600.5 160.6641 L513.6574 200.6641 L513.6574 218.7969 L518.741 250.8565" clip-path="url(#clipPath2)"/>
+      <path d="M519.9938 258.7578 L523.0529 246.1228 L518.5844 249.8689 L513.1762 247.6889 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <text x="404.6574" xml:space="preserve" y="214.2656" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none">data-dependence</text>
     </g>
   </g>
 </svg>

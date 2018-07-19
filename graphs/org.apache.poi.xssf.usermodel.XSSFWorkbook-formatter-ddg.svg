@@ -198,14 +198,14 @@
       <rect x="761.5" y="513.9941" clip-path="url(#clipPath2)" fill="none" width="78" rx="4" ry="4" height="30"/>
     </g>
     <g fill="rgb(51,175,243)" fill-opacity="0.1176" transform="matrix(1,0,0,1,15,15)" stroke-opacity="0.1176" stroke="rgb(51,175,243)">
-      <path d="M70.5 521.6611 L177.5 481.3282 L284.5 521.6611 L177.5 561.9942 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M70.5 521.6611 L177.5 481.3281 L284.5 521.6611 L177.5 561.9941 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
       <rect x="70.5" y="481.3281" fill-opacity="1" clip-path="url(#clipPath2)" width="214" height="17.666" stroke="none" stroke-opacity="1"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="15" font-family="sans-serif" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt">
       <text x="110.5" xml:space="preserve" y="495.8301" clip-path="url(#clipPath2)" stroke="none">→ if (formatter == null)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M70.5 521.6611 L177.5 481.3282 L284.5 521.6611 L177.5 561.9942 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M70.5 521.6611 L177.5 481.3281 L284.5 521.6611 L177.5 561.9941 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
       <image stroke-linecap="square" x="73" y="484" transform="translate(0.5,0.3281)" clip-path="url(#clipPath16)" width="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAbUlEQVR42mOMi4v7&#10;z0AmaG9vZ2ABMRYuXEiy5h07djBISUlBDACBZ8+ekWTA8uXLGTw8PBiYGCgEw8AA&#10;FnQBaWlpvBqePn1KmQtAUYfXBSAb0BWR5AVS08RwiUZQxgClbbIMAGVJUKiDMgY5&#10;AAAckR2JbOwokAAAAABJRU5ErkJggg==" height="16" preserveAspectRatio="none" stroke-miterlimit="10"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">

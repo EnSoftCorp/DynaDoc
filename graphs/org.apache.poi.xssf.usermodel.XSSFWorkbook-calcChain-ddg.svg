@@ -223,14 +223,14 @@
       <image stroke-linecap="square" x="1205" y="504" transform="translate(0.5,0.6602)" clip-path="url(#clipPath14)" width="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAbUlEQVR42mOMi4v7&#10;z0AmaG9vZ2ABMRYuXEiy5h07djBISUlBDACBZ8+ekWTA8uXLGTw8PBiYGCgEw8AA&#10;FnQBaWlpvBqePn1KmQtAUYfXBSAb0BWR5AVS08RwiUZQxgClbbIMAGVJUKiDMgY5&#10;AAAckR2JbOwokAAAAABJRU5ErkJggg==" height="16" preserveAspectRatio="none" stroke-miterlimit="10"/>
     </g>
     <g fill="rgb(51,175,243)" fill-opacity="0.1176" transform="matrix(1,0,0,1,15,15)" stroke-opacity="0.1176" stroke="rgb(51,175,243)">
-      <path d="M1644.5001 574.6592 L1747.5001 534.3262 L1850.5001 574.6592 L1747.5001 614.9922 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
+      <path d="M1644.5 574.6592 L1747.5 534.3262 L1850.5 574.6592 L1747.5 614.9922 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke="none"/>
       <rect x="1644.5" y="534.3262" fill-opacity="1" clip-path="url(#clipPath2)" width="206" height="17.666" stroke="none" stroke-opacity="1"/>
     </g>
     <g stroke-miterlimit="1.45" font-size="15" font-family="sans-serif" transform="matrix(1,0,0,1,15,15)" stroke-linecap="butt">
       <text x="1684.5" xml:space="preserve" y="548.8281" clip-path="url(#clipPath2)" stroke="none">→ if (calcChain != null)</text>
     </g>
     <g stroke-linecap="butt" transform="matrix(1,0,0,1,15,15)" fill-opacity="0" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-opacity="0" stroke-miterlimit="1.45">
-      <path fill="none" d="M1644.5001 574.6592 L1747.5001 534.3262 L1850.5001 574.6592 L1747.5001 614.9922 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M1644.5 574.6592 L1747.5 534.3262 L1850.5 574.6592 L1747.5 614.9922 Z" fill-rule="evenodd" clip-path="url(#clipPath2)"/>
       <image stroke-linecap="square" x="1647" y="537" transform="translate(0.5,0.3262)" clip-path="url(#clipPath10)" width="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAbUlEQVR42mOMi4v7&#10;z0AmaG9vZ2ABMRYuXEiy5h07djBISUlBDACBZ8+ekWTA8uXLGTw8PBiYGCgEw8AA&#10;FnQBaWlpvBqePn1KmQtAUYfXBSAb0BWR5AVS08RwiUZQxgClbbIMAGVJUKiDMgY5&#10;AAAckR2JbOwokAAAAABJRU5ErkJggg==" height="16" preserveAspectRatio="none" stroke-miterlimit="10"/>
     </g>
     <g fill="rgb(50,80,133)" fill-opacity="0.5098" transform="matrix(1,0,0,1,15,15) translate(3,3)" stroke-opacity="0.5098" stroke="rgb(50,80,133)">
