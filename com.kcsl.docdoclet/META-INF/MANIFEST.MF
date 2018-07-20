@@ -14,5 +14,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Knowledge-Centric Software Lab
 Export-Package: com.kcsl.docdoclet
-Bundle-ClassPath: lib/tools.jar,
- .
+Bundle-ClassPath: lib/tools.jar
+Automatic-Module-Name: com.kcsl.docdoclet
