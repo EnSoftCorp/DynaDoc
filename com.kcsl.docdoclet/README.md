@@ -11,9 +11,9 @@ Use the following command line in the directory containing the project to run th
 
 ## Use of org.json.simple Project
 
-We had to include the org.json.simple project from [http://code.google.com/p/json-simple/] to make sure that the output directory includes all needed classes for plugin export. Exporting a normal java project along a plugin seems a tedious job and a lot of symbolic linking that is machine dependent and error-prone.
+We had to include the org.json.simple project from https://github.com/fangyidong/json-simple to make sure that the output directory includes all needed classes for plugin export. Exporting a normal java project along a plugin seems a tedious job and a lot of symbolic linking that is machine dependent and error-prone.
 
-Refer to the [http://code.google.com/p/json-simple/] for proper licensing and copyright information before using this project.
+Refer to the https://github.com/fangyidong/json-simple for proper licensing and copyright information before using this project.
 
 Authors for "org.json.simple" project: 
 Yidong Fang
