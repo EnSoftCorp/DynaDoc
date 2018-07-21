@@ -2,9 +2,9 @@ package com.kcsl.docdoclet;
 
 public class JavaDocConstants {
 
-	public static final String JAVA_DOC_METHOD_SIGNATURE_SEPARATOR = "###";
+	public static final String JAVA_DOC_METHOD_SIGNATURE_SEPARATOR = "--";
 	
-	public static final String JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR = "@@@";
+	public static final String JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR = "__";
 	
 	public static final String CLASS_PACKAGE_NAME_ATTRIBUTE = "class_package";
 	

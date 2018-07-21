@@ -4,210 +4,136 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.apache.commons.io.FileUtils;
-import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 import org.osgi.framework.Bundle;
 
 import com.ensoftcorp.atlas.core.log.Log;
+import com.kcsl.dynadoc.conf.OutputDirectoryConstants;
+import com.kcsl.dynadoc.conf.PluginResourceConstants;
+import com.kcsl.dynadoc.path.WorkingDirectory;
+import com.kcsl.dynadoc.utils.PathUtils;
 
 public class Configurations {
 	
-	private static final String DYANDOC_GUIDE_HTML_PAGE_NAME = "dynadoc-guide.html";
+	private static WorkingDirectory ROOT_WORKING_DIRECTORY = null;
 	
-	private static final String OUTPUT_GRAPHS_DIRECTORY_NAME = "graphs";
-	
-	private static final String OUTPUT_JAVADOC_DIRECTORY_NAME = "javadoc";
-	
-	private static final String OUTPUT_RESOURCES_DIRECTORY_NAME = "resources";
-	
-	private static final String OUTPUT_SCRIPTS_DIRECTORY_NAME = "scripts";
-	
-	private static final String PLUGIN_RESOURCES_ROOT_DIRECTORY = "./templates/";
-	
-	private static final String PLUGIN_GUIDE_HTML_PAGE_PATH = PLUGIN_RESOURCES_ROOT_DIRECTORY + "guide/" + DYANDOC_GUIDE_HTML_PAGE_NAME;
-	
-	private static final String PLUGIN_SCRIPTS_DIRECTORY_PATH = PLUGIN_RESOURCES_ROOT_DIRECTORY + "scripts/";
-	
-	private static final String PLUGIN_RESOURCES_DIRECTORY_PATH = PLUGIN_RESOURCES_ROOT_DIRECTORY + "resources/";
-	
-	private static final String PLUGIN_GUIDE_IMAGES_DIRECTORY_PATH = PLUGIN_RESOURCES_ROOT_DIRECTORY + "guide/slides/";
-	
-	private static final String [] GUIDE_IMAGES_DIRECTORY_CONTENTS_TO_BE_COPIES = { "slide1.png", "slide2.png", "slide3.png", "slide4.png", "slide5.png", "slide6.png", "slide7.png", "slide8.png", "slide9.png" };
-	
-	private static final String [] RESOURCES_DIRECTORY_CONTENTS_TO_BE_COPIED = { "check.svg", "details_close.png", "details_open.png", "styles.css"};
-	
-	private static final String [] SCRIPTS_DIRECTORY_CONTENTS_TO_BE_COPIED = { "jquery-constructors-table-script.js", "jquery-methods-table-script.js", "jquery-fields-table-script.js", "jquery-issues-table-script.js", "jquery-commits-table-script.js" };
-	
-	private static String DOCLET_QULALIFIED_CLASS_NAME = null;
-	
-	private static String OUTPUT_DIRECTORY_ABSOLUTE_PATH = null;
-	
-	private static Path DOCLET_PROJECT_OUTPUT_DIRECTORY_PATH = null;
-	
-	private static Path OUTPUT_DIRECTORY_PATH = null;
-	
-	private static Path OUTPUT_JAVADOC_DIRECTORY_PATH = null;
-	
-	private static Path OUTPUT_GRAPHS_DIRECTORY_PATH = null;
-	
-	private static Path OUTPUT_RESOURCES_DIRECTORY_PATH = null;
-	
-	private static Path OUTPUT_SCRIPTS_DIRECTORY_PATH = null;
-	
-	public static void createProperOutputDirectoriesStructure() {		
-		// Doclet configurations
-		DOCLET_QULALIFIED_CLASS_NAME = com.kcsl.docdoclet.Activator.getDocletClassQualifiedName();
-		String docletProjectOutputDirectoryAbsolutePath = com.kcsl.docdoclet.Activator.getDocletOutputDirectoryPath();
-		if(docletProjectOutputDirectoryAbsolutePath == null) {
-			Log.warning("Missing the output directory location for the doclet project: " + Activator.PLUGIN_ID);
-			return;
+	public static boolean configureWorkingDirectory() {
+		if(!configureRootWorkingDirectory()) {
+			return false;
 		}
-		Log.info(docletProjectOutputDirectoryAbsolutePath);
-		DOCLET_PROJECT_OUTPUT_DIRECTORY_PATH = Paths.get(docletProjectOutputDirectoryAbsolutePath);
 		
-		// Output directory for generated documentation
-		boolean outputDirectorySet = setOutputDirectoryFromUser();
-		if(!outputDirectorySet) {
-			Log.warning("Missing output directory location to store generated documentation");
-			return;
+		if(!configureResourcesDirectory()) {
+			return false;
 		}
-		OUTPUT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY_ABSOLUTE_PATH);
 		
-		// Creating the structure
-		// Output Directory/
-		// ... graphs/
-		// ... resources/
-		// ... javadoc/
-		File mainOutputDirectory = OUTPUT_DIRECTORY_PATH.toFile();
-		if(mainOutputDirectory.exists()) {
+		if(!configureScriptsDirectory()) {
+			return false;
+		}
+		
+		if(!configureGuideDocuments()) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private static boolean configureRootWorkingDirectory() {
+		Path userRecommendedRootWorkingDirectoryPath = PathUtils.promptUserForRootWorkingDirectory(ROOT_WORKING_DIRECTORY);
+		if(userRecommendedRootWorkingDirectoryPath == null) {
+			Log.warning("User did not select an output directory to store the generated documentation. Exiting DynaDoc!");
+			return false;
+		}
+		ROOT_WORKING_DIRECTORY = WorkingDirectory.createRootWorkingDirectory(userRecommendedRootWorkingDirectoryPath);
+		File rootWorkingDirectoryFile = ROOT_WORKING_DIRECTORY.getPath().toFile();
+		if(rootWorkingDirectoryFile.exists()) {
 			try {
-				FileUtils.cleanDirectory(mainOutputDirectory);
+				FileUtils.cleanDirectory(rootWorkingDirectoryFile);
 			} catch (IOException e) {
-				Log.error("Error while cleaning the main output directory: " + mainOutputDirectory.getAbsolutePath(), e);
+				Log.error("Error while cleaning the root working directory: " + rootWorkingDirectoryFile.getAbsolutePath(), e);
+				return false;
 			}
 		}else {
-			mainOutputDirectory.mkdirs();
+			rootWorkingDirectoryFile.mkdirs();
 		}
-		
-		// copy the guide.html
-		Bundle pluginBundle = Activator.getDefault().getBundle();
-		try {
-			InputStream pluginHTMLGuidePageInputStream = pluginBundle.getEntry(PLUGIN_GUIDE_HTML_PAGE_PATH).openStream();
-			File destinationFile = new File(mainOutputDirectory, DYANDOC_GUIDE_HTML_PAGE_NAME);
-			FileUtils.copyInputStreamToFile(pluginHTMLGuidePageInputStream, destinationFile);
-		} catch (IOException e) {
-			System.err.println("Error while copying the dynadoc guide HTML page");
-		}
-		
-		// "graphs" directory
-		OUTPUT_GRAPHS_DIRECTORY_PATH = OUTPUT_DIRECTORY_PATH.resolve(OUTPUT_GRAPHS_DIRECTORY_NAME);
-		File graphsDirectoryFile = OUTPUT_GRAPHS_DIRECTORY_PATH.toFile();
-		graphsDirectoryFile.mkdirs();
-		
-		// "resources" directory
-		OUTPUT_RESOURCES_DIRECTORY_PATH = OUTPUT_DIRECTORY_PATH.resolve(OUTPUT_RESOURCES_DIRECTORY_NAME);
-		File resourcesDirectoryFile = OUTPUT_RESOURCES_DIRECTORY_PATH.toFile();
+		return true;
+	}
+	
+	private static boolean configureResourcesDirectory() {
+		Path resourcesDirectoryPath = ROOT_WORKING_DIRECTORY.getPath().resolve(OutputDirectoryConstants.RESOURCES_DIRECTORY_NAME);
+		File resourcesDirectoryFile = resourcesDirectoryPath.toFile();
 		resourcesDirectoryFile.mkdirs();
 		
 		// Copy stuff into resources directory
-		for(String pluginResourceFileName: RESOURCES_DIRECTORY_CONTENTS_TO_BE_COPIED) {
+		Bundle bundle = Activator.getDefault().getBundle();
+		for(String resourceFileName: PluginResourceConstants.Resources.RESOURCES_DIRECTORY_CONTENTS_FILE_NAMES) {
 			try {
-				InputStream pluginResourceInputStream = pluginBundle.getEntry(PLUGIN_RESOURCES_DIRECTORY_PATH + pluginResourceFileName).openStream();
-				File destinationFile = new File(resourcesDirectoryFile, pluginResourceFileName);
-				FileUtils.copyInputStreamToFile(pluginResourceInputStream, destinationFile);
+				InputStream resourceInputStream = bundle.getEntry(PluginResourceConstants.Resources.RESOURCES_DIRECTORY_PATH + resourceFileName).openStream();
+				File destinationFile = new File(resourcesDirectoryFile, resourceFileName);
+				FileUtils.copyInputStreamToFile(resourceInputStream, destinationFile);
 			} catch (IOException e) {
-				System.err.println("Error while copying contents of plugin resources file");
+				Log.error("Error while copying contents from plugin resources directory", e);
+				return false;
 			}
 		}
-		
-		for(String pluginGuideImageFileName: GUIDE_IMAGES_DIRECTORY_CONTENTS_TO_BE_COPIES) {
-			try {
-				InputStream pluginGuideImageInputStream = pluginBundle.getEntry(PLUGIN_GUIDE_IMAGES_DIRECTORY_PATH + pluginGuideImageFileName).openStream();
-				File destinationFile = new File(resourcesDirectoryFile, pluginGuideImageFileName);
-				FileUtils.copyInputStreamToFile(pluginGuideImageInputStream, destinationFile);
-			} catch (IOException e) {
-				System.err.println("Error while copying contents of guide slides into resources output directory");
-			}
-		}
-		
-		OUTPUT_SCRIPTS_DIRECTORY_PATH = OUTPUT_DIRECTORY_PATH.resolve(OUTPUT_SCRIPTS_DIRECTORY_NAME);
-		File scriptsOutputDirectoryFile = OUTPUT_SCRIPTS_DIRECTORY_PATH.toFile();
-		scriptsOutputDirectoryFile.mkdirs();
+		return true;
+	}
+	
+	private static boolean configureScriptsDirectory() {
+		Path scriptsDirectoryPath = ROOT_WORKING_DIRECTORY.getPath().resolve(OutputDirectoryConstants.SCRIPTS_DIRECTORY_NAME);
+		File scriptsDirectoryFile = scriptsDirectoryPath.toFile();
+		scriptsDirectoryFile.mkdirs();
 		
 		// Copy stuff into scripts directory
-		for(String pluginScriptFileName: SCRIPTS_DIRECTORY_CONTENTS_TO_BE_COPIED) {
+		Bundle bundle = Activator.getDefault().getBundle();
+		for(String scriptFileName: PluginResourceConstants.Scripts.SCRIPTS_DIRECTORY_CONTENTS_FILE_NAMES) {
 			try {
-				InputStream pluginScriptInputStream = pluginBundle.getEntry(PLUGIN_SCRIPTS_DIRECTORY_PATH + pluginScriptFileName).openStream();
-				File destinationFile = new File(scriptsOutputDirectoryFile, pluginScriptFileName);
-				FileUtils.copyInputStreamToFile(pluginScriptInputStream, destinationFile);
+				InputStream scriptInputStream = bundle.getEntry(PluginResourceConstants.Scripts.SCRIPTS_DIRECTORY_PATH + scriptFileName).openStream();
+				File destinationFile = new File(scriptsDirectoryFile, scriptFileName);
+				FileUtils.copyInputStreamToFile(scriptInputStream, destinationFile);
 			} catch (IOException e) {
-				System.err.println("Error while copying contents of plugin scripts file");
+				Log.error("Error while copying contents from plugin scripts directory", e);
+				return false;
 			}
 		}
+		return true;
+	}
+	
+	private static boolean configureGuideDocuments() {
+		File rootWorkingDirectoryFile = ROOT_WORKING_DIRECTORY.getPath().toFile();
+		Bundle bundle = Activator.getDefault().getBundle();
 		
-		// "javadoc" directory
-		OUTPUT_JAVADOC_DIRECTORY_PATH = OUTPUT_DIRECTORY_PATH.resolve(OUTPUT_JAVADOC_DIRECTORY_NAME);
-		File javadocDirectoryFile = OUTPUT_JAVADOC_DIRECTORY_PATH.toFile();
-		javadocDirectoryFile.mkdirs();		
+		String guidePageFileName = PluginResourceConstants.Guide.DYANDOC_GUIDE_HTML_PAGE_NAME;
+		try {
+			InputStream guidePageInputStream = bundle.getEntry(PluginResourceConstants.Guide.GUIDE_DIRECTORY_PATH + guidePageFileName).openStream();
+			File destinationFile = new File(rootWorkingDirectoryFile, guidePageFileName);
+			FileUtils.copyInputStreamToFile(guidePageInputStream, destinationFile);
+		} catch (IOException e) {
+			Log.error("Error while copying the DynaDoc guide HTML page", e);
+			return false;
+		}
+		
+		File resourcesDirectoryFile = ROOT_WORKING_DIRECTORY.getPath().resolve(OutputDirectoryConstants.RESOURCES_DIRECTORY_NAME).toFile();
+		for(String imageFileName: PluginResourceConstants.Guide.GUIDE_IMAGE_FILE_NAMES) {
+			try {
+				InputStream imageInputStream = bundle.getEntry(PluginResourceConstants.Guide.GUIDE_IMAGES_DIRECTORY_PATH + imageFileName).openStream();
+				File destinationFile = new File(resourcesDirectoryFile, imageFileName);
+				FileUtils.copyInputStreamToFile(imageInputStream, destinationFile);
+			} catch (IOException e) {
+				Log.error("Error while copying contents guide images directory", e);
+				return false;
+			}
+		}
+		return true;
 	}
 	
-	private static boolean setOutputDirectoryFromUser() {
-		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-		    @Override
-		    public void run() {
-		        Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-				DirectoryDialog dialog = new DirectoryDialog(shell);
-				dialog.setText("Select an output directory");
-				dialog.setMessage("The output directory will be used to store all the generated documentation files");
-				if(OUTPUT_DIRECTORY_ABSOLUTE_PATH == null) {
-					dialog.setFilterPath(".");
-				} else {
-					dialog.setFilterPath(OUTPUT_DIRECTORY_ABSOLUTE_PATH);
-				}
-				OUTPUT_DIRECTORY_ABSOLUTE_PATH = dialog.open();
-		    }
-		});
-		return OUTPUT_DIRECTORY_ABSOLUTE_PATH != null;
+	public static boolean configureGraphsDirectory(WorkingDirectory workingDirectory) {
+		Path graphsDirectoryPath = workingDirectory.getPath().resolve(OutputDirectoryConstants.GRAPHS_DIRECTORY_NAME);
+		return graphsDirectoryPath.toFile().mkdirs();
 	}
 	
-	public static String[] getClassDocumentationScriptFileNames() {
-		return SCRIPTS_DIRECTORY_CONTENTS_TO_BE_COPIED;
-	}
-	
-	public static Path getDocletProjectOutputDirectoryPath() {
-		return DOCLET_PROJECT_OUTPUT_DIRECTORY_PATH;
-	}
-	
-	public static String getDocletQualifiedClassName() {
-		return DOCLET_QULALIFIED_CLASS_NAME;
-	}
-	
-	public static Path getOutputDirectoryPath() {
-		return OUTPUT_DIRECTORY_PATH;
-	}
-	
-	public static Path getOutputJavaDocDirectoryPath() {
-		return OUTPUT_JAVADOC_DIRECTORY_PATH;
-	}
-	
-	public static Path getOutputGraphsDirectoryPath() {
-		return OUTPUT_GRAPHS_DIRECTORY_PATH;
-	}
-	
-	public static Path getOutputResourcesDirectoryPath() {
-		return OUTPUT_RESOURCES_DIRECTORY_PATH;
-	}
-	
-	public static Path getOutputScriptsDirectoryPath() {
-		return OUTPUT_SCRIPTS_DIRECTORY_PATH;
-	}
-	
-	public static String getHTMLGuidePagePath() {
-		return DYANDOC_GUIDE_HTML_PAGE_NAME;
+	public static WorkingDirectory rootWorkingDirectory() {
+		return ROOT_WORKING_DIRECTORY;
 	}
 
 }

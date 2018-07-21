@@ -1,8 +1,27 @@
 package com.kcsl.supplementary;
 
+import com.kcsl.docdoclet.JavaDocConstants;
+
 public class SupplementaryArtifactConstants {
 	
 	public static final String PLUGIN_RESOURCES_DIRECTORY = "./resources/";
+	
+	public static interface JavaDoc {
+		
+		public static final String JAVADOC_OUTPUT_DIRECTORY_NAME = "javadoc";
+		
+		public static final String METHOD_SIGNATURE_SEPARATOR = JavaDocConstants.JAVA_DOC_METHOD_SIGNATURE_SEPARATOR;
+		
+		public static final String METHOD_PARAMETER_TYPE_SEPARATOR = JavaDocConstants.JAVA_DOC_METHOD_PARAMETER_TYPE_SEPARATOR;
+
+		public static interface Attributes {
+			public static final String Commnets = "Comments";
+		}
+		
+		public static interface Tags {
+			public static final String Deprecated = "deprecated";
+		}
+	}
 	
 	public static interface CommitHistory {
 		

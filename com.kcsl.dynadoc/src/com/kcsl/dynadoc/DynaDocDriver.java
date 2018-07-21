@@ -1,11 +1,12 @@
 package com.kcsl.dynadoc;
 
 import com.ensoftcorp.atlas.core.db.graph.Node;
+import com.ensoftcorp.atlas.core.log.Log;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
-import com.kcsl.dynadoc.doc.CodeMapJavaDocInjector;
-import com.kcsl.dynadoc.doc.JavaDocGeneratorTask;
 import com.kcsl.dynadoc.generator.ClassDocumentationGenerator;
+import com.kcsl.supplementary.SupplementaryArtifactsAggregator;
+import com.kcsl.supplementary.SupplementaryArtifactsImporter;
 
 public class DynaDocDriver { 
 	
@@ -20,25 +21,31 @@ public class DynaDocDriver {
 		Node projectNode = Common.universe().nodes(XCSG.Project).selectNode(XCSG.name, projectName).eval().nodes().one();
 		Node classNode = Common.typeSelect(packageName, className).eval().nodes().one();
 		
-		Configurations.createProperOutputDirectoriesStructure();
+		Configurations.configureWorkingDirectory();
 		
-		generateClassJavaDoc(projectNode, classNode);
-		populateProjectCodeMapWithJavaDocs(projectNode);
+		aggregateAndImportSupplementaryArtifacts(projectNode, classNode);
 		generateClassDocumentation(classNode);
 	}
 	
-	private static void generateClassJavaDoc(Node projectNode, Node classNode) {
-		JavaDocGeneratorTask.runOnClass(projectNode, classNode);
-	}
-	
-	private static void populateProjectCodeMapWithJavaDocs(Node projectNode) {
-		CodeMapJavaDocInjector codeMapJavaDocInjector = new CodeMapJavaDocInjector(projectNode);
-		codeMapJavaDocInjector.populate();
+	private static void aggregateAndImportSupplementaryArtifacts(Node projectNode, Node classNode) {
+		long start = System.currentTimeMillis();
+		Log.info("Started aggregating and importing Ssupplementary artifacts.");
+		SupplementaryArtifactsAggregator.aggregateArtifacts(projectNode, classNode, Configurations.rootWorkingDirectory().getPath());
+		SupplementaryArtifactsImporter.importArtifacts(Configurations.rootWorkingDirectory().getPath());
+		
+		double duration = (System.currentTimeMillis() - start) / 60000.0;
+		Log.info("Done aggregating and importing of supplementary artifacts in: " + duration + "m");
 	}
 	
 	private static void generateClassDocumentation(Node classNode) {
-		ClassDocumentationGenerator classDocumentationGenerator = new ClassDocumentationGenerator(classNode);
+		long start = System.currentTimeMillis();
+		Log.info("Started generating documentation for class: " + classNode.getAttr(XCSG.name));
+		
+		ClassDocumentationGenerator classDocumentationGenerator = new ClassDocumentationGenerator(classNode, Configurations.rootWorkingDirectory());
 		classDocumentationGenerator.generate();
+		
+		double duration = (System.currentTimeMillis() - start) / 60000.0;
+		Log.info("Done generating documentation for class (" + classNode.getAttr(XCSG.name) + ") in: " + duration + "m");
 	}
 	
 }

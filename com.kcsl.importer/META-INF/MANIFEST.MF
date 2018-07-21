@@ -10,7 +10,11 @@ Require-Bundle: org.eclipse.ui,
  com.ensoftcorp.atlas.ui;bundle-version="3.1.0",
  com.ensoftcorp.atlas.ui.shell;bundle-version="3.1.0",
  org.apache.commons.lang3;bundle-version="3.1.0",
- com.ensoftcorp.open.commons;bundle-version="3.3.0"
+ com.ensoftcorp.open.commons;bundle-version="3.3.0",
+ org.eclipse.jdt;bundle-version="3.13.4",
+ org.eclipse.jdt.core;bundle-version="3.13.102",
+ com.kcsl.docdoclet;bundle-version="1.0.0",
+ org.json.simple;bundle-version="1.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Knowledge-Centric Software Lab

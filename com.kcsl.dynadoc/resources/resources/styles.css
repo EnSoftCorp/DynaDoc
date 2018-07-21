@@ -1,0 +1,12 @@
+td.details-control {
+    background: url('details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.details td.details-control {
+    background: url('details_close.png') no-repeat center center;
+}
+
+.scrollClass {
+    height:150px;
+    overflow-y: scroll;
+}

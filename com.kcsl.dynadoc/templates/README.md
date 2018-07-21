@@ -1,1 +1,0 @@
-This directory contains the HTML templates for different java constructs: Package, Class, Mehotd, and Field.
