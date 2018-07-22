@@ -18,7 +18,7 @@ import com.hp.gagawa.java.elements.Thead;
 import com.hp.gagawa.java.elements.Tr;
 import com.kcsl.dynadoc.constants.FileNameTemplateConstants;
 import com.kcsl.dynadoc.data.JavaClass;
-import com.kcsl.dynadoc.data.JavaClassField;
+import com.kcsl.dynadoc.data.JavaField;
 import com.kcsl.dynadoc.path.WorkingDirectory;
 import com.kcsl.dynadoc.path.WorkingDirectoryCache;
 import com.kcsl.dynadoc.utils.HTMLUtils;
@@ -36,7 +36,7 @@ public class ClassFieldsWrapper {
 	private static final String [] FIELDS_TABLE_HEADERS = { "Visibility", "Type", "Name", "Static", "Instance", "Final", "Deprecated", "External Use", "Inter DDG"};
 
 
-	private List<JavaClassField> fields;
+	private List<JavaField> fields;
 	
 	private WorkingDirectory workingDirectory;
 	
@@ -45,7 +45,7 @@ public class ClassFieldsWrapper {
 		this.workingDirectory = WorkingDirectoryCache.getWorkingDirectory(javaClass.getClassNode());
 	}
 	
-	private List<JavaClassField> getFields() {
+	private List<JavaField> getFields() {
 		return this.fields;
 	}
 	
@@ -97,8 +97,8 @@ public class ClassFieldsWrapper {
 						table.appendChild(tHead);
 						
 						Tbody tBody = new Tbody();
-						List<JavaClassField> fields = this.getFields();
-						for(JavaClassField field: fields) {
+						List<JavaField> fields = this.getFields();
+						for(JavaField field: fields) {
 							Tr fieldRow = this.wrapField(field);
 							tBody.appendChild(fieldRow);
 						}
@@ -128,7 +128,7 @@ public class ClassFieldsWrapper {
 		return fieldsTableDiv;
 	}
 
-	private Tr wrapField(JavaClassField field) {
+	private Tr wrapField(JavaField field) {
 		Tr row = new Tr();
 		
 		Td showHideColumn = this.wrapShowHideIcon();
@@ -173,7 +173,7 @@ public class ClassFieldsWrapper {
 		return td;
 	}
 	
-	private Td wrapVisibility(JavaClassField field) {
+	private Td wrapVisibility(JavaField field) {
 		Td td = new Td();
 		Code code = new Code();
 		code.appendText(field.getVisibility());
@@ -181,7 +181,7 @@ public class ClassFieldsWrapper {
 		return td;
 	}
 	
-	private Td wrapType(JavaClassField field) {
+	private Td wrapType(JavaField field) {
 		Td td = new Td();
 		Code code = new Code();
 		Node typeNode = field.getTypeNode();
@@ -198,7 +198,7 @@ public class ClassFieldsWrapper {
 		return td;
 	}
 	
-	private Td wrapName(JavaClassField field) {
+	private Td wrapName(JavaField field) {
 		Td td = new Td();
 		Code code = new Code();
 		code.appendText(field.getName());
@@ -206,7 +206,7 @@ public class ClassFieldsWrapper {
 		return td;
 	}
 	
-	private Td wrapDeprecated(JavaClassField field) {
+	private Td wrapDeprecated(JavaField field) {
 		Td td = new Td();
 		if(field.deprecatedField()) {
 			td.appendChild(this.checkImg());
@@ -214,7 +214,7 @@ public class ClassFieldsWrapper {
 		return td;
 	}
 	
-	private Td wrapStatic(JavaClassField field) {
+	private Td wrapStatic(JavaField field) {
 		Td td = new Td();
 		if(field.staticField()) {
 			td.appendChild(this.checkImg());
@@ -222,7 +222,7 @@ public class ClassFieldsWrapper {
 		return td;
 	}
 	
-	private Td wrapInstance(JavaClassField field) {
+	private Td wrapInstance(JavaField field) {
 		Td td = new Td();
 		if(field.instanceField()) {
 			td.appendChild(this.checkImg());
@@ -230,7 +230,7 @@ public class ClassFieldsWrapper {
 		return td;
 	}
 	
-	private Td wrapFinal(JavaClassField field) {
+	private Td wrapFinal(JavaField field) {
 		Td td = new Td();
 		if(field.finalField()) {
 			td.appendChild(this.checkImg());
@@ -238,7 +238,7 @@ public class ClassFieldsWrapper {
 		return td;
 	}
 	
-	private Td wrapCalledOutsideContainingClass(JavaClassField field) {
+	private Td wrapCalledOutsideContainingClass(JavaField field) {
 		Td td = new Td();
 		if(field.calledOutsideContainingClass()) {
 			td.appendChild(this.checkImg());
@@ -246,7 +246,7 @@ public class ClassFieldsWrapper {
 		return td;
 	}
 	
-	private Td wrapDDG(JavaClassField field) {
+	private Td wrapDDG(JavaField field) {
 		Td td = new Td();
 		A link = new A();
 		String ddgFileName = String.format(FileNameTemplateConstants.DATA_DEPENDENCY_GRAPH_FILE_NAME_TEMPLATE, field.getName());
@@ -262,7 +262,7 @@ public class ClassFieldsWrapper {
 		return td;
 	}
 	
-	private Td wrapComments(JavaClassField field) {
+	private Td wrapComments(JavaField field) {
 		Td td = new Td();
 		td.setAttribute("style", "display:none;");
 			Div div = new Div();

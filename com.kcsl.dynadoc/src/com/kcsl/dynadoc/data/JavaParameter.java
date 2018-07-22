@@ -8,7 +8,7 @@ import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.kcsl.supplementary.SupplementaryArtifactConstants.JavaDoc;
 
-public class JavaMethodParameter {
+public class JavaParameter {
 	
 	private Node parameterNode;
 	
@@ -16,7 +16,7 @@ public class JavaMethodParameter {
 	
 	private String name;
 
-	public JavaMethodParameter(Node parameterNode) {
+	public JavaParameter(Node parameterNode) {
 		this.parameterNode = parameterNode;
 		this.index = (int) parameterNode.getAttr(XCSG.parameterIndex);
 		this.name = this.parameterNode.getAttr(XCSG.name).toString();
@@ -82,7 +82,7 @@ public class JavaMethodParameter {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		JavaMethodParameter other = (JavaMethodParameter) obj;
+		JavaParameter other = (JavaParameter) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

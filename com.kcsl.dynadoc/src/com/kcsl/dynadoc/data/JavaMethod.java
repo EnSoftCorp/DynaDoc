@@ -38,7 +38,7 @@ public class JavaMethod {
 	
 	private String qualifiedName;
 	
-	private List<JavaMethodParameter> parameters;
+	private List<JavaParameter> parameters;
 	
 	private String name;
 	
@@ -52,16 +52,16 @@ public class JavaMethod {
 	}
 	
 	private void setParameters() {
-		this.parameters = new ArrayList<JavaMethodParameter>();
+		this.parameters = new ArrayList<JavaParameter>();
 		AtlasSet<Node> parameters = this.getParametersQ().eval().nodes();
 		for(Node parameter: parameters) {
-			JavaMethodParameter methodParameter = new JavaMethodParameter(parameter);
+			JavaParameter methodParameter = new JavaParameter(parameter);
 			this.parameters.add(methodParameter);
 		}
-		Collections.sort(this.parameters, new Comparator<JavaMethodParameter>() {
+		Collections.sort(this.parameters, new Comparator<JavaParameter>() {
 
 			@Override
-			public int compare(JavaMethodParameter o1, JavaMethodParameter o2) {
+			public int compare(JavaParameter o1, JavaParameter o2) {
 				return o1.getIndex() - o2.getIndex();
 			}
 		});
@@ -71,7 +71,7 @@ public class JavaMethod {
 		return containsEdges.successors(this.getMethodQ()).nodes(XCSG.Parameter);
 	}
 	
-	public List<JavaMethodParameter> getParameters() {
+	public List<JavaParameter> getParameters() {
 		return this.parameters;
 	}
 	
@@ -119,8 +119,8 @@ public class JavaMethod {
 	public String getSignature() {
 		StringBuilder methodSignature = new StringBuilder();
 		methodSignature.append(this.getName());
-		List<JavaMethodParameter> parameters = this.getParameters();
-		for(JavaMethodParameter parameter: parameters) {
+		List<JavaParameter> parameters = this.getParameters();
+		for(JavaParameter parameter: parameters) {
 			methodSignature.append(JavaDoc.METHOD_SIGNATURE_SEPARATOR);
 			methodSignature.append(parameter.getSignature());
 		}

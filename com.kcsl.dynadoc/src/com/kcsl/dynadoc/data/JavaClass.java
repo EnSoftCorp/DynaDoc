@@ -39,7 +39,7 @@ public class JavaClass {
 	
 	private List<JavaMethod> methods;
 	
-	private List<JavaClassField> fields;
+	private List<JavaField> fields;
 	
 	private List<Issue> issues;
 	
@@ -69,10 +69,10 @@ public class JavaClass {
 	}
 	
 	private void setFields() {
-		this.fields = new ArrayList<JavaClassField>();
+		this.fields = new ArrayList<JavaField>();
 		AtlasSet<Node> fieldNodes = this.getFieldsQ().eval().nodes();
 		for(Node fieldNode: fieldNodes) {
-			JavaClassField field = new JavaClassField(this.getClassNode(), fieldNode);
+			JavaField field = new JavaField(this.getClassNode(), fieldNode);
 			this.fields.add(field);
 		}
 	}
@@ -99,7 +99,7 @@ public class JavaClass {
 		return this.methods;
 	}
 	
-	public List<JavaClassField> getFields() {
+	public List<JavaField> getFields() {
 		return this.fields;
 	}
 	

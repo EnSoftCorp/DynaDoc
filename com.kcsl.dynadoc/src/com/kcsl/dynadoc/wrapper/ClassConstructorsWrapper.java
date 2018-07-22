@@ -20,7 +20,7 @@ import com.hp.gagawa.java.elements.Tr;
 import com.kcsl.dynadoc.constants.FileNameTemplateConstants;
 import com.kcsl.dynadoc.data.JavaClass;
 import com.kcsl.dynadoc.data.JavaMethod;
-import com.kcsl.dynadoc.data.JavaMethodParameter;
+import com.kcsl.dynadoc.data.JavaParameter;
 import com.kcsl.dynadoc.path.WorkingDirectory;
 import com.kcsl.dynadoc.path.WorkingDirectoryCache;
 import com.kcsl.dynadoc.utils.HTMLUtils;
@@ -190,9 +190,9 @@ public class ClassConstructorsWrapper {
 	private Td wrapParameters(JavaMethod method) {
 		Td td = new Td();
 		td.setStyle("white-space:nowrap");
-		List<JavaMethodParameter> parameters = method.getParameters();
+		List<JavaParameter> parameters = method.getParameters();
 		for(int index = 0; index < parameters.size(); index++) {
-			JavaMethodParameter parameter = parameters.get(index);
+			JavaParameter parameter = parameters.get(index);
 			String name = parameter.getName();
 			Node typeNode = parameter.getTypeNode();
 			String typeName = parameter.getTypeName();

@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class JavaClassField {
+public class JavaField {
 
 	private Node fieldNode;
 	
@@ -29,7 +29,7 @@ public class JavaClassField {
 	
 	private String name;
 	
-	public JavaClassField(Node containingClassNode, Node fieldNode) {
+	public JavaField(Node containingClassNode, Node fieldNode) {
 		this.fieldNode = fieldNode;
 		this.containingClassNode = containingClassNode;
 		this.name = fieldNode.getAttr(XCSG.name).toString();
@@ -148,7 +148,7 @@ public class JavaClassField {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		JavaClassField other = (JavaClassField) obj;
+		JavaField other = (JavaField) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
