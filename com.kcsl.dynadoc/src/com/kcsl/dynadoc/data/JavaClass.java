@@ -27,9 +27,6 @@ import com.kcsl.supplementary.SupplementaryArtifactConstants.CommitHistory;
 import com.kcsl.supplementary.SupplementaryArtifactConstants.CommitIssueRelation;
 
 import static com.kcsl.dynadoc.data.QueryCache.containsEdges;
-import static com.kcsl.dynadoc.data.QueryCache.superTypeEdges;
-import static com.kcsl.dynadoc.data.QueryCache.extendsEdges;
-import static com.kcsl.dynadoc.data.QueryCache.implementsEdges;
 
 
 public class JavaClass {
@@ -145,6 +142,7 @@ public class JavaClass {
 	}
 	
 	public Q getTypeHierarchyGraph() {
+		Q superTypeEdges = Query.resolve(null, Query.universe().edges(XCSG.Supertype));
 		Q containingProjectQ = Common.toQ(this.getProject());
 		Q containedTypes = containsEdges.forward(containingProjectQ);
 		Q forwardTypeHierarchyQ = superTypeEdges.forward(this.getClassQ());
@@ -162,10 +160,12 @@ public class JavaClass {
 	}
 	
 	public Node getExtendedClass() {
+		Q extendsEdges = Query.universe().edges(XCSG.Java.Extends);
 		return extendsEdges.successors(this.getClassQ()).eval().nodes().one(XCSG.Type);
 	}
 	
 	public AtlasSet<Node> getImplementedClasses() {
+		Q implementsEdges = Query.universe().edges(XCSG.Java.Implements);
 		return implementsEdges.successors(this.getClassQ()).eval().nodes().tagged(XCSG.Type);
 	}
 	

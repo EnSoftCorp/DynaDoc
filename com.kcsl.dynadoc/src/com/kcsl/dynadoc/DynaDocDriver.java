@@ -5,6 +5,7 @@ import com.ensoftcorp.atlas.core.log.Log;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.kcsl.dynadoc.generator.ClassDocumentationGenerator;
+import com.kcsl.dynadoc.utils.SaveUtils;
 import com.kcsl.supplementary.SupplementaryArtifactsAggregator;
 import com.kcsl.supplementary.SupplementaryArtifactsImporter;
 
@@ -21,7 +22,9 @@ public class DynaDocDriver {
 		Node projectNode = Common.universe().nodes(XCSG.Project).selectNode(XCSG.name, projectName).eval().nodes().one();
 		Node classNode = Common.typeSelect(packageName, className).eval().nodes().one();
 		
-		Configurations.configureWorkingDirectory();
+		if(!Configurations.configureWorkingDirectory()) {
+			return;
+		}
 		
 		aggregateAndImportSupplementaryArtifacts(projectNode, classNode);
 		generateClassDocumentation(classNode);

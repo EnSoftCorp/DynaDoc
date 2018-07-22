@@ -13,7 +13,6 @@ import com.ensoftcorp.atlas.core.query.Q;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.open.commons.analysis.CommonQueries;
-import com.ensoftcorp.open.commons.highlighter.CFGHighlighter;
 import com.ensoftcorp.open.slice.analysis.DataDependenceGraph;
 import com.ensoftcorp.open.slice.analysis.DependenceGraph;
 
@@ -194,9 +193,39 @@ public class JavaMethod {
 	}
 	
 	public IMarkup getCFGMarkup() {
-		Markup markup = new Markup();
-		CFGHighlighter.applyHighlightsForCFG(markup);
-		return markup;
+		Markup labelEdgesMarkup = new Markup() {
+			@Override
+			public PropertySet get(GraphElement element) {
+				if (element instanceof Edge && element.taggedWith(XCSG.ControlFlow_Edge)) {
+					
+					PropertySet propertySet = new PropertySet();
+					if(element.taggedWith(XCSG.ExceptionalControlFlow_Edge)) {
+						propertySet.set(MarkupProperty.EDGE_COLOR, Color.BLUE);
+						return propertySet;
+					}
+					
+					boolean conditionalEdge = element.hasAttr(XCSG.conditionValue);
+					if(conditionalEdge) {
+						Object conditionValue = element.getAttr(XCSG.conditionValue);
+						if(conditionValue.equals(true) || conditionValue.equals(Boolean.TRUE) || conditionValue.equals("true")) {
+							propertySet.set(MarkupProperty.EDGE_COLOR, Color.WHITE);
+							propertySet.set(MarkupProperty.LABEL_TEXT, "true");
+							return propertySet;
+						}
+						if(conditionValue.equals(false) || conditionValue.equals(Boolean.FALSE) || conditionValue.equals("false")) {
+							propertySet.set(MarkupProperty.EDGE_COLOR, Color.BLACK);
+							propertySet.set(MarkupProperty.LABEL_TEXT, "false");
+							return propertySet;
+						}
+					}
+					
+					propertySet.set(MarkupProperty.EDGE_COLOR, Color.GRAY);
+					return propertySet;
+				}
+				return new PropertySet();
+			}
+		};
+		return labelEdgesMarkup;
 	}
 	
 	public IMarkup getCallGraphMarkup() {

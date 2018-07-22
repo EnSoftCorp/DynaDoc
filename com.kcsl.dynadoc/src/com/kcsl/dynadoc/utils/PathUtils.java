@@ -43,7 +43,7 @@ public class PathUtils {
 		return workingDirectory.getRelativePathStringToRootWorkingDirectory() + PluginResourceConstants.Guide.DYANDOC_GUIDE_HTML_PAGE_NAME;
 	}
 	
-	public static Path promptUserForRootWorkingDirectory(WorkingDirectory previousWorkingDirectory) {
+	public static Path promptUserForRootWorkingDirectory(String userPreferedRootWorkingDirectoryPath) {
 		final AtomicReference<Path> selectedWorkingDirectoryPath = new AtomicReference<Path>(null);
 		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
 		    @Override
@@ -52,11 +52,7 @@ public class PathUtils {
 				DirectoryDialog dialog = new DirectoryDialog(shell);
 				dialog.setText("Select an output directory");
 				dialog.setMessage("The output directory will be used to store all the generated documentation files");
-				if(previousWorkingDirectory == null) {
-					dialog.setFilterPath(".");
-				} else {
-					dialog.setFilterPath(previousWorkingDirectory.getPath().toFile().getAbsolutePath());
-				}
+				dialog.setFilterPath(userPreferedRootWorkingDirectoryPath);
 				selectedWorkingDirectoryPath.set(Paths.get(dialog.open()));
 		    }
 		});

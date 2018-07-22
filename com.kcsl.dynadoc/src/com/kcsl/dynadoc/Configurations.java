@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.prefs.Preferences;
 
 import org.apache.commons.io.FileUtils;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.osgi.framework.Bundle;
 
 import com.ensoftcorp.atlas.core.log.Log;
@@ -39,11 +42,13 @@ public class Configurations {
 	}
 	
 	private static boolean configureRootWorkingDirectory() {
-		Path userRecommendedRootWorkingDirectoryPath = PathUtils.promptUserForRootWorkingDirectory(ROOT_WORKING_DIRECTORY);
+		String userPreferedRootWorkingDirectoryPath = DynaDocPreferenceInitalizer.getRootWorkingDirectoryUserPreference();
+		Path userRecommendedRootWorkingDirectoryPath = PathUtils.promptUserForRootWorkingDirectory(userPreferedRootWorkingDirectoryPath);
 		if(userRecommendedRootWorkingDirectoryPath == null) {
 			Log.warning("User did not select an output directory to store the generated documentation. Exiting DynaDoc!");
 			return false;
 		}
+		DynaDocPreferenceInitalizer.setUserRootWorkingDirectoryPreference(userRecommendedRootWorkingDirectoryPath.toFile().getAbsolutePath());
 		ROOT_WORKING_DIRECTORY = WorkingDirectory.createRootWorkingDirectory(userRecommendedRootWorkingDirectoryPath);
 		File rootWorkingDirectoryFile = ROOT_WORKING_DIRECTORY.getPath().toFile();
 		if(rootWorkingDirectoryFile.exists()) {

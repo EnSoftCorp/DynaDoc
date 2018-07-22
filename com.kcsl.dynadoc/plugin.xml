@@ -4,4 +4,10 @@
    <extension
          point="com.ensoftcorp.atlas.ui.smartViewScript">
    </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.kcsl.dynadoc.DynaDocPreferenceInitalizer">
+      </initializer>
+   </extension>
 </plugin>
