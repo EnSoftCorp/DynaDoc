@@ -5,7 +5,6 @@ import com.ensoftcorp.atlas.core.log.Log;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.kcsl.dynadoc.generator.ClassDocumentationGenerator;
-import com.kcsl.dynadoc.utils.SaveUtils;
 import com.kcsl.supplementary.SupplementaryArtifactsAggregator;
 import com.kcsl.supplementary.SupplementaryArtifactsImporter;
 

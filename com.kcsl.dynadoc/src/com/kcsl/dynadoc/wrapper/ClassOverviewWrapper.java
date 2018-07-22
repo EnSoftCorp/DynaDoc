@@ -13,7 +13,7 @@ import com.hp.gagawa.java.elements.Li;
 import com.hp.gagawa.java.elements.Ol;
 import com.hp.gagawa.java.elements.Strong;
 import com.hp.gagawa.java.elements.Ul;
-import com.kcsl.dynadoc.conf.FileNameTemplates;
+import com.kcsl.dynadoc.constants.FileNameTemplateConstants;
 import com.kcsl.dynadoc.data.JavaClass;
 import com.kcsl.dynadoc.path.WorkingDirectory;
 import com.kcsl.dynadoc.path.WorkingDirectoryCache;
@@ -144,7 +144,7 @@ public class ClassOverviewWrapper {
 				cardContent = new Div();
 				cardContent.setCSSClass("card-body bg-white text-dark");
 					A imageLink = new A();
-					String hierarchyGraphFileName = String.format(FileNameTemplates.HIERARCHY_GRAPH_FILE_NAME_TEMPLATE, this.getJavaClass().getQualifiedName());
+					String hierarchyGraphFileName = String.format(FileNameTemplateConstants.HIERARCHY_GRAPH_FILE_NAME_TEMPLATE, this.getJavaClass().getQualifiedName());
 					Path hierarchyGraphFilePath = this.getPathToGraphFile(hierarchyGraphFileName);
 					SaveUtils.saveGraph(hierarchyGraphFilePath, this.getJavaClass().getTypeHierarchyGraph(), this.getJavaClass().getTypeHierarchyGraphMarkup());
 					String relativePathToHierarchyGraph = this.getRelativePathStringToGraphFile(hierarchyGraphFileName);
@@ -169,7 +169,7 @@ public class ClassOverviewWrapper {
 				cardContent = new Div();
 				cardContent.setCSSClass("card-body bg-white text-dark");
 					imageLink = new A();
-					String nestingClassesGraphFileName = String.format(FileNameTemplates.NESTING_CLASSES_GRAPH_FILE_NAME_TEMPLATE, this.getJavaClass().getQualifiedName());
+					String nestingClassesGraphFileName = String.format(FileNameTemplateConstants.NESTING_CLASSES_GRAPH_FILE_NAME_TEMPLATE, this.getJavaClass().getQualifiedName());
 					Path nestingClassesGraphFilePath = this.getPathToGraphFile(nestingClassesGraphFileName);
 					SaveUtils.saveGraph(nestingClassesGraphFilePath, this.getJavaClass().getClassNestingGraph(), this.getJavaClass().getClassNestingGraphMarkup());
 					String relativePathToNestingClassesGraph = this.getRelativePathStringToGraphFile(nestingClassesGraphFileName);

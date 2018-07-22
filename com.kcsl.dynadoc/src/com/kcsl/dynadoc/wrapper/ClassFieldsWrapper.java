@@ -16,6 +16,7 @@ import com.hp.gagawa.java.elements.Tfoot;
 import com.hp.gagawa.java.elements.Th;
 import com.hp.gagawa.java.elements.Thead;
 import com.hp.gagawa.java.elements.Tr;
+import com.kcsl.dynadoc.constants.FileNameTemplateConstants;
 import com.kcsl.dynadoc.data.JavaClass;
 import com.kcsl.dynadoc.data.JavaClassField;
 import com.kcsl.dynadoc.path.WorkingDirectory;
@@ -23,7 +24,6 @@ import com.kcsl.dynadoc.path.WorkingDirectoryCache;
 import com.kcsl.dynadoc.utils.HTMLUtils;
 import com.kcsl.dynadoc.utils.PathUtils;
 import com.kcsl.dynadoc.utils.SaveUtils;
-import com.kcsl.dynadoc.conf.FileNameTemplates;
 
 public class ClassFieldsWrapper {
 	
@@ -249,7 +249,7 @@ public class ClassFieldsWrapper {
 	private Td wrapDDG(JavaClassField field) {
 		Td td = new Td();
 		A link = new A();
-		String ddgFileName = String.format(FileNameTemplates.DATA_DEPENDENCY_GRAPH_FILE_NAME_TEMPLATE, field.getName());
+		String ddgFileName = String.format(FileNameTemplateConstants.DATA_DEPENDENCY_GRAPH_FILE_NAME_TEMPLATE, field.getName());
 		Path ddgFilePath = this.getPathToGraphFile(ddgFileName);
 		SaveUtils.saveGraph(ddgFilePath, field.getDataDependenceGraph(), field.getDataDependencyGraphMarkup());
 		String relativePathToDDG = this.getRelativePathStringToGraphFile(ddgFileName);

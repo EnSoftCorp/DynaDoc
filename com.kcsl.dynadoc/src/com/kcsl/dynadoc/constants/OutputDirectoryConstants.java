@@ -1,4 +1,4 @@
-package com.kcsl.dynadoc.conf;
+package com.kcsl.dynadoc.constants;
 
 public interface OutputDirectoryConstants {
 	

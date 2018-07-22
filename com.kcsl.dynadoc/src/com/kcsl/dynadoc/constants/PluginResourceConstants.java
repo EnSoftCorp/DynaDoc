@@ -1,4 +1,4 @@
-package com.kcsl.dynadoc.conf;
+package com.kcsl.dynadoc.constants;
 
 import org.apache.commons.io.IOUtils;
 

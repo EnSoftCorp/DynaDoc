@@ -18,8 +18,8 @@ import com.hp.gagawa.java.elements.Meta;
 import com.hp.gagawa.java.elements.Script;
 import com.hp.gagawa.java.elements.Title;
 import com.kcsl.dynadoc.Configurations;
-import com.kcsl.dynadoc.conf.FileNameTemplates;
-import com.kcsl.dynadoc.conf.PluginResourceConstants;
+import com.kcsl.dynadoc.constants.FileNameTemplateConstants;
+import com.kcsl.dynadoc.constants.PluginResourceConstants;
 import com.kcsl.dynadoc.data.JavaClass;
 import com.kcsl.dynadoc.path.WorkingDirectory;
 import com.kcsl.dynadoc.path.WorkingDirectoryCache;
@@ -74,7 +74,7 @@ public class ClassDocumentationGenerator {
 		htmlDocument.appendChild(body);
 		
 		try {
-			String htmlFileName = String.format(FileNameTemplates.HTML_FILE_NAME_TEMPLATE, this.getJavaClass().getQualifiedName());
+			String htmlFileName = String.format(FileNameTemplateConstants.HTML_FILE_NAME_TEMPLATE, this.getJavaClass().getQualifiedName());
 			Path classDocHTMLFilePath =  this.getWorkingDirectory().getPath().resolve(htmlFileName);
 			PrintWriter out = new PrintWriter(new FileOutputStream(classDocHTMLFilePath.toFile()));
 			out.println(htmlDocument.write());

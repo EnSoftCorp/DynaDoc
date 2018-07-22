@@ -9,8 +9,8 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
-import com.kcsl.dynadoc.conf.OutputDirectoryConstants;
-import com.kcsl.dynadoc.conf.PluginResourceConstants;
+import com.kcsl.dynadoc.constants.OutputDirectoryConstants;
+import com.kcsl.dynadoc.constants.PluginResourceConstants;
 import com.kcsl.dynadoc.path.WorkingDirectory;
 
 public class PathUtils {

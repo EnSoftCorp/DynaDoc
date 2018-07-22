@@ -17,6 +17,7 @@ import com.hp.gagawa.java.elements.Tfoot;
 import com.hp.gagawa.java.elements.Th;
 import com.hp.gagawa.java.elements.Thead;
 import com.hp.gagawa.java.elements.Tr;
+import com.kcsl.dynadoc.constants.FileNameTemplateConstants;
 import com.kcsl.dynadoc.data.JavaClass;
 import com.kcsl.dynadoc.data.JavaMethod;
 import com.kcsl.dynadoc.data.JavaMethodParameter;
@@ -25,7 +26,6 @@ import com.kcsl.dynadoc.path.WorkingDirectoryCache;
 import com.kcsl.dynadoc.utils.HTMLUtils;
 import com.kcsl.dynadoc.utils.PathUtils;
 import com.kcsl.dynadoc.utils.SaveUtils;
-import com.kcsl.dynadoc.conf.FileNameTemplates;
 
 public class ClassConstructorsWrapper {
 	
@@ -234,7 +234,7 @@ public class ClassConstructorsWrapper {
 	private Td wrapCFG(JavaMethod method) {
 		Td td = new Td();
 		A CFGlink = new A();
-		String cfgFileName = String.format(FileNameTemplates.CFG_GRAPH_FILE_NAME_TEMPLATE, method.getSignature());
+		String cfgFileName = String.format(FileNameTemplateConstants.CFG_GRAPH_FILE_NAME_TEMPLATE, method.getSignature());
 		Path cfgFilePath = this.getPathToGraphFile(cfgFileName);
 		SaveUtils.saveGraph(cfgFilePath, method.getCFG(), method.getCFGMarkup());
 		String relativePathToCFGGraph = this.getRelativePathStringToGraphFile(cfgFileName);
@@ -250,7 +250,7 @@ public class ClassConstructorsWrapper {
 	private Td wrapCallGraph(JavaMethod method) {
 		Td td = new Td();
 		A link = new A();
-		String callGraphFileName = String.format(FileNameTemplates.CALL_GRAPH_FILE_NAME_TEMPLATE, method.getSignature());
+		String callGraphFileName = String.format(FileNameTemplateConstants.CALL_GRAPH_FILE_NAME_TEMPLATE, method.getSignature());
 		Path callGraphPath = this.getPathToGraphFile(callGraphFileName);
 		SaveUtils.saveGraph(callGraphPath, method.getCallGraph(), method.getCallGraphMarkup());
 		String relativePathToCallGraph = this.getRelativePathStringToGraphFile(callGraphFileName);
@@ -266,7 +266,7 @@ public class ClassConstructorsWrapper {
 	private Td wrapDDG(JavaMethod method) {
 		Td td = new Td();
 		A link = new A();
-		String ddgFileName = String.format(FileNameTemplates.DATA_DEPENDENCY_GRAPH_FILE_NAME_TEMPLATE, method.getSignature());
+		String ddgFileName = String.format(FileNameTemplateConstants.DATA_DEPENDENCY_GRAPH_FILE_NAME_TEMPLATE, method.getSignature());
 		Path ddgFilePath = this.getPathToGraphFile(ddgFileName);
 		SaveUtils.saveGraph(ddgFilePath, method.getDataDependenceGraph(), method.getDataDependencyGraphMarkup());
 		String relativePathToDDG = this.getRelativePathStringToGraphFile(ddgFileName);

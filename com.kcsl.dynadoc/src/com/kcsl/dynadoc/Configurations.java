@@ -4,16 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.util.prefs.Preferences;
 
 import org.apache.commons.io.FileUtils;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.osgi.framework.Bundle;
 
 import com.ensoftcorp.atlas.core.log.Log;
-import com.kcsl.dynadoc.conf.OutputDirectoryConstants;
-import com.kcsl.dynadoc.conf.PluginResourceConstants;
+import com.kcsl.dynadoc.constants.OutputDirectoryConstants;
+import com.kcsl.dynadoc.constants.PluginResourceConstants;
 import com.kcsl.dynadoc.path.WorkingDirectory;
 import com.kcsl.dynadoc.utils.PathUtils;
 
