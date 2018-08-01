@@ -35,7 +35,7 @@ public class ClassMethodsWrapper {
 	
 	private static final String METHODS_TABLE_NAME = "methods-table";
 	
-	private static final String [] METHODS_TABLE_HEADERS = { "Visibility", "Return", "Name", "Parameters", "Static", "Instance", "Concrete", "Deprecated", "External Use", "CFG", "Call", "Inra DDG"};
+	private static final String [] METHODS_TABLE_HEADERS = { "Visibility", "Return", "Name", "Parameters", "Static", "Instance", "Concrete", "Deprecated", "External Use", "CFG", "Call", "DFG"};
 
 	private List<JavaMethod> methods;
 	

@@ -33,7 +33,7 @@ public class ClassFieldsWrapper {
 	
 	private static final String FIELDS_TABLE_NAME = "fields-table";
 
-	private static final String [] FIELDS_TABLE_HEADERS = { "Visibility", "Type", "Name", "Static", "Instance", "Final", "Deprecated", "External Use", "Inter DDG"};
+	private static final String [] FIELDS_TABLE_HEADERS = { "Visibility", "Type", "Name", "Static", "Instance", "Final", "Deprecated", "External Use", "DFG"};
 
 
 	private List<JavaField> fields;

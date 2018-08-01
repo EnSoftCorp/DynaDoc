@@ -35,7 +35,7 @@ public class ClassConstructorsWrapper {
 	
 	private static final String CONSTRCUTORS_TABLE_NAME = "constructor-table";
 	
-	private static final String [] CONSTRUCTORS_TABLE_HEADERS = { "Visibility", "Name", "Parameters", "Deprecated", "External Use", "CFG", "Call", "Intra DDG"};
+	private static final String [] CONSTRUCTORS_TABLE_HEADERS = { "Visibility", "Name", "Parameters", "Deprecated", "External Use", "CFG", "Call", "DFG"};
 
 
 	private List<JavaMethod> constrcutors;
