@@ -1,5 +1,5 @@
 # DynaDoc
-Java Documentation Generator for DySDoc3 Challenge
+An extensible Java Documentation Generator for DySDoc3 Challenge
 
 ## Example
 A sample demo page can be found at: (https://ensoftcorp.github.io/DynaDoc/)
