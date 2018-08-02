@@ -1,9 +1,9 @@
-package com.kcsl.supplementary;
+package com.ensoftcorp.open.dynadoc.supplementary;
 
 import java.nio.file.Path;
 
 import com.ensoftcorp.atlas.core.db.graph.Node;
-import com.kcsl.supplementary.aggregator.JavaDocAggregatorTask;
+import com.ensoftcorp.open.dynadoc.supplementary.aggregator.JavaDocAggregatorTask;
 
 public class SupplementaryArtifactsAggregator {
 

@@ -1,4 +1,4 @@
-package com.kcsl.supplementary;
+package com.ensoftcorp.open.dynadoc.supplementary;
 
 import java.net.URL;
 
@@ -11,7 +11,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "com.kcsl.supplementary"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.ensoftcorp.open.dynadoc.supplementary"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

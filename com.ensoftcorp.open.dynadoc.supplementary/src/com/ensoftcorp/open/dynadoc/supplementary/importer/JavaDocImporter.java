@@ -1,4 +1,4 @@
-package com.kcsl.supplementary.importer;
+package com.ensoftcorp.open.dynadoc.supplementary.importer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,8 +28,8 @@ import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.open.commons.analysis.CommonQueries;
 import com.ensoftcorp.open.dynadoc.doclet.JavaDocConstants;
-import com.kcsl.supplementary.SupplementaryArtifactConstants;
-import com.kcsl.supplementary.SupplementaryArtifactConstants.JavaDoc;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.JavaDoc;
 
 public class JavaDocImporter implements ISupplementaryArtifactsImporter{
 	

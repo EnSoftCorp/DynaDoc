@@ -1,11 +1,11 @@
-package com.kcsl.supplementary;
+package com.ensoftcorp.open.dynadoc.supplementary;
 
 import java.nio.file.Path;
 
-import com.kcsl.supplementary.importer.BugzillaIssuesImporter;
-import com.kcsl.supplementary.importer.CommitHistoryImporter;
-import com.kcsl.supplementary.importer.IssuesCommitRelationImporter;
-import com.kcsl.supplementary.importer.JavaDocImporter;
+import com.ensoftcorp.open.dynadoc.supplementary.importer.BugzillaIssuesImporter;
+import com.ensoftcorp.open.dynadoc.supplementary.importer.CommitHistoryImporter;
+import com.ensoftcorp.open.dynadoc.supplementary.importer.IssuesCommitRelationImporter;
+import com.ensoftcorp.open.dynadoc.supplementary.importer.JavaDocImporter;
 
 public class SupplementaryArtifactsImporter {
 	

@@ -23,10 +23,10 @@ import com.ensoftcorp.atlas.core.query.Query;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.open.commons.analysis.CommonQueries;
-import com.kcsl.supplementary.SupplementaryArtifactConstants.JavaDoc;
-import com.kcsl.supplementary.SupplementaryArtifactConstants.BugzillaIssues;
-import com.kcsl.supplementary.SupplementaryArtifactConstants.CommitHistory;
-import com.kcsl.supplementary.SupplementaryArtifactConstants.CommitIssueRelation;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.BugzillaIssues;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.CommitHistory;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.CommitIssueRelation;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.JavaDoc;
 
 
 public class JavaClass {

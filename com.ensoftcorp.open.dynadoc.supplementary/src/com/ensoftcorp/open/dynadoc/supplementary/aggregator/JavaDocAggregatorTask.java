@@ -1,4 +1,4 @@
-package com.kcsl.supplementary.aggregator;
+package com.ensoftcorp.open.dynadoc.supplementary.aggregator;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +24,7 @@ import com.ensoftcorp.atlas.core.index.common.SourceCorrespondence;
 import com.ensoftcorp.atlas.core.log.Log;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.open.dynadoc.doclet.Activator;
-import com.kcsl.supplementary.SupplementaryArtifactConstants;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants;
 
 public class JavaDocAggregatorTask implements Runnable {
 	

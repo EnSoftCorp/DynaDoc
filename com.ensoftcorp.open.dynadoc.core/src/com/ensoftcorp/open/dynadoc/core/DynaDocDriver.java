@@ -5,8 +5,8 @@ import com.ensoftcorp.atlas.core.log.Log;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.open.dynadoc.core.generator.ClassDocumentationGenerator;
-import com.kcsl.supplementary.SupplementaryArtifactsAggregator;
-import com.kcsl.supplementary.SupplementaryArtifactsImporter;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactsAggregator;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactsImporter;
 
 public class DynaDocDriver { 
 	

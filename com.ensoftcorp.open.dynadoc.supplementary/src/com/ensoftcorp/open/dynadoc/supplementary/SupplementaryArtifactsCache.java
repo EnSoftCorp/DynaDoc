@@ -1,4 +1,4 @@
-package com.kcsl.supplementary;
+package com.ensoftcorp.open.dynadoc.supplementary;
 
 import com.ensoftcorp.atlas.core.db.graph.Node;
 import com.ensoftcorp.atlas.core.db.map.AtlasGraphValueHashMap;

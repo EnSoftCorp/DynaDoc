@@ -13,10 +13,9 @@ import com.ensoftcorp.atlas.core.query.Q;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.open.commons.analysis.CommonQueries;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.JavaDoc;
 import com.ensoftcorp.open.slice.analysis.DataDependenceGraph;
 import com.ensoftcorp.open.slice.analysis.DependenceGraph;
-
-import com.kcsl.supplementary.SupplementaryArtifactConstants.JavaDoc;
 
 import static com.ensoftcorp.open.dynadoc.core.data.QueryCache.callEdges;
 import static com.ensoftcorp.open.dynadoc.core.data.QueryCache.containsEdges;

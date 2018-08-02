@@ -1,4 +1,4 @@
-package com.kcsl.supplementary;
+package com.ensoftcorp.open.dynadoc.supplementary;
 
 import com.ensoftcorp.open.dynadoc.doclet.JavaDocConstants;
 

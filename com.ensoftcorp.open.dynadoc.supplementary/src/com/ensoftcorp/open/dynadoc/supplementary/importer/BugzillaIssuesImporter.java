@@ -1,4 +1,7 @@
-package com.kcsl.supplementary.importer;
+package com.ensoftcorp.open.dynadoc.supplementary.importer;
+
+import static com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.BugzillaIssues.ISSUE_URL_TEMPLATE;
+import static com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.BugzillaIssues.PLUGIN_ISSUES_CSV_FILE_PATH;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,14 +23,10 @@ import com.ensoftcorp.atlas.core.log.Log;
 import com.ensoftcorp.atlas.core.query.Q;
 import com.ensoftcorp.atlas.core.query.Query;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
-import com.kcsl.supplementary.Activator;
-
-import com.kcsl.supplementary.SupplementaryArtifactConstants.BugzillaIssues.Attributes;
-import com.kcsl.supplementary.SupplementaryArtifactConstants.BugzillaIssues.Tags;
-import com.kcsl.supplementary.SupplementaryArtifactsCache;
-
-import static com.kcsl.supplementary.SupplementaryArtifactConstants.BugzillaIssues.PLUGIN_ISSUES_CSV_FILE_PATH;
-import static com.kcsl.supplementary.SupplementaryArtifactConstants.BugzillaIssues.ISSUE_URL_TEMPLATE;
+import com.ensoftcorp.open.dynadoc.supplementary.Activator;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactsCache;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.BugzillaIssues.Attributes;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.BugzillaIssues.Tags;
 
 public class BugzillaIssuesImporter implements ISupplementaryArtifactsImporter{
 	

@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.ui,
  org.apache.commons.lang3;bundle-version="3.1.0",
  com.ensoftcorp.open.commons;bundle-version="3.3.0",
  com.ensoftcorp.open.slice;bundle-version="3.3.0",
- com.kcsl.supplementary;bundle-version="1.0.0",
+ com.ensoftcorp.open.dynadoc.supplementary;bundle-version="1.0.0",
  org.eclipse.swt,
  com.yworks
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

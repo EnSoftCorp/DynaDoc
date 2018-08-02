@@ -5,9 +5,9 @@ import com.ensoftcorp.atlas.core.db.set.AtlasSet;
 import com.ensoftcorp.atlas.core.query.Q;
 import com.ensoftcorp.atlas.core.query.Query;
 import com.ensoftcorp.atlas.core.script.Common;
-import com.kcsl.supplementary.SupplementaryArtifactConstants.BugzillaIssues;
-import com.kcsl.supplementary.SupplementaryArtifactConstants.CommitHistory;
-import com.kcsl.supplementary.SupplementaryArtifactConstants.CommitIssueRelation;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.BugzillaIssues;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.CommitHistory;
+import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants.CommitIssueRelation;
 
 public class Commit {
 	
