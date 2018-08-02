@@ -2,12 +2,9 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="com.ensoftcorp.atlas.ui.smartViewScript">
-   </extension>
-   <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="com.kcsl.dynadoc.DynaDocPreferenceInitalizer">
+            class="com.ensoftcorp.open.dynadoc.core.DynaDocPreferenceInitalizer">
       </initializer>
    </extension>
 </plugin>

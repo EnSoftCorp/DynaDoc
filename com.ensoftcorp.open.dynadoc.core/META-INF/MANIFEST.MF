@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: DynaDoc
-Bundle-SymbolicName: com.kcsl.dynadoc;singleton:=true
+Bundle-SymbolicName: com.ensoftcorp.open.dynadoc.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.kcsl.dynadoc.Activator
+Bundle-Activator: com.ensoftcorp.open.dynadoc.core.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.ensoftcorp.atlas.core;bundle-version="3.1.0",
@@ -17,9 +17,9 @@ Require-Bundle: org.eclipse.ui,
  com.yworks
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Automatic-Module-Name: com.kcsl.dynadoc
-Bundle-Vendor: Knowledge-Centric Software Lab
-Export-Package: com.kcsl.dynadoc
+Bundle-Vendor: EnSoft Corp.
+Export-Package: com.ensoftcorp.open.dynadoc.core
 Bundle-ClassPath: .,
  lib/gagawa-1.0.1.jar,
  lib/json-20180130.jar
+Automatic-Module-Name: com.ensoftcorp.open.dynadoc.core
