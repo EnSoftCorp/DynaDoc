@@ -1,4 +1,4 @@
-package com.kcsl.docdoclet;
+package com.ensoftcorp.open.dynadoc.doclet;
 
 import java.io.IOException;
 import java.net.URL;
@@ -16,7 +16,7 @@ import com.ensoftcorp.atlas.core.log.Log;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "com.kcsl.docdoclet"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.ensoftcorp.open.dynadoc.doclet"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

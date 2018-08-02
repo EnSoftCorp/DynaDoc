@@ -1,4 +1,4 @@
-package com.kcsl.docdoclet;
+package com.ensoftcorp.open.dynadoc.doclet;
 
 public class JavaDocConstants {
 

@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: DynaDoc
-Bundle-SymbolicName: com.kcsl.docdoclet;singleton:=true
+Bundle-SymbolicName: com.ensoftcorp.open.dynadoc.doclet;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: com.kcsl.docdoclet.Activator
+Bundle-Activator: com.ensoftcorp.open.dynadoc.doclet.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  com.ensoftcorp.atlas.core;bundle-version="3.1.0",
@@ -11,8 +11,8 @@ Require-Bundle: org.eclipse.ui,
  com.ensoftcorp.atlas.ui.shell;bundle-version="3.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Bundle-Vendor: Knowledge-Centric Software Lab
-Export-Package: com.kcsl.docdoclet;uses:="org.osgi.framework,com.sun.javadoc,org.eclipse.ui.plugin"
+Bundle-Vendor: EnSoft Corp.
+Export-Package: com.ensoftcorp.open.dynadoc.doclet;uses:="org.osgi.framework,com.sun.javadoc,org.eclipse.ui.plugin"
 Bundle-ClassPath: lib/tools.jar,
  .
-Automatic-Module-Name: com.kcsl.docdoclet
+Automatic-Module-Name: com.ensoftcorp.open.dynadoc.doclet

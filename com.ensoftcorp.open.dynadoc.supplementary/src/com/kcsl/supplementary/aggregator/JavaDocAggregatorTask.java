@@ -23,7 +23,7 @@ import com.ensoftcorp.atlas.core.db.graph.Node;
 import com.ensoftcorp.atlas.core.index.common.SourceCorrespondence;
 import com.ensoftcorp.atlas.core.log.Log;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
-import com.kcsl.docdoclet.Activator;
+import com.ensoftcorp.open.dynadoc.doclet.Activator;
 import com.kcsl.supplementary.SupplementaryArtifactConstants;
 
 public class JavaDocAggregatorTask implements Runnable {

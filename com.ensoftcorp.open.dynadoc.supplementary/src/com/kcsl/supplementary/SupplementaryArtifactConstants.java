@@ -1,6 +1,6 @@
 package com.kcsl.supplementary;
 
-import com.kcsl.docdoclet.JavaDocConstants;
+import com.ensoftcorp.open.dynadoc.doclet.JavaDocConstants;
 
 public class SupplementaryArtifactConstants {
 	
