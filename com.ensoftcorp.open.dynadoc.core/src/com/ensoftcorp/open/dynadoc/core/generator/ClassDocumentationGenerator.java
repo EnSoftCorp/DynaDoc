@@ -24,10 +24,12 @@ import com.ensoftcorp.open.dynadoc.core.wrapper.ClassIssuesWrapper;
 import com.ensoftcorp.open.dynadoc.core.wrapper.ClassMethodsWrapper;
 import com.ensoftcorp.open.dynadoc.core.wrapper.ClassOverviewWrapper;
 import com.hp.gagawa.java.elements.Body;
+import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Head;
 import com.hp.gagawa.java.elements.Html;
 import com.hp.gagawa.java.elements.Link;
 import com.hp.gagawa.java.elements.Meta;
+import com.hp.gagawa.java.elements.P;
 import com.hp.gagawa.java.elements.Script;
 import com.hp.gagawa.java.elements.Title;
 
@@ -224,6 +226,27 @@ public class ClassDocumentationGenerator {
 		duration = (System.currentTimeMillis() - start) / 1000.0;
 		Log.info("classCommitsWrapper: " + duration + "s");
 		
+		body.appendChild(this.generateFooter());
+		
 		return body;
 	}
+	
+	private Div generateFooter() {
+		Div footerWrapperDiv = new Div();
+		footerWrapperDiv.setCSSClass("wrapper-footer");
+		
+			Div footerContainerDiv = new Div();
+			footerContainerDiv.setCSSClass("container");
+			
+				P footerContent = new P();
+				footerContent.setStyle("font-size: 12px;font-style: italic;color: gray;margin: 0;padding: 0");
+				footerContent.setAlign("center");
+				footerContent.appendText("Automatically generated using the <a href=\"https://github.com/EnSoftCorp/DynaDoc\" target=\"_blank\">DynaDoc</a> tool, an <a href=\"https://www.ensoftcorp.com/atlas/\" target=\"_blank\">Atlas</a> plugin from <a href=\"https://www.ensoftcorp.com/\" target=\"_blank\">EnSoft</a?");
+			
+			footerContainerDiv.appendChild(footerContent);
+		
+		footerWrapperDiv.appendChild(footerContainerDiv);
+		return footerWrapperDiv;
+	}
+	
 }

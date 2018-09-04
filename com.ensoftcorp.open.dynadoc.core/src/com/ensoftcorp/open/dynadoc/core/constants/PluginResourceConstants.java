@@ -45,7 +45,9 @@ public interface PluginResourceConstants {
 		
 		public static final String RESOURCES_CSS_STYLE_FILE_NAME = "styles.css";
 		
-		public static final String [] RESOURCES_DIRECTORY_CONTENTS_FILE_NAMES = { RESOURCES_CHECK_IMAGE_FILE_NAME, "details_close.png", "details_open.png", RESOURCES_CSS_STYLE_FILE_NAME };
+		public static final String RESOURCES_ENSOFT_LOGO_FILE_NAME = "logo.png";
+		
+		public static final String [] RESOURCES_DIRECTORY_CONTENTS_FILE_NAMES = { RESOURCES_CHECK_IMAGE_FILE_NAME, "details_close.png", "details_open.png", RESOURCES_CSS_STYLE_FILE_NAME, RESOURCES_ENSOFT_LOGO_FILE_NAME };
 	}
 	
 }

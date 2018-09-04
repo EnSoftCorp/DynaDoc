@@ -6,6 +6,7 @@ import com.ensoftcorp.atlas.core.db.graph.Node;
 import com.ensoftcorp.atlas.core.db.set.AtlasSet;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.open.dynadoc.core.constants.FileNameTemplateConstants;
+import com.ensoftcorp.open.dynadoc.core.constants.PluginResourceConstants;
 import com.ensoftcorp.open.dynadoc.core.data.JavaClass;
 import com.ensoftcorp.open.dynadoc.core.path.WorkingDirectory;
 import com.ensoftcorp.open.dynadoc.core.path.WorkingDirectoryCache;
@@ -66,8 +67,20 @@ public class ClassOverviewWrapper {
 		breadcrumb.setCSSClass("nav-container");
 		breadcrumb.setStyle("position:relative;");
 		
+			A ensoftLink = new A();
+			ensoftLink.setHref("https://www.ensoftcorp.com/");
+			ensoftLink.setTarget("_blank");
+			ensoftLink.setStyle("position:absolute; left:1rem; top:50%; transform:translateY(-50%);");
+				String relativePathToLogoImage = PathUtils.getRelativePathStringToResourcesDirectory(this.getWorkingDirectory()) + PluginResourceConstants.Resources.RESOURCES_ENSOFT_LOGO_FILE_NAME;
+				Img ensoftLogo = new Img("EnSoft Corp.", relativePathToLogoImage);
+				ensoftLogo.setHeight("45");
+			ensoftLink.appendChild(ensoftLogo);
+		breadcrumb.appendChild(ensoftLink);
+			
+			
 			Ol ol = new Ol();
 			ol.setCSSClass("breadcrumb");
+			ol.setStyle("padding: .75rem 135px;");
 			
 				Li packageLi = new Li();
 				packageLi.setCSSClass("breadcrumb-item");

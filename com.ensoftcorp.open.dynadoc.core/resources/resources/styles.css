@@ -10,3 +10,17 @@ tr.details td.details-control {
     height:150px;
     overflow-y: scroll;
 }
+
+.wrapper-footer {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    background-color: #eee;
+    padding: 10;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 740px;
+    padding: 0 10px;
+    width: 100%;
+}

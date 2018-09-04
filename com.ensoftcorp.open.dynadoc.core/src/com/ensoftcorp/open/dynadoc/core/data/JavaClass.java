@@ -238,7 +238,7 @@ public class JavaClass {
 		return this.getClassNode().taggedWith(XCSG.Java.Enum);
 	}
 
-	private boolean isInnerClass() {
+	private boolean innerClass() {
 		return this.getClassNode().taggedWith(XCSG.Java.InnerClass);
 	}
 	
