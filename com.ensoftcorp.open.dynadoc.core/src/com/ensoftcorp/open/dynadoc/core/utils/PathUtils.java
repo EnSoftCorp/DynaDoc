@@ -9,11 +9,16 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 
+import com.ensoftcorp.open.dynadoc.core.Configurations;
 import com.ensoftcorp.open.dynadoc.core.constants.OutputDirectoryConstants;
 import com.ensoftcorp.open.dynadoc.core.constants.PluginResourceConstants;
 import com.ensoftcorp.open.dynadoc.core.path.WorkingDirectory;
 
 public class PathUtils {
+	
+	public static WorkingDirectory getDocumentationWorkingDirectory() {
+		return Configurations.rootWorkingDirectory().push(OutputDirectoryConstants.DOCUMENTATION_DIRECTORY_NAME);
+	}
 	
 	public static WorkingDirectory getGraphsWorkingDirectory(WorkingDirectory workingDirectory) {
 		return workingDirectory.push(OutputDirectoryConstants.GRAPHS_DIRECTORY_NAME);

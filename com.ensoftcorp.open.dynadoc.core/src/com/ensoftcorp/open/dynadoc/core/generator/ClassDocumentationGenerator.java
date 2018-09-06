@@ -44,7 +44,7 @@ public class ClassDocumentationGenerator {
 	public ClassDocumentationGenerator(Node classNode, WorkingDirectory parentWorkingDirectory) {
 		this.classNode = classNode;
 		this.javaClass = new JavaClass(classNode);
-		this.workingDirectory = WorkingDirectoryCache.createWorkingDirectory(classNode, parentWorkingDirectory);
+		this.workingDirectory = WorkingDirectoryCache.createWorkingDirectory(classNode, this.javaClass.getQualifiedName(), parentWorkingDirectory);
 	}
 	
 	public Node getClassNode() {

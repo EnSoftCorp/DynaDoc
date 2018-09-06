@@ -35,6 +35,10 @@ public class Configurations {
 			return false;
 		}
 		
+		if(!configureDocumentationDirectory()) {
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -127,6 +131,12 @@ public class Configurations {
 			}
 		}
 		return true;
+	}
+	
+	private static boolean configureDocumentationDirectory() {
+		Path documentationDirectoryPath = ROOT_WORKING_DIRECTORY.getPath().resolve(OutputDirectoryConstants.DOCUMENTATION_DIRECTORY_NAME);
+		File documentationDirectoryFile = documentationDirectoryPath.toFile();
+		return documentationDirectoryFile.mkdirs();
 	}
 	
 	public static boolean configureGraphsDirectory(WorkingDirectory workingDirectory) {

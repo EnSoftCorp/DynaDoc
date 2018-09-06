@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -92,10 +93,12 @@ public class JavaDocAggregatorTask implements Runnable {
 	
 	public static boolean runOnClass(Node projectNode, Node classNode, Path rootWorkingDirectory) {
 		if(!figureDocletProjectParameters()) {
+			Log.error("Missing the proper configuration for the doclet project: " + Activator.PLUGIN_ID, null);
 			return false;
 		}
 		
 		if(!configureJavaDocDirectory(rootWorkingDirectory)) {
+			Log.error("Could not properly configure the directory to hold the JavaDoc generated contents", null);
 			return false;
 		}
 		
@@ -137,7 +140,6 @@ public class JavaDocAggregatorTask implements Runnable {
 		
 		DOCLET_PROJECT_CLASSES_DIRECTORY_PATH = Activator.getDocletOutputDirectoryPath();
 		if(StringUtils.isEmpty(DOCLET_PROJECT_CLASSES_DIRECTORY_PATH)) {
-			Log.warning("Missing the output directory location for the doclet project: " + Activator.PLUGIN_ID);
 			return false;
 		}
 		return true;
@@ -145,6 +147,15 @@ public class JavaDocAggregatorTask implements Runnable {
 	
 	private static boolean configureJavaDocDirectory(Path rootWorkingDirectory) {
 		Path javaDocDirectoryPath = rootWorkingDirectory.resolve(SupplementaryArtifactConstants.JavaDoc.JAVADOC_OUTPUT_DIRECTORY_NAME);
+		File javaDocDirectory = javaDocDirectoryPath.toFile();
+		if(javaDocDirectory.exists()) {
+			try {
+				FileUtils.cleanDirectory(javaDocDirectory);
+				return true;
+			} catch (IOException e) {
+				return false;
+			}
+		}
 		return javaDocDirectoryPath.toFile().mkdirs();	
 	}
 	

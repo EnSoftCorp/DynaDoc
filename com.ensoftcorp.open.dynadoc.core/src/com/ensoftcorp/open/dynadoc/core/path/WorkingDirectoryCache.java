@@ -10,8 +10,8 @@ public class WorkingDirectoryCache {
 
 	private static final AtlasMap<Node, WorkingDirectory> CLASS_NODE_TO_WORKING_DIRECTORY_MAP = new AtlasGraphKeyHashMap<Node, WorkingDirectory>();
 	
-	public static WorkingDirectory createWorkingDirectory(Node classNode, WorkingDirectory currentWorkingDirectory) {
-		WorkingDirectory classWorkingDirectory = currentWorkingDirectory;
+	public static WorkingDirectory createWorkingDirectory(Node classNode, String subDirectoryName, WorkingDirectory currentWorkingDirectory) {
+		WorkingDirectory classWorkingDirectory = currentWorkingDirectory.push(subDirectoryName);
 		CLASS_NODE_TO_WORKING_DIRECTORY_MAP.put(classNode, classWorkingDirectory);
 		return classWorkingDirectory;
 	}
