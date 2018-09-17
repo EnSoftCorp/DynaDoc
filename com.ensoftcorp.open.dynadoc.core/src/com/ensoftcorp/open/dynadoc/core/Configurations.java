@@ -12,7 +12,7 @@ import com.ensoftcorp.atlas.core.log.Log;
 import com.ensoftcorp.open.dynadoc.core.constants.OutputDirectoryConstants;
 import com.ensoftcorp.open.dynadoc.core.constants.PluginResourceConstants;
 import com.ensoftcorp.open.dynadoc.core.path.WorkingDirectory;
-import com.ensoftcorp.open.dynadoc.core.utils.PathUtils;
+import com.ensoftcorp.open.dynadoc.support.DialogUtils;
 
 public class Configurations {
 	
@@ -44,7 +44,7 @@ public class Configurations {
 	
 	private static boolean configureRootWorkingDirectory() {
 		String userPreferedRootWorkingDirectoryPath = DynaDocPreferenceInitalizer.getRootWorkingDirectoryUserPreference();
-		Path userRecommendedRootWorkingDirectoryPath = PathUtils.promptUserForRootWorkingDirectory(userPreferedRootWorkingDirectoryPath);
+		Path userRecommendedRootWorkingDirectoryPath = DialogUtils.promptUserForRootWorkingDirectory(userPreferedRootWorkingDirectoryPath);
 		if(userRecommendedRootWorkingDirectoryPath == null) {
 			Log.warning("User did not select an output directory to store the generated documentation. Exiting DynaDoc!");
 			return false;

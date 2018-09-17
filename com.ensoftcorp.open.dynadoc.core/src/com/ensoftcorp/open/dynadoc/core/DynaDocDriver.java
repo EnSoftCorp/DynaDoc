@@ -1,5 +1,7 @@
 package com.ensoftcorp.open.dynadoc.core;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.ensoftcorp.atlas.core.db.graph.Node;
 import com.ensoftcorp.atlas.core.db.set.AtlasSet;
 import com.ensoftcorp.atlas.core.log.Log;
@@ -7,37 +9,54 @@ import com.ensoftcorp.atlas.core.query.Q;
 import com.ensoftcorp.atlas.core.query.Query;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
-import com.ensoftcorp.open.commons.analysis.CommonQueries;
 import com.ensoftcorp.open.dynadoc.core.generator.ClassDocumentationGenerator;
 import com.ensoftcorp.open.dynadoc.core.utils.PathUtils;
 import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactsAggregator;
 import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactsImporter;
+import com.ensoftcorp.open.dynadoc.support.DialogUtils;
 
 public class DynaDocDriver { 
+		
+	private static final String ERROR_MESSAGE_EMPTY_CLASS_NAME_PROVIDED_BY_USER = "Empty class name provided by user";
 	
-	private static final String ERROR_MESSAGE_NOT_FOUND_CLASS_IN_CODE_MAP_TEMPLATE = "Class [%s] cannot be found in the current code map for the project: %s";
+	private static final String ERROR_MESSAGE_NOT_FOUND_CLASS_IN_CODE_MAP_TEMPLATE = "Class [%s] cannot be found in the current code map";
+	
+	private static final String ERROR_MESSAGE_CANNOT_CONFIGURE_WORKING_DIRECTORY = "Cannot properly configure the working directory to generate documentation";
 	
 	public static void testClass() {
-		String projectName = "ApachePOI";
-		String packageName = "org.apache.poi.xssf.usermodel";
-		String className = "XSSFWorkbook";
-		generateClassDocumentation(projectName, packageName, className);
+		String javaClassFullyQualifiedName = "org.apache.poi.xssf.usermodel.XSSFWorkbook";
+		generateClassDocumentation(javaClassFullyQualifiedName);
 	}
 	
-	public static void generateClassDocumentation(String projectName, String packageName, String className) {
-		Node projectNode = Query.universe().nodes(XCSG.Project).selectNode(XCSG.name, projectName).eval().nodes().one();
-		Node classNode = Common.typeSelect(packageName, className).eval().nodes().one();
+	public static void generateClassDocumentation(String javaClassFullyQualifiedName) {
+		if(StringUtils.isBlank(javaClassFullyQualifiedName)) {
+			DialogUtils.showError(ERROR_MESSAGE_EMPTY_CLASS_NAME_PROVIDED_BY_USER);
+			return;
+		}
+		Node classNode = null;
+		int lastDotIndex = javaClassFullyQualifiedName.lastIndexOf('.');
+		if(lastDotIndex >= 0) {
+			// Java class fully qualified name is prefixed with package fully qualified name.
+			String packageName = javaClassFullyQualifiedName.substring(0, lastDotIndex);
+			String className = javaClassFullyQualifiedName.substring(lastDotIndex + 1);
+			classNode = Common.typeSelect(packageName, className).eval().nodes().one();
+		} else {
+			// Java class fully qualified name is the same as the Java class name.
+			classNode = Common.types(javaClassFullyQualifiedName).eval().nodes().one();
+		}
 		
 		if(classNode == null) {
-			String errorMessage = String.format(ERROR_MESSAGE_NOT_FOUND_CLASS_IN_CODE_MAP_TEMPLATE, CommonQueries.getQualifiedName(classNode), projectName);
-			Log.error(errorMessage, null);
+			String errorMessage = String.format(ERROR_MESSAGE_NOT_FOUND_CLASS_IN_CODE_MAP_TEMPLATE, javaClassFullyQualifiedName);
+			DialogUtils.showError(errorMessage);
 			return;
 		}
 		
 		if(!Configurations.configureWorkingDirectory()) {
+			DialogUtils.showError(ERROR_MESSAGE_CANNOT_CONFIGURE_WORKING_DIRECTORY);
 			return;
 		}
 		
+		Node projectNode = Common.toQ(classNode).containers().nodes(XCSG.Project).eval().nodes().one();
 		aggregateAndImportSupplementaryArtifacts(projectNode, classNode);
 		generateClassDocumentation(classNode);
 	}
