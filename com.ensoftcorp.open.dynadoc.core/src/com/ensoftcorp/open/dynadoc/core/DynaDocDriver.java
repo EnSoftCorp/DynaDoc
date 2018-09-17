@@ -45,7 +45,13 @@ public class DynaDocDriver {
 	public static void testClasses() {
 		String projectName = "ApachePOI";
 		Node projectNode = Query.universe().nodes(XCSG.Project).selectNode(XCSG.name, projectName).eval().nodes().one();
-		Q classesQ = Common.toQ(projectNode).contained().nodes(XCSG.Java.Class).difference(Common.toQ(projectNode).contained().nodes(XCSG.Java.InnerClass));
+		Q projectQ = Common.toQ(projectNode);
+		Q projectContainedNodesQ = projectQ.contained();
+		Q projectClasses = projectContainedNodesQ.nodes(XCSG.Java.Class);
+		Q projectInterfaces = projectContainedNodesQ.nodes(XCSG.Java.Interface);
+		Q projectLocalClassesQ = projectContainedNodesQ.nodes(XCSG.Java.LocalClass);
+		Q classesQ = projectClasses.union(projectInterfaces);
+		classesQ = classesQ.difference(projectLocalClassesQ);
 		generateClassesDocumentation(projectName, classesQ);
 	}
 	
@@ -62,6 +68,8 @@ public class DynaDocDriver {
 		}
 		
 		int progress = 0;
+		double estimatedTimeToCompleteGenerationInMinutes = (classNodes.size() * 30.0) / 60.0;
+		Log.info("There are [" + classNodes.size() + "] classes, estimated time is [" + estimatedTimeToCompleteGenerationInMinutes + "] minutes." );
 		for(Node classNode: classNodes) {
 			Log.info("Progress: " + (++progress) + "/" + classNodes.size());
 			aggregateAndImportSupplementaryArtifacts(projectNode, classNode);

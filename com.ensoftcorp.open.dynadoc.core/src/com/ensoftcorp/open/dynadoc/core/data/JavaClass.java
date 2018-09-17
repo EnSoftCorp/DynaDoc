@@ -154,8 +154,7 @@ public class JavaClass {
 	}
 	
 	public Q getClassNestingGraph() {
-		Q containmentGraphQ = containsEdges.forward(this.getClassQ()).nodes(XCSG.Type);
-		containmentGraphQ = QueryCache.extend(containmentGraphQ);
+		Q containmentGraphQ = QueryCache.extend(Common.toQ(this.getInnerClasses()));
 		return containmentGraphQ;
 	}
 	
@@ -170,7 +169,9 @@ public class JavaClass {
 	}
 	
 	public AtlasSet<Node> getInnerClasses() {
-		return containsEdges.successors(this.getClassQ()).nodes(XCSG.Java.Class).eval().nodes();
+		Q allInnerClasses = containsEdges.successors(this.getClassQ()).nodes(XCSG.Java.Class);
+		Q localClasses = containsEdges.successors(this.getClassQ()).nodes(XCSG.Java.LocalClass);
+		return allInnerClasses.difference(localClasses).eval().nodes();
 	}
 	
 	public String getComments() {
@@ -238,8 +239,8 @@ public class JavaClass {
 		return this.getClassNode().taggedWith(XCSG.Java.Enum);
 	}
 
-	private boolean innerClass() {
-		return this.getClassNode().taggedWith(XCSG.Java.InnerClass);
+	private boolean localClass() {
+		return this.getClassNode().taggedWith(XCSG.Java.LocalClass);
 	}
 	
 	public IMarkup getTypeHierarchyGraphMarkup() {
