@@ -17,7 +17,11 @@ public class DynaDocLaunchHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		String fullyQualifiedJavaClassNames = DisplayUtils.promptString(DYNADOC_JAVA_CLASS_SELECTOR_PANEL_TITLE, DYNADOC_JAVA_CLASS_SELECTOR_PANEL_MESSAGE);
 		if(fullyQualifiedJavaClassNames != null) {
-			DynaDocDriver.run(fullyQualifiedJavaClassNames);
+			if(fullyQualifiedJavaClassNames.equals("*")) {
+				DynaDocDriver.run();
+			}else {
+				DynaDocDriver.run(fullyQualifiedJavaClassNames);
+			}
 		}
 		return null;
 	}
