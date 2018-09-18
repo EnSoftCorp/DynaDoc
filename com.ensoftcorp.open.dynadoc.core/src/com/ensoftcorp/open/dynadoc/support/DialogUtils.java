@@ -1,5 +1,7 @@
 package com.ensoftcorp.open.dynadoc.support;
 
+import java.awt.Desktop;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicReference;
@@ -10,12 +12,21 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
+import com.ensoftcorp.atlas.core.log.Log;
 import com.ensoftcorp.open.commons.ui.components.InputDialog;
 
 /**
  * A set of helper utilities to prompt user with different dialogs.
  */
 public class DialogUtils {
+	
+	public static void openWorkingDirectory(Path workingDirectory) {
+		try {
+			Desktop.getDesktop().open(workingDirectory.toFile());
+		} catch (IOException e) {
+			Log.warning("Error while trying to open the current working directory.");
+		}
+	}
 
 	/**
 	 * Opens a display prompt alerting the user of the error 

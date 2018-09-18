@@ -21,8 +21,10 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 
 import com.ensoftcorp.atlas.core.db.graph.Node;
+import com.ensoftcorp.atlas.core.db.set.AtlasSet;
 import com.ensoftcorp.atlas.core.index.common.SourceCorrespondence;
 import com.ensoftcorp.atlas.core.log.Log;
+import com.ensoftcorp.atlas.core.query.Q;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
 import com.ensoftcorp.open.dynadoc.doclet.Activator;
 import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactConstants;
@@ -91,7 +93,7 @@ public class JavaDocAggregatorTask implements Runnable {
 		}
 	}
 	
-	public static boolean runOnClass(Node projectNode, Node classNode, Path rootWorkingDirectory) {
+	public static boolean runOnClasses(Node projectNode, Q classesQ, Path rootWorkingDirectory) {
 		if(!figureDocletProjectParameters()) {
 			Log.error("Missing the proper configuration for the doclet project: " + Activator.PLUGIN_ID, null);
 			return false;
@@ -101,6 +103,9 @@ public class JavaDocAggregatorTask implements Runnable {
 			Log.error("Could not properly configure the directory to hold the JavaDoc generated contents", null);
 			return false;
 		}
+		
+		Path javaDocDirectoryPath = rootWorkingDirectory.resolve(SupplementaryArtifactConstants.JavaDoc.JAVADOC_OUTPUT_DIRECTORY_NAME);
+		String javaDocDirectoryAbsolutePath = javaDocDirectoryPath.toFile().getAbsolutePath();
 		
 		String projectName = projectNode.getAttr(XCSG.name).toString();
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
@@ -115,21 +120,22 @@ public class JavaDocAggregatorTask implements Runnable {
 		List<String> libraryClassPathEntries = classPathEntryKindToFileList.get(IClasspathEntry.CPE_LIBRARY);
 		String classPathOptionCommandString = formCommandString("-classpath", libraryClassPathEntries);
 		
-		SourceCorrespondence classSourceCorrespondence = (SourceCorrespondence) classNode.getAttr(XCSG.sourceCorrespondence);
-		IFile classSourceFile = classSourceCorrespondence.sourceFile;
-		String classSourceFileAbsolutePath = classSourceFile.getLocation().toString();
-		
-		Path javaDocDirectoryPath = rootWorkingDirectory.resolve(SupplementaryArtifactConstants.JavaDoc.JAVADOC_OUTPUT_DIRECTORY_NAME);
-		String javaDocDirectoryAbsolutePath = javaDocDirectoryPath.toFile().getAbsolutePath();
-		
-		String command = String.format(JAVA_DOC_RUN_ON_CLASS_COMMAND_TEMPLATE, 
-											DOCLET_QULALIFIED_CLASS_NAME,
-											DOCLET_PROJECT_CLASSES_DIRECTORY_PATH, 
-											sourcePathOptionCommandString, 
-											classPathOptionCommandString, 
-											classSourceFileAbsolutePath, 
-											javaDocDirectoryAbsolutePath);
-		return runCommand(projectAbsolutePathString, command);
+		AtlasSet<Node> classNodes = classesQ.eval().nodes();
+		for(Node classNode: classNodes) {
+			SourceCorrespondence classSourceCorrespondence = (SourceCorrespondence) classNode.getAttr(XCSG.sourceCorrespondence);
+			IFile classSourceFile = classSourceCorrespondence.sourceFile;
+			String classSourceFileAbsolutePath = classSourceFile.getLocation().toString();
+			
+			String command = String.format(JAVA_DOC_RUN_ON_CLASS_COMMAND_TEMPLATE, 
+												DOCLET_QULALIFIED_CLASS_NAME,
+												DOCLET_PROJECT_CLASSES_DIRECTORY_PATH, 
+												sourcePathOptionCommandString, 
+												classPathOptionCommandString, 
+												classSourceFileAbsolutePath, 
+												javaDocDirectoryAbsolutePath);
+			runCommand(projectAbsolutePathString, command);
+		}
+		return true;
 	}
 	
 	private static boolean figureDocletProjectParameters() {

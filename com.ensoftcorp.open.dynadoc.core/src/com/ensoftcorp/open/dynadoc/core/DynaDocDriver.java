@@ -9,6 +9,7 @@ import com.ensoftcorp.atlas.core.query.Q;
 import com.ensoftcorp.atlas.core.query.Query;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
+import com.ensoftcorp.open.dynadoc.core.data.QueryCache;
 import com.ensoftcorp.open.dynadoc.core.generator.ClassDocumentationGenerator;
 import com.ensoftcorp.open.dynadoc.core.utils.PathUtils;
 import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactsAggregator;
@@ -82,15 +83,10 @@ public class DynaDocDriver {
 			return;
 		}
 		
-		int progress = 0;
-		double estimatedTimeToCompleteGenerationInMinutes = (classNodes.size() * 30.0) / 60.0;
-		Log.info("There are [" + classNodes.size() + "] classes, estimated time is [" + estimatedTimeToCompleteGenerationInMinutes + "] minutes." );
-		for(Node classNode: classNodes) {
-			Log.info("Progress: " + (++progress) + "/" + classNodes.size());
-			Node projectNode = Common.toQ(classNode).containers().nodes(XCSG.Project).eval().nodes().one();
-			aggregateAndImportSupplementaryArtifacts(projectNode, classNode);
-			generateClassDocumentationFiles(classNode);
-		}
+		aggregateAndImportSupplementaryArtifacts(classesQ);
+		generateClassesDocumentation(classesQ);
+		
+		DialogUtils.openWorkingDirectory(Configurations.rootWorkingDirectory().getPath());
 	}
 	
 	private static Q queryClassByFullyQualifiedName(String fullyQualifiedJavaClassName) {
@@ -107,7 +103,7 @@ public class DynaDocDriver {
 	}
 	
 	private static void runOnClassesWithinContext(Q context) {
-		Q contextContainedNodesQ = context.contained();
+		Q contextContainedNodesQ = QueryCache.containsEdges.forward(context);
 		Q contextClasses = contextContainedNodesQ.nodes(XCSG.Java.Class);
 		Q contextInterfaces = contextContainedNodesQ.nodes(XCSG.Java.Interface);
 		Q contextLocalClassesQ = contextContainedNodesQ.nodes(XCSG.Java.LocalClass);
@@ -116,25 +112,37 @@ public class DynaDocDriver {
 		run(classesQ);
 	}
 	
-	private static void aggregateAndImportSupplementaryArtifacts(Node projectNode, Node classNode) {
+	private static void aggregateAndImportSupplementaryArtifacts(Q classesQ) {
 		long start = System.currentTimeMillis();
 		Log.info("Started aggregating and importing supplementary artifacts.");
-		SupplementaryArtifactsAggregator.aggregateArtifacts(projectNode, classNode, Configurations.rootWorkingDirectory().getPath());
-		SupplementaryArtifactsImporter.importArtifacts(Configurations.rootWorkingDirectory().getPath());
+		Q projectsQ = QueryCache.containsEdges.reverse(classesQ).nodes(XCSG.Project);
+		AtlasSet<Node> projectNodes = projectsQ.eval().nodes();
+		for(Node projectNode: projectNodes) {
+			Q classesForProject = QueryCache.containsEdges.forward(Common.toQ(projectNode)).intersection(classesQ);
+			SupplementaryArtifactsAggregator.aggregateArtifacts(projectNode, classesForProject, Configurations.rootWorkingDirectory().getPath());
+			SupplementaryArtifactsImporter.importArtifacts(Configurations.rootWorkingDirectory().getPath());
+		}
 		
 		double duration = (System.currentTimeMillis() - start) / 60000.0;
 		Log.info("Done aggregating and importing of supplementary artifacts in: " + duration + "m");
 	}
 	
-	private static void generateClassDocumentationFiles(Node classNode) {
-		long start = System.currentTimeMillis();
-		Log.info("Started generating documentation for class: " + classNode.getAttr(XCSG.name));
-		
-		ClassDocumentationGenerator classDocumentationGenerator = new ClassDocumentationGenerator(classNode, PathUtils.getDocumentationWorkingDirectory());
-		classDocumentationGenerator.generate();
-		
-		double duration = (System.currentTimeMillis() - start) / 60000.0;
-		Log.info("Done generating documentation for class (" + classNode.getAttr(XCSG.name) + ") in: " + duration + "m");
+	private static void generateClassesDocumentation(Q classesQ) {
+		AtlasSet<Node> classNodes = classesQ.eval().nodes();
+		int progress = 0;
+		double estimatedTimeToCompleteGenerationInMinutes = (classNodes.size() * 30.0) / 60.0;
+		Log.info("There are [" + classNodes.size() + "] classes, estimated time is [" + estimatedTimeToCompleteGenerationInMinutes + "] minutes." );
+		for(Node classNode: classNodes) {
+			Log.info("Progress: " + (++progress) + "/" + classNodes.size());
+			long start = System.currentTimeMillis();
+			Log.info("Started generating documentation for class: " + classNode.getAttr(XCSG.name));
+			
+			ClassDocumentationGenerator classDocumentationGenerator = new ClassDocumentationGenerator(classNode, PathUtils.getDocumentationWorkingDirectory());
+			classDocumentationGenerator.generate();
+			
+			double duration = (System.currentTimeMillis() - start) / 60000.0;
+			Log.info("Done generating documentation for class (" + classNode.getAttr(XCSG.name) + ") in: " + duration + "m");
+		}
 	}
 	
 }
