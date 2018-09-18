@@ -9,14 +9,16 @@ import com.ensoftcorp.open.dynadoc.support.DialogUtils;
 
 public class DynaDocLaunchHandler extends AbstractHandler {
 	
-	private static final String DYNADOC_JAVA_CLASS_SELECTOR_PANEL_TITLE = "DynaDoc: Java Class Selector";
+	private static final String DYNADOC_JAVA_CLASS_SELECTOR_PANEL_TITLE = "DynaDoc: Class Selector";
 	
-	private static final String DYNADOC_JAVA_CLASS_SELECTOR_PANEL_MESSAGE = "Please provide the fully qualified name for the Java class you want to generate documentation for:";
+	private static final String DYNADOC_JAVA_CLASS_SELECTOR_PANEL_MESSAGE = "Enter a comma-separated list of fully qualified Java class names (or '*' for all classes in codemap) ";
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		String javaClassFullyQualifiedName = DialogUtils.promptUserForInput(DYNADOC_JAVA_CLASS_SELECTOR_PANEL_TITLE, DYNADOC_JAVA_CLASS_SELECTOR_PANEL_MESSAGE);
-		DynaDocDriver.generateClassDocumentation(javaClassFullyQualifiedName);
+		String fullyQualifiedJavaClassNames = DialogUtils.promptUserForInput(DYNADOC_JAVA_CLASS_SELECTOR_PANEL_TITLE, DYNADOC_JAVA_CLASS_SELECTOR_PANEL_MESSAGE);
+		if(fullyQualifiedJavaClassNames != null) {
+			DynaDocDriver.run(fullyQualifiedJavaClassNames);
+		}
 		return null;
 	}
 

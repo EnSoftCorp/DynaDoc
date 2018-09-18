@@ -16,6 +16,8 @@ import com.ensoftcorp.open.dynadoc.support.DialogUtils;
 
 public class Configurations {
 	
+	public static final String USER_INPUT_CLASS_NAMES_SEPARATOR = ",";
+	
 	private static WorkingDirectory ROOT_WORKING_DIRECTORY = null;
 	
 	public static boolean configureWorkingDirectory() {

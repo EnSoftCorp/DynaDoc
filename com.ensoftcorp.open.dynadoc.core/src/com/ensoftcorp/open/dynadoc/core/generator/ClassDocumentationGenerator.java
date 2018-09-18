@@ -184,47 +184,23 @@ public class ClassDocumentationGenerator {
 	private Body generateBody() {
 		Body body = new Body();
 		
-		long start = System.currentTimeMillis();
-		Log.info("classOverviewWrapper");
 		ClassOverviewWrapper classOverviewWrapper = new ClassOverviewWrapper(this.getJavaClass());
 		body.appendChild(classOverviewWrapper.wrap());
-		double duration = (System.currentTimeMillis() - start) / 1000.0;
-		Log.info("classOverviewWrapper: " + duration + "s");
 		
-		start = System.currentTimeMillis();
-		Log.info("classConstructorsWrapper");
 		ClassConstructorsWrapper classConstructorsWrapper = new ClassConstructorsWrapper(this.getJavaClass());
 		body.appendChild(classConstructorsWrapper.wrap());
-		duration = (System.currentTimeMillis() - start) / 1000.0;
-		Log.info("classConstructorsWrapper: " + duration + "s");
 		
-		start = System.currentTimeMillis();
-		Log.info("classFieldsWrapper");
 		ClassFieldsWrapper classFieldsWrapper = new ClassFieldsWrapper(this.getJavaClass());
 		body.appendChild(classFieldsWrapper.wrap());
-		duration = (System.currentTimeMillis() - start) / 1000.0;
-		Log.info("classFieldsWrapper: " + duration + "s");
 		
-		start = System.currentTimeMillis();
-		Log.info("classMethodsWrapper");
 		ClassMethodsWrapper classMethodsWrapper = new ClassMethodsWrapper(this.getJavaClass());
 		body.appendChild(classMethodsWrapper.wrap());
-		duration = (System.currentTimeMillis() - start) / 1000.0;
-		Log.info("classMethodsWrapper: " + duration + "s");
-		
-		start = System.currentTimeMillis();
-		Log.info("classIssuesWrapper");
+
 		ClassIssuesWrapper classIssuesWrapper = new ClassIssuesWrapper(this.getJavaClass());
 		body.appendChild(classIssuesWrapper.wrap());
-		duration = (System.currentTimeMillis() - start) / 1000.0;
-		Log.info("classIssuesWrapper: " + duration + "s");
-		
-		start = System.currentTimeMillis();
-		Log.info("classCommitsWrapper");
+
 		ClassCommitsWrapper classCommitsWrapper = new ClassCommitsWrapper(this.getJavaClass());
 		body.appendChild(classCommitsWrapper.wrap());
-		duration = (System.currentTimeMillis() - start) / 1000.0;
-		Log.info("classCommitsWrapper: " + duration + "s");
 		
 		body.appendChild(this.generateFooter());
 		
