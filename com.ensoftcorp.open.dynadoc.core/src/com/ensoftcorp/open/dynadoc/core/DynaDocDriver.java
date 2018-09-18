@@ -1,5 +1,8 @@
 package com.ensoftcorp.open.dynadoc.core;
 
+import java.awt.Desktop;
+import java.io.IOException;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.ensoftcorp.atlas.core.db.graph.Node;
@@ -9,12 +12,12 @@ import com.ensoftcorp.atlas.core.query.Q;
 import com.ensoftcorp.atlas.core.query.Query;
 import com.ensoftcorp.atlas.core.script.Common;
 import com.ensoftcorp.atlas.core.xcsg.XCSG;
+import com.ensoftcorp.open.commons.utilities.DisplayUtils;
 import com.ensoftcorp.open.dynadoc.core.data.QueryCache;
 import com.ensoftcorp.open.dynadoc.core.generator.ClassDocumentationGenerator;
 import com.ensoftcorp.open.dynadoc.core.utils.PathUtils;
 import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactsAggregator;
 import com.ensoftcorp.open.dynadoc.supplementary.SupplementaryArtifactsImporter;
-import com.ensoftcorp.open.dynadoc.support.DialogUtils;
 
 public class DynaDocDriver { 
 
@@ -40,7 +43,7 @@ public class DynaDocDriver {
 		Node projectNode = Query.universe().nodes(XCSG.Project).selectNode(XCSG.name, projectName).eval().nodes().one();
 		if(projectNode == null) {
 			String errorMessage = String.format(ERROR_MESSAGE_PROJECT_NOT_FOUND_IN_CODE_MAP_TEMPLATE, projectName);
-			DialogUtils.showError(errorMessage);
+			DisplayUtils.showError(errorMessage);
 			return;
 		}
 		Q projectQ = Common.toQ(projectNode);
@@ -54,7 +57,7 @@ public class DynaDocDriver {
 	 */
 	public static void run(String fullyQualifiedJavaClassNames) {
 		if(StringUtils.isBlank(fullyQualifiedJavaClassNames)) {
-			DialogUtils.showError(ERROR_MESSAGE_EMPTY_CLASS_NAMES_PROVIDED_BY_USER);
+			DisplayUtils.showError(ERROR_MESSAGE_EMPTY_CLASS_NAMES_PROVIDED_BY_USER);
 			return;
 		}
 		String[] fullyQualifiedJavaClassNamesArray = StringUtils.split(fullyQualifiedJavaClassNames, Configurations.USER_INPUT_CLASS_NAMES_SEPARATOR);
@@ -74,19 +77,23 @@ public class DynaDocDriver {
 	public static void run(Q classesQ) {
 		AtlasSet<Node> classNodes = classesQ.eval().nodes();
 		if(classNodes.isEmpty()) {
-			DialogUtils.showError(ERROR_MESSAGE_EMPTY_CLASS_NAMES_PROVIDED_BY_USER);
+			DisplayUtils.showError(ERROR_MESSAGE_EMPTY_CLASS_NAMES_PROVIDED_BY_USER);
 			return;
 		}
 		
 		if(!Configurations.configureWorkingDirectory()) {
-			DialogUtils.showError(ERROR_MESSAGE_CANNOT_CONFIGURE_WORKING_DIRECTORY);
+			DisplayUtils.showError(ERROR_MESSAGE_CANNOT_CONFIGURE_WORKING_DIRECTORY);
 			return;
 		}
 		
 		aggregateAndImportSupplementaryArtifacts(classesQ);
 		generateClassesDocumentation(classesQ);
 		
-		DialogUtils.openWorkingDirectory(Configurations.rootWorkingDirectory().getPath());
+		try {
+			Desktop.getDesktop().open(Configurations.rootWorkingDirectory().getPath().toFile());
+		} catch (IOException e) {
+			Log.warning("Error while trying to open the current working directory.");
+		}
 	}
 	
 	private static Q queryClassByFullyQualifiedName(String fullyQualifiedJavaClassName) {

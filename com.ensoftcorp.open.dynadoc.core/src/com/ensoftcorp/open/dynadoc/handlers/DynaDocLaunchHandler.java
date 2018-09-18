@@ -4,8 +4,8 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
+import com.ensoftcorp.open.commons.utilities.DisplayUtils;
 import com.ensoftcorp.open.dynadoc.core.DynaDocDriver;
-import com.ensoftcorp.open.dynadoc.support.DialogUtils;
 
 public class DynaDocLaunchHandler extends AbstractHandler {
 	
@@ -15,7 +15,7 @@ public class DynaDocLaunchHandler extends AbstractHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		String fullyQualifiedJavaClassNames = DialogUtils.promptUserForInput(DYNADOC_JAVA_CLASS_SELECTOR_PANEL_TITLE, DYNADOC_JAVA_CLASS_SELECTOR_PANEL_MESSAGE);
+		String fullyQualifiedJavaClassNames = DisplayUtils.promptString(DYNADOC_JAVA_CLASS_SELECTOR_PANEL_TITLE, DYNADOC_JAVA_CLASS_SELECTOR_PANEL_MESSAGE);
 		if(fullyQualifiedJavaClassNames != null) {
 			DynaDocDriver.run(fullyQualifiedJavaClassNames);
 		}
