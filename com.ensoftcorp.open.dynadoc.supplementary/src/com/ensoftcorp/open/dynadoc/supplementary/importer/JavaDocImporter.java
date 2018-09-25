@@ -57,9 +57,9 @@ public class JavaDocImporter implements ISupplementaryArtifactsImporter{
 			Object obj = jsonParser.parse(new FileReader(javaDocFile));
 			JSONObject jsonObject = (JSONObject) obj;
 			String packageName = (String) jsonObject.get(JavaDocConstants.CLASS_PACKAGE_NAME_ATTRIBUTE);
-			String className = (String) jsonObject.get(JavaDocConstants.CLASS_NAME_ATTRIBUTE);
+			String fullyQualifiedClassName = (String) jsonObject.get(JavaDocConstants.CLASS_NAME_ATTRIBUTE);
 			
-			Q classQ = this.findClassQ(packageName, className);
+			Q classQ = this.findClassQ(packageName, fullyQualifiedClassName);
 			
 			String classComment = (String) jsonObject.get(JavaDocConstants.CLASS_COMMENTS_ATTRIBUTE);
 			this.populateForClass(classComment, classQ);
@@ -80,14 +80,12 @@ public class JavaDocImporter implements ISupplementaryArtifactsImporter{
 		
 	}
 	
-	private Q findClassQ(String packageName, String className) {
-		String[] classNameParts = StringUtils.split(className, ".");
-		if(classNameParts.length == 1) {
-			return Common.typeSelect(packageName, className);
-		}
-		Q classQ = Common.typeSelect(packageName, classNameParts[0]);
-		for(int i = 1; i < classNameParts.length; i++) {
-			classQ = classQ.successorsOn(Query.universe().edges(XCSG.Contains)).nodes(XCSG.Type).selectNode(XCSG.name, classNameParts[1]);
+	private Q findClassQ(String packageName, String fullyQualifiedClassName) {
+		String[] classNameParts = StringUtils.split(fullyQualifiedClassName, ".");
+		String className = classNameParts[classNameParts.length - 1];
+		Q classQ = Common.typeSelect(packageName, className);
+		if(classQ.eval().nodes().isEmpty()) {
+			Log.error("Cannot fine the class node for [" + fullyQualifiedClassName + "] while importing its respective Javadoc", null);
 		}
 		return classQ;
 	}
